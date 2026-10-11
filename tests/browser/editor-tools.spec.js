@@ -96,6 +96,34 @@ test('Ctrl+F searches text across marks, replaces safely, undo, chapter/mode iso
   await expect(page.locator('#xhtml-monaco-editor .find-widget')).toBeVisible();
 });
 
+test('search decorations clear on empty query, close, and chapter change without removing manuscript marks',async ({page}) => {
+  await start(page,'<p><strong>Alpha</strong> Alpha</p>');
+  const original = await source(page);
+  await page.locator('.ProseMirror').click();
+  await page.keyboard.press('ControlOrMeta+f');
+  const dialog = page.getByRole('dialog',{name:'현재 장 찾기 및 바꾸기'});
+  const query = dialog.getByRole('textbox',{name:'찾을 내용',exact:true});
+  await query.fill('Alpha');
+  await expect(page.locator('.ProseMirror-search-match, .ProseMirror-active-search-match')).toHaveCount(2);
+  await query.fill('');
+  await expect(page.locator('.ProseMirror-search-match, .ProseMirror-active-search-match')).toHaveCount(0);
+  await expect(page.frameLocator('.preview-isolated-frame').locator('mark.preview-context')).toHaveCount(0);
+  await query.fill('Alpha');
+  await tool(page,'찾기 닫기');
+  await expect(page.locator('.ProseMirror-search-match, .ProseMirror-active-search-match')).toHaveCount(0);
+  await page.locator('.ProseMirror').click(); await page.keyboard.press('ControlOrMeta+f');
+  await query.fill('Alpha');
+  await page.locator('#add').click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('.ProseMirror-search-match, .ProseMirror-active-search-match')).toHaveCount(0);
+  expect(original).toContain('<strong>Alpha</strong>');
+  await page.locator('[data-mode-toggle]').click();
+  await page.evaluate(() => window.epubMonacoEditor.setValue('<p><mark id="original-mark">Alpha</mark></p>'));
+  await page.locator('[data-mode-toggle]').click();
+  await expect(page.frameLocator('.preview-isolated-frame').locator('mark#original-mark')).toHaveText('Alpha');
+  expect(await source(page)).toContain('<mark id="original-mark">Alpha</mark>');
+});
+
 test('imported table attributes remain intact in visual read-only mode',async ({page}) => {
   await start(page,'<p><strong>Alpha Beta</strong></p><table id="data" class="original"><tbody><tr id="row"><td id="cell"><p>A</p></td><td><p>B</p></td></tr></tbody></table>');
   const before = await source(page);
@@ -194,4 +222,35 @@ test('the visual host has one editable document and keeps the ProseMirror select
   await tool(page,'굵게');
   await expect(page.locator('.ProseMirror strong')).toHaveText('Beta');
   expect(await source(page)).toContain('Alpha <strong>Beta</strong>');
+});
+
+test('Enter, first-paragraph deletion, style shortcut and history keep the Tiptap caret after save',async ({page}) => {
+  await start(page,'<p>First</p><p>Second</p>');
+  await page.locator('.ProseMirror p').first().click(); await page.keyboard.press('End');
+  await page.keyboard.press('Enter'); await page.keyboard.type('Before save');
+  await expect(page.locator('.ProseMirror p')).toHaveCount(3);
+  await page.locator('.draft-save').click();
+  await expect(page.locator('.draft-save')).toBeEnabled();
+  await page.locator('.ProseMirror p').first().click();
+  await page.evaluate(() => {
+    const paragraph=document.querySelector('.ProseMirror p');
+    const range=document.createRange(); range.selectNodeContents(paragraph);
+    const selection=getSelection(); selection.removeAllRanges(); selection.addRange(range);
+    paragraph.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));
+  });
+  await page.keyboard.press('Backspace');
+  await expect(page.locator('.ProseMirror p').first()).toBeEmpty();
+  await tool(page,'되돌리기 (Ctrl/Cmd+Z)');
+  await expect(page.locator('.ProseMirror p').first()).toHaveText('First');
+  await tool(page,'다시 실행 (Ctrl/Cmd+Shift+Z)');
+  await expect(page.locator('.ProseMirror p').first()).toBeEmpty();
+  await page.locator('[data-heading]').selectOption('add-style');
+  const dialog=page.getByRole('dialog',{name:'텍스트 스타일 설정'});
+  await dialog.locator('[name=style]').selectOption('h1');
+  await dialog.locator('[name=shortcut]').focus(); await page.keyboard.press('Control+Alt+7');
+  await dialog.getByRole('button',{name:'저장',exact:true}).click();
+  await page.locator('.ProseMirror p').nth(1).click();
+  await page.keyboard.press('ControlOrMeta+Alt+7');
+  await expect(page.locator('.ProseMirror h1')).toContainText('Before save');
+  expect(await source(page)).toContain('Second');
 });

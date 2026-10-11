@@ -2407,1984 +2407,6 @@ var require_jszip_min = __commonJS({
   }
 });
 
-// ui.js?v=20261008-startup
-var import_esm4 = __toESM(require_jszip_min(), 1);
-
-// node_modules/dompurify/dist/purify.es.mjs
-function _OverloadYield(e3, d2) {
-  this.v = e3, this.k = d2;
-}
-function _arrayLikeToArray(r2, a2) {
-  (null == a2 || a2 > r2.length) && (a2 = r2.length);
-  for (var e3 = 0, n2 = Array(a2); e3 < a2; e3++) n2[e3] = r2[e3];
-  return n2;
-}
-function _arrayWithHoles(r2) {
-  if (Array.isArray(r2)) return r2;
-}
-function _iterableToArrayLimit(r2, l2) {
-  var t3 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
-  if (null != t3) {
-    var e3, n2, i2, u2, a2 = [], f3 = true, o2 = false;
-    try {
-      if (i2 = (t3 = t3.call(r2)).next, 0 === l2) {
-        if (Object(t3) !== t3) return;
-        f3 = false;
-      } else for (; !(f3 = (e3 = i2.call(t3)).done) && (a2.push(e3.value), a2.length !== l2); f3 = true) ;
-    } catch (r3) {
-      o2 = true, n2 = r3;
-    } finally {
-      try {
-        if (!f3 && null != t3.return && (u2 = t3.return(), Object(u2) !== u2)) return;
-      } finally {
-        if (o2) throw n2;
-      }
-    }
-    return a2;
-  }
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _slicedToArray(r2, e3) {
-  return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e3) || _unsupportedIterableToArray(r2, e3) || _nonIterableRest();
-}
-function _unsupportedIterableToArray(r2, a2) {
-  if (r2) {
-    if ("string" == typeof r2) return _arrayLikeToArray(r2, a2);
-    var t3 = {}.toString.call(r2).slice(8, -1);
-    return "Object" === t3 && r2.constructor && (t3 = r2.constructor.name), "Map" === t3 || "Set" === t3 ? Array.from(r2) : "Arguments" === t3 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t3) ? _arrayLikeToArray(r2, a2) : void 0;
-  }
-}
-function AsyncGenerator(e3) {
-  var t3, n2;
-  function resume(t4, n3) {
-    try {
-      var r2 = e3[t4](n3), o2 = r2.value, u2 = o2 instanceof _OverloadYield;
-      Promise.resolve(u2 ? o2.v : o2).then(function(n4) {
-        if (u2) {
-          var i2 = "return" === t4 && o2.k ? t4 : "next";
-          if (!o2.k || n4.done) return resume(i2, n4);
-          n4 = e3[i2](n4).value;
-        }
-        settle(!!r2.done, n4);
-      }, function(e4) {
-        resume("throw", e4);
-      });
-    } catch (e4) {
-      settle(2, e4);
-    }
-  }
-  function settle(e4, r2) {
-    2 === e4 ? t3.reject(r2) : t3.resolve({
-      value: r2,
-      done: e4
-    }), (t3 = t3.next) ? resume(t3.key, t3.arg) : n2 = null;
-  }
-  this._invoke = function(e4, r2) {
-    return new Promise(function(o2, u2) {
-      var i2 = {
-        key: e4,
-        arg: r2,
-        resolve: o2,
-        reject: u2,
-        next: null
-      };
-      n2 ? n2 = n2.next = i2 : (t3 = n2 = i2, resume(e4, r2));
-    });
-  }, "function" != typeof e3.return && (this.return = void 0);
-}
-AsyncGenerator.prototype["function" == typeof Symbol && Symbol.asyncIterator || "@@asyncIterator"] = function() {
-  return this;
-}, AsyncGenerator.prototype.next = function(e3) {
-  return this._invoke("next", e3);
-}, AsyncGenerator.prototype.throw = function(e3) {
-  return this._invoke("throw", e3);
-}, AsyncGenerator.prototype.return = function(e3) {
-  return this._invoke("return", e3);
-};
-var entries = Object.entries;
-var setPrototypeOf = Object.setPrototypeOf;
-var isFrozen = Object.isFrozen;
-var getPrototypeOf = Object.getPrototypeOf;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-var freeze = Object.freeze;
-var seal = Object.seal;
-var create = Object.create;
-var _ref = typeof Reflect !== "undefined" && Reflect;
-var apply = _ref.apply;
-var construct = _ref.construct;
-if (!freeze) freeze = function freeze2(x3) {
-  return x3;
-};
-if (!seal) seal = function seal2(x3) {
-  return x3;
-};
-if (!apply) apply = function apply2(func, thisArg) {
-  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) args[_key - 2] = arguments[_key];
-  return func.apply(thisArg, args);
-};
-if (!construct) construct = function construct2(Func) {
-  for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) args[_key2 - 1] = arguments[_key2];
-  return new Func(...args);
-};
-var arrayForEach = unapply(Array.prototype.forEach);
-Array.prototype.indexOf;
-var arrayLastIndexOf = unapply(Array.prototype.lastIndexOf);
-var arrayPop = unapply(Array.prototype.pop);
-var arrayPush = unapply(Array.prototype.push);
-Array.prototype.slice;
-var arraySplice = unapply(Array.prototype.splice);
-var arrayIsArray = Array.isArray;
-var stringToLowerCase = unapply(String.prototype.toLowerCase);
-var stringToString = unapply(String.prototype.toString);
-var stringMatch = unapply(String.prototype.match);
-var stringReplace = unapply(String.prototype.replace);
-var stringIndexOf = unapply(String.prototype.indexOf);
-var stringTrim = unapply(String.prototype.trim);
-var numberToString = unapply(Number.prototype.toString);
-var booleanToString = unapply(Boolean.prototype.toString);
-var bigintToString = typeof BigInt === "undefined" ? null : unapply(BigInt.prototype.toString);
-var symbolToString = typeof Symbol === "undefined" ? null : unapply(Symbol.prototype.toString);
-var objectHasOwnProperty = unapply(Object.prototype.hasOwnProperty);
-var objectToString = unapply(Object.prototype.toString);
-var regExpTest = unapply(RegExp.prototype.test);
-var typeErrorCreate = unconstruct(TypeError);
-function unapply(func) {
-  return function(thisArg) {
-    if (thisArg instanceof RegExp) thisArg.lastIndex = 0;
-    for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) args[_key3 - 1] = arguments[_key3];
-    return apply(func, thisArg, args);
-  };
-}
-function unconstruct(Func) {
-  return function() {
-    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) args[_key4] = arguments[_key4];
-    return construct(Func, args);
-  };
-}
-function addToSet(set, array) {
-  let transformCaseFunc = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : stringToLowerCase;
-  if (setPrototypeOf) setPrototypeOf(set, null);
-  if (!arrayIsArray(array)) return set;
-  let l2 = array.length;
-  while (l2--) {
-    let element2 = array[l2];
-    if (typeof element2 === "string") {
-      const lcElement = transformCaseFunc(element2);
-      if (lcElement !== element2) {
-        if (!isFrozen(array)) array[l2] = lcElement;
-        element2 = lcElement;
-      }
-    }
-    set[element2] = true;
-  }
-  return set;
-}
-function cleanArray(array) {
-  for (let index = 0; index < array.length; index++) if (!objectHasOwnProperty(array, index)) array[index] = null;
-  return array;
-}
-function clone(object) {
-  const newObject = create(null);
-  for (const _ref2 of entries(object)) {
-    var _ref3 = _slicedToArray(_ref2, 2);
-    const property = _ref3[0];
-    const value = _ref3[1];
-    if (objectHasOwnProperty(object, property)) {
-      if (arrayIsArray(value)) newObject[property] = cleanArray(value);
-      else if (value && typeof value === "object" && value.constructor === Object) newObject[property] = clone(value);
-      else newObject[property] = value;
-    }
-  }
-  return newObject;
-}
-function stringifyValue(value) {
-  switch (typeof value) {
-    case "string":
-      return value;
-    case "number":
-      return numberToString(value);
-    case "boolean":
-      return booleanToString(value);
-    case "bigint":
-      return bigintToString ? bigintToString(value) : "0";
-    case "symbol":
-      return symbolToString ? symbolToString(value) : "Symbol()";
-    case "undefined":
-      return objectToString(value);
-    case "function":
-    case "object": {
-      if (value === null) return objectToString(value);
-      const valueAsRecord = value;
-      const valueToString = lookupGetter(valueAsRecord, "toString");
-      if (typeof valueToString === "function") {
-        const stringified = valueToString(valueAsRecord);
-        return typeof stringified === "string" ? stringified : objectToString(stringified);
-      }
-      return objectToString(value);
-    }
-    default:
-      return objectToString(value);
-  }
-}
-function lookupGetter(object, prop) {
-  while (object !== null) {
-    const desc = getOwnPropertyDescriptor(object, prop);
-    if (desc) {
-      if (desc.get) return unapply(desc.get);
-      if (typeof desc.value === "function") return unapply(desc.value);
-    }
-    object = getPrototypeOf(object);
-  }
-  function fallbackValue() {
-    return null;
-  }
-  return fallbackValue;
-}
-function isRegex(value) {
-  try {
-    regExpTest(value, "");
-    return true;
-  } catch (_unused) {
-    return false;
-  }
-}
-var html$1 = freeze([
-  "a",
-  "abbr",
-  "acronym",
-  "address",
-  "area",
-  "article",
-  "aside",
-  "audio",
-  "b",
-  "bdi",
-  "bdo",
-  "big",
-  "blink",
-  "blockquote",
-  "body",
-  "br",
-  "button",
-  "canvas",
-  "caption",
-  "center",
-  "cite",
-  "code",
-  "col",
-  "colgroup",
-  "content",
-  "data",
-  "datalist",
-  "dd",
-  "decorator",
-  "del",
-  "details",
-  "dfn",
-  "dialog",
-  "dir",
-  "div",
-  "dl",
-  "dt",
-  "element",
-  "em",
-  "fieldset",
-  "figcaption",
-  "figure",
-  "font",
-  "footer",
-  "form",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "head",
-  "header",
-  "hgroup",
-  "hr",
-  "html",
-  "i",
-  "img",
-  "input",
-  "ins",
-  "kbd",
-  "label",
-  "legend",
-  "li",
-  "main",
-  "map",
-  "mark",
-  "marquee",
-  "menu",
-  "menuitem",
-  "meter",
-  "nav",
-  "nobr",
-  "ol",
-  "optgroup",
-  "option",
-  "output",
-  "p",
-  "picture",
-  "pre",
-  "progress",
-  "q",
-  "rp",
-  "rt",
-  "ruby",
-  "s",
-  "samp",
-  "search",
-  "section",
-  "select",
-  "shadow",
-  "slot",
-  "small",
-  "source",
-  "spacer",
-  "span",
-  "strike",
-  "strong",
-  "style",
-  "sub",
-  "summary",
-  "sup",
-  "table",
-  "tbody",
-  "td",
-  "template",
-  "textarea",
-  "tfoot",
-  "th",
-  "thead",
-  "time",
-  "tr",
-  "track",
-  "tt",
-  "u",
-  "ul",
-  "var",
-  "video",
-  "wbr"
-]);
-var svg$1 = freeze([
-  "svg",
-  "a",
-  "altglyph",
-  "altglyphdef",
-  "altglyphitem",
-  "animatecolor",
-  "animatemotion",
-  "animatetransform",
-  "circle",
-  "clippath",
-  "defs",
-  "desc",
-  "ellipse",
-  "enterkeyhint",
-  "exportparts",
-  "filter",
-  "font",
-  "g",
-  "glyph",
-  "glyphref",
-  "hkern",
-  "image",
-  "inputmode",
-  "line",
-  "lineargradient",
-  "marker",
-  "mask",
-  "metadata",
-  "mpath",
-  "part",
-  "path",
-  "pattern",
-  "polygon",
-  "polyline",
-  "radialgradient",
-  "rect",
-  "stop",
-  "style",
-  "switch",
-  "symbol",
-  "text",
-  "textpath",
-  "title",
-  "tref",
-  "tspan",
-  "view",
-  "vkern"
-]);
-var svgFilters = freeze([
-  "feBlend",
-  "feColorMatrix",
-  "feComponentTransfer",
-  "feComposite",
-  "feConvolveMatrix",
-  "feDiffuseLighting",
-  "feDisplacementMap",
-  "feDistantLight",
-  "feDropShadow",
-  "feFlood",
-  "feFuncA",
-  "feFuncB",
-  "feFuncG",
-  "feFuncR",
-  "feGaussianBlur",
-  "feImage",
-  "feMerge",
-  "feMergeNode",
-  "feMorphology",
-  "feOffset",
-  "fePointLight",
-  "feSpecularLighting",
-  "feSpotLight",
-  "feTile",
-  "feTurbulence"
-]);
-var svgDisallowed = freeze([
-  "animate",
-  "color-profile",
-  "cursor",
-  "discard",
-  "font-face",
-  "font-face-format",
-  "font-face-name",
-  "font-face-src",
-  "font-face-uri",
-  "foreignobject",
-  "hatch",
-  "hatchpath",
-  "mesh",
-  "meshgradient",
-  "meshpatch",
-  "meshrow",
-  "missing-glyph",
-  "script",
-  "set",
-  "solidcolor",
-  "unknown",
-  "use"
-]);
-var mathMl$1 = freeze([
-  "math",
-  "menclose",
-  "merror",
-  "mfenced",
-  "mfrac",
-  "mglyph",
-  "mi",
-  "mlabeledtr",
-  "mmultiscripts",
-  "mn",
-  "mo",
-  "mover",
-  "mpadded",
-  "mphantom",
-  "mroot",
-  "mrow",
-  "ms",
-  "mspace",
-  "msqrt",
-  "mstyle",
-  "msub",
-  "msup",
-  "msubsup",
-  "mtable",
-  "mtd",
-  "mtext",
-  "mtr",
-  "munder",
-  "munderover",
-  "mprescripts"
-]);
-var mathMlDisallowed = freeze([
-  "maction",
-  "maligngroup",
-  "malignmark",
-  "mlongdiv",
-  "mscarries",
-  "mscarry",
-  "msgroup",
-  "mstack",
-  "msline",
-  "msrow",
-  "semantics",
-  "annotation",
-  "annotation-xml",
-  "mprescripts",
-  "none"
-]);
-var text = freeze(["#text"]);
-var html = freeze([
-  "accept",
-  "action",
-  "align",
-  "alt",
-  "autocapitalize",
-  "autocomplete",
-  "autopictureinpicture",
-  "autoplay",
-  "background",
-  "bgcolor",
-  "border",
-  "capture",
-  "cellpadding",
-  "cellspacing",
-  "checked",
-  "cite",
-  "class",
-  "clear",
-  "color",
-  "cols",
-  "colspan",
-  "command",
-  "commandfor",
-  "controls",
-  "controlslist",
-  "coords",
-  "crossorigin",
-  "datetime",
-  "decoding",
-  "default",
-  "dir",
-  "disabled",
-  "disablepictureinpicture",
-  "disableremoteplayback",
-  "download",
-  "draggable",
-  "enctype",
-  "enterkeyhint",
-  "exportparts",
-  "face",
-  "for",
-  "headers",
-  "height",
-  "hidden",
-  "high",
-  "href",
-  "hreflang",
-  "id",
-  "inert",
-  "inputmode",
-  "integrity",
-  "ismap",
-  "kind",
-  "label",
-  "lang",
-  "list",
-  "loading",
-  "loop",
-  "low",
-  "max",
-  "maxlength",
-  "media",
-  "method",
-  "min",
-  "minlength",
-  "multiple",
-  "muted",
-  "name",
-  "nonce",
-  "noshade",
-  "novalidate",
-  "nowrap",
-  "open",
-  "optimum",
-  "part",
-  "pattern",
-  "placeholder",
-  "playsinline",
-  "popover",
-  "popovertarget",
-  "popovertargetaction",
-  "poster",
-  "preload",
-  "pubdate",
-  "radiogroup",
-  "readonly",
-  "rel",
-  "required",
-  "rev",
-  "reversed",
-  "role",
-  "rows",
-  "rowspan",
-  "spellcheck",
-  "scope",
-  "selected",
-  "shape",
-  "size",
-  "sizes",
-  "slot",
-  "span",
-  "srclang",
-  "start",
-  "src",
-  "srcset",
-  "step",
-  "style",
-  "summary",
-  "tabindex",
-  "title",
-  "translate",
-  "type",
-  "usemap",
-  "valign",
-  "value",
-  "width",
-  "wrap",
-  "xmlns"
-]);
-var svg = freeze([
-  "accent-height",
-  "accumulate",
-  "additive",
-  "alignment-baseline",
-  "amplitude",
-  "ascent",
-  "attributename",
-  "attributetype",
-  "azimuth",
-  "basefrequency",
-  "baseline-shift",
-  "begin",
-  "bias",
-  "by",
-  "class",
-  "clip",
-  "clippathunits",
-  "clip-path",
-  "clip-rule",
-  "color",
-  "color-interpolation",
-  "color-interpolation-filters",
-  "color-profile",
-  "color-rendering",
-  "cx",
-  "cy",
-  "d",
-  "dx",
-  "dy",
-  "diffuseconstant",
-  "direction",
-  "display",
-  "divisor",
-  "dominant-baseline",
-  "dur",
-  "edgemode",
-  "elevation",
-  "end",
-  "exponent",
-  "fill",
-  "fill-opacity",
-  "fill-rule",
-  "filter",
-  "filterunits",
-  "flood-color",
-  "flood-opacity",
-  "font-family",
-  "font-size",
-  "font-size-adjust",
-  "font-stretch",
-  "font-style",
-  "font-variant",
-  "font-weight",
-  "fx",
-  "fy",
-  "g1",
-  "g2",
-  "glyph-name",
-  "glyphref",
-  "gradientunits",
-  "gradienttransform",
-  "height",
-  "href",
-  "id",
-  "image-rendering",
-  "in",
-  "in2",
-  "intercept",
-  "k",
-  "k1",
-  "k2",
-  "k3",
-  "k4",
-  "kerning",
-  "keypoints",
-  "keysplines",
-  "keytimes",
-  "lang",
-  "lengthadjust",
-  "letter-spacing",
-  "kernelmatrix",
-  "kernelunitlength",
-  "lighting-color",
-  "local",
-  "marker-end",
-  "marker-mid",
-  "marker-start",
-  "markerheight",
-  "markerunits",
-  "markerwidth",
-  "maskcontentunits",
-  "maskunits",
-  "max",
-  "mask",
-  "mask-type",
-  "media",
-  "method",
-  "mode",
-  "min",
-  "name",
-  "numoctaves",
-  "offset",
-  "operator",
-  "opacity",
-  "order",
-  "orient",
-  "orientation",
-  "origin",
-  "overflow",
-  "paint-order",
-  "path",
-  "pathlength",
-  "patterncontentunits",
-  "patterntransform",
-  "patternunits",
-  "pointer-events",
-  "points",
-  "preservealpha",
-  "preserveaspectratio",
-  "primitiveunits",
-  "r",
-  "rx",
-  "ry",
-  "radius",
-  "refx",
-  "refy",
-  "repeatcount",
-  "repeatdur",
-  "restart",
-  "result",
-  "rotate",
-  "scale",
-  "seed",
-  "shape-rendering",
-  "slope",
-  "specularconstant",
-  "specularexponent",
-  "spreadmethod",
-  "startoffset",
-  "stddeviation",
-  "stitchtiles",
-  "stop-color",
-  "stop-opacity",
-  "stroke-dasharray",
-  "stroke-dashoffset",
-  "stroke-linecap",
-  "stroke-linejoin",
-  "stroke-miterlimit",
-  "stroke-opacity",
-  "stroke",
-  "stroke-width",
-  "style",
-  "surfacescale",
-  "systemlanguage",
-  "tabindex",
-  "tablevalues",
-  "targetx",
-  "targety",
-  "transform",
-  "transform-origin",
-  "text-anchor",
-  "text-decoration",
-  "text-orientation",
-  "text-rendering",
-  "textlength",
-  "type",
-  "u1",
-  "u2",
-  "unicode",
-  "values",
-  "vector-effect",
-  "viewbox",
-  "visibility",
-  "version",
-  "vert-adv-y",
-  "vert-origin-x",
-  "vert-origin-y",
-  "width",
-  "word-spacing",
-  "wrap",
-  "writing-mode",
-  "xchannelselector",
-  "ychannelselector",
-  "x",
-  "x1",
-  "x2",
-  "xmlns",
-  "y",
-  "y1",
-  "y2",
-  "z",
-  "zoomandpan"
-]);
-var mathMl = freeze([
-  "accent",
-  "accentunder",
-  "align",
-  "bevelled",
-  "close",
-  "columnalign",
-  "columnlines",
-  "columnspacing",
-  "columnspan",
-  "denomalign",
-  "depth",
-  "dir",
-  "display",
-  "displaystyle",
-  "encoding",
-  "fence",
-  "frame",
-  "height",
-  "href",
-  "id",
-  "largeop",
-  "length",
-  "linethickness",
-  "lquote",
-  "lspace",
-  "mathbackground",
-  "mathcolor",
-  "mathsize",
-  "mathvariant",
-  "maxsize",
-  "minsize",
-  "movablelimits",
-  "notation",
-  "numalign",
-  "open",
-  "rowalign",
-  "rowlines",
-  "rowspacing",
-  "rowspan",
-  "rspace",
-  "rquote",
-  "scriptlevel",
-  "scriptminsize",
-  "scriptsizemultiplier",
-  "selection",
-  "separator",
-  "separators",
-  "stretchy",
-  "subscriptshift",
-  "supscriptshift",
-  "symmetric",
-  "voffset",
-  "width",
-  "xmlns"
-]);
-var xml = freeze([
-  "xlink:href",
-  "xml:id",
-  "xlink:title",
-  "xml:space",
-  "xmlns:xlink"
-]);
-var MUSTACHE_EXPR = seal(/{{[\w\W]*|^[\w\W]*}}/g);
-var ERB_EXPR = seal(/<%[\w\W]*|^[\w\W]*%>/g);
-var TMPLIT_EXPR = seal(/\${[\w\W]*/g);
-var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/);
-var ARIA_ATTR = seal(/^aria-[\-\w]+$/);
-var IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i);
-var IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
-var ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g);
-var DOCTYPE_NAME = seal(/^html$/i);
-var CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
-var ELEMENT_MARKUP_PROBE = seal(/<[/\w!]/g);
-var COMMENT_MARKUP_PROBE = seal(/<[/\w]/g);
-var FALLBACK_TAG_CLOSE = seal(/<\/no(script|embed|frames)/i);
-var SELF_CLOSING_TAG = seal(/\/>/i);
-var NODE_TYPE = {
-  element: 1,
-  attribute: 2,
-  text: 3,
-  cdataSection: 4,
-  entityReference: 5,
-  entityNode: 6,
-  processingInstruction: 7,
-  comment: 8,
-  document: 9,
-  documentType: 10,
-  documentFragment: 11,
-  notation: 12
-};
-var LITERAL_TEXT_ELEMENT_NAMES = [
-  "style",
-  "script",
-  "xmp",
-  "iframe",
-  "noembed",
-  "noframes",
-  "plaintext",
-  "noscript"
-];
-var LITERAL_TEXT_ELEMENTS = freeze(addToSet({}, LITERAL_TEXT_ELEMENT_NAMES));
-var LITERAL_TEXT_CLOSE = (function() {
-  const map = {};
-  arrayForEach(LITERAL_TEXT_ELEMENT_NAMES, (name) => {
-    map[name] = seal(new RegExp("</" + name + "(?=[\\t\\n\\f\\r />])", "i"));
-  });
-  return freeze(map);
-})();
-var getGlobal = function getGlobal2() {
-  return typeof window === "undefined" ? null : window;
-};
-var _createTrustedTypesPolicy = function _createTrustedTypesPolicy2(trustedTypes, purifyHostElement) {
-  if (typeof trustedTypes !== "object" || typeof trustedTypes.createPolicy !== "function") return null;
-  let suffix = null;
-  const ATTR_NAME = "data-tt-policy-suffix";
-  if (purifyHostElement && purifyHostElement.hasAttribute(ATTR_NAME)) suffix = purifyHostElement.getAttribute(ATTR_NAME);
-  const policyName = "dompurify" + (suffix ? "#" + suffix : "");
-  try {
-    return trustedTypes.createPolicy(policyName, {
-      createHTML(html2) {
-        return html2;
-      },
-      createScriptURL(scriptUrl) {
-        return scriptUrl;
-      }
-    });
-  } catch (_3) {
-    console.warn("TrustedTypes policy " + policyName + " could not be created.");
-    return null;
-  }
-};
-var _createHooksMap = function _createHooksMap2() {
-  return {
-    afterSanitizeAttributes: [],
-    afterSanitizeElements: [],
-    afterSanitizeShadowDOM: [],
-    beforeSanitizeAttributes: [],
-    beforeSanitizeElements: [],
-    beforeSanitizeShadowDOM: [],
-    uponSanitizeAttribute: [],
-    uponSanitizeElement: [],
-    uponSanitizeShadowNode: []
-  };
-};
-var _resolveSetOption = function _resolveSetOption2(cfg, key, fallback, options) {
-  return objectHasOwnProperty(cfg, key) && arrayIsArray(cfg[key]) ? addToSet(options.base ? clone(options.base) : {}, cfg[key], options.transform) : fallback;
-};
-var _resolveObjectOption = function _resolveObjectOption2(cfg, key, makeFallback) {
-  const value = objectHasOwnProperty(cfg, key) ? cfg[key] : void 0;
-  return value && typeof value === "object" ? clone(value) : makeFallback();
-};
-function createDOMPurify() {
-  let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
-  const DOMPurify = (root) => createDOMPurify(root);
-  DOMPurify.version = "3.4.16";
-  DOMPurify.removed = [];
-  if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
-    DOMPurify.isSupported = false;
-    return DOMPurify;
-  }
-  let document2 = window2.document;
-  const originalDocument = document2;
-  const currentScript = originalDocument.currentScript;
-  window2.DocumentFragment;
-  const HTMLTemplateElement = window2.HTMLTemplateElement, Node3 = window2.Node, Element = window2.Element, NodeFilter2 = window2.NodeFilter;
-  window2.NamedNodeMap === void 0 && (window2.NamedNodeMap || window2.MozNamedAttrMap);
-  window2.HTMLFormElement;
-  const DOMParser3 = window2.DOMParser, trustedTypes = window2.trustedTypes;
-  const ElementPrototype = Element.prototype;
-  const cloneNode = lookupGetter(ElementPrototype, "cloneNode");
-  const remove = lookupGetter(ElementPrototype, "remove");
-  const removeAttributeNode = lookupGetter(ElementPrototype, "removeAttributeNode");
-  const getNextSibling = lookupGetter(ElementPrototype, "nextSibling");
-  const getChildNodes = lookupGetter(ElementPrototype, "childNodes");
-  const getParentNode = lookupGetter(ElementPrototype, "parentNode");
-  const getShadowRoot = lookupGetter(ElementPrototype, "shadowRoot");
-  const getAttributes = lookupGetter(ElementPrototype, "attributes");
-  const getNodeType = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "nodeType") : null;
-  const getNodeName = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "nodeName") : null;
-  const getOwnerDocument = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "ownerDocument") : null;
-  const _readNodeType = function _readNodeType2(node) {
-    return getNodeType ? getNodeType(node) : node.nodeType;
-  };
-  const _readNodeName = function _readNodeName2(node) {
-    return getNodeName ? getNodeName(node) : node.nodeName;
-  };
-  if (typeof HTMLTemplateElement === "function") {
-    const template = document2.createElement("template");
-    if (template.content && template.content.ownerDocument) document2 = template.content.ownerDocument;
-  }
-  let trustedTypesPolicy;
-  let emptyHTML = "";
-  let defaultTrustedTypesPolicy;
-  let defaultTrustedTypesPolicyResolved = false;
-  let IN_TRUSTED_TYPES_POLICY = 0;
-  const _assertNotInTrustedTypesPolicy = function _assertNotInTrustedTypesPolicy2() {
-    if (IN_TRUSTED_TYPES_POLICY > 0) throw typeErrorCreate('A configured TRUSTED_TYPES_POLICY callback (createHTML or createScriptURL) must not call DOMPurify.sanitize, as that causes infinite recursion. Do not pass a policy whose callbacks wrap DOMPurify as TRUSTED_TYPES_POLICY; see the "DOMPurify and Trusted Types" section of the README.');
-  };
-  const _createTrustedHTML = function _createTrustedHTML2(html2) {
-    _assertNotInTrustedTypesPolicy();
-    IN_TRUSTED_TYPES_POLICY++;
-    try {
-      return trustedTypesPolicy.createHTML(html2);
-    } finally {
-      IN_TRUSTED_TYPES_POLICY--;
-    }
-  };
-  const _createTrustedScriptURL = function _createTrustedScriptURL2(scriptUrl) {
-    _assertNotInTrustedTypesPolicy();
-    IN_TRUSTED_TYPES_POLICY++;
-    try {
-      return trustedTypesPolicy.createScriptURL(scriptUrl);
-    } finally {
-      IN_TRUSTED_TYPES_POLICY--;
-    }
-  };
-  const _getDefaultTrustedTypesPolicy = function _getDefaultTrustedTypesPolicy2() {
-    if (!defaultTrustedTypesPolicyResolved) {
-      defaultTrustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, currentScript);
-      defaultTrustedTypesPolicyResolved = true;
-    }
-    return defaultTrustedTypesPolicy;
-  };
-  const _document = document2, implementation = _document.implementation, createNodeIterator = _document.createNodeIterator, createDocumentFragment = _document.createDocumentFragment, getElementsByTagName = _document.getElementsByTagName;
-  const importNode = originalDocument.importNode;
-  let hooks = _createHooksMap();
-  DOMPurify.isSupported = typeof entries === "function" && typeof getParentNode === "function" && implementation && implementation.createHTMLDocument !== void 0;
-  const MUSTACHE_EXPR$1 = MUSTACHE_EXPR, ERB_EXPR$1 = ERB_EXPR, TMPLIT_EXPR$1 = TMPLIT_EXPR, DATA_ATTR$1 = DATA_ATTR, ARIA_ATTR$1 = ARIA_ATTR, IS_SCRIPT_OR_DATA$1 = IS_SCRIPT_OR_DATA, ATTR_WHITESPACE$1 = ATTR_WHITESPACE, CUSTOM_ELEMENT$1 = CUSTOM_ELEMENT;
-  let IS_ALLOWED_URI$1 = IS_ALLOWED_URI;
-  let ALLOWED_TAGS = null;
-  const DEFAULT_ALLOWED_TAGS = addToSet({}, [
-    ...html$1,
-    ...svg$1,
-    ...svgFilters,
-    ...mathMl$1,
-    ...text
-  ]);
-  let ALLOWED_ATTR = null;
-  const DEFAULT_ALLOWED_ATTR = addToSet({}, [
-    ...html,
-    ...svg,
-    ...mathMl,
-    ...xml
-  ]);
-  let CUSTOM_ELEMENT_HANDLING = Object.seal(create(null, {
-    tagNameCheck: {
-      writable: true,
-      configurable: false,
-      enumerable: true,
-      value: null
-    },
-    attributeNameCheck: {
-      writable: true,
-      configurable: false,
-      enumerable: true,
-      value: null
-    },
-    allowCustomizedBuiltInElements: {
-      writable: true,
-      configurable: false,
-      enumerable: true,
-      value: false
-    }
-  }));
-  let FORBID_TAGS = null;
-  let FORBID_ATTR = null;
-  const EXTRA_ELEMENT_HANDLING = Object.seal(create(null, {
-    tagCheck: {
-      writable: true,
-      configurable: false,
-      enumerable: true,
-      value: null
-    },
-    attributeCheck: {
-      writable: true,
-      configurable: false,
-      enumerable: true,
-      value: null
-    }
-  }));
-  let ALLOW_ARIA_ATTR = true;
-  let ALLOW_DATA_ATTR = true;
-  let ALLOW_UNKNOWN_PROTOCOLS = false;
-  let ALLOW_SELF_CLOSE_IN_ATTR = true;
-  let SAFE_FOR_TEMPLATES = false;
-  let SAFE_FOR_XML = true;
-  let WHOLE_DOCUMENT = false;
-  let SET_CONFIG = false;
-  let SET_CONFIG_ALLOWED_TAGS = null;
-  let SET_CONFIG_ALLOWED_ATTR = null;
-  let FORCE_BODY = false;
-  let RETURN_DOM = false;
-  let RETURN_DOM_FRAGMENT = false;
-  let RETURN_TRUSTED_TYPE = false;
-  let SANITIZE_DOM = true;
-  let SANITIZE_NAMED_PROPS = false;
-  const SANITIZE_NAMED_PROPS_PREFIX = "user-content-";
-  let KEEP_CONTENT = true;
-  let IN_PLACE = false;
-  let USE_PROFILES = {};
-  let FORBID_CONTENTS = null;
-  const DEFAULT_FORBID_CONTENTS = addToSet({}, [
-    "annotation-xml",
-    "audio",
-    "colgroup",
-    "desc",
-    "foreignobject",
-    "head",
-    "iframe",
-    "math",
-    "mi",
-    "mn",
-    "mo",
-    "ms",
-    "mtext",
-    "noembed",
-    "noframes",
-    "noscript",
-    "plaintext",
-    "script",
-    "selectedcontent",
-    "style",
-    "svg",
-    "template",
-    "thead",
-    "title",
-    "video",
-    "xmp"
-  ]);
-  let DATA_URI_TAGS = null;
-  const DEFAULT_DATA_URI_TAGS = addToSet({}, [
-    "audio",
-    "video",
-    "img",
-    "source",
-    "image",
-    "track"
-  ]);
-  let URI_SAFE_ATTRIBUTES = null;
-  const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, [
-    "alt",
-    "class",
-    "for",
-    "id",
-    "label",
-    "name",
-    "pattern",
-    "placeholder",
-    "role",
-    "summary",
-    "title",
-    "value",
-    "style",
-    "xmlns"
-  ]);
-  const MATHML_NAMESPACE = "http://www.w3.org/1998/Math/MathML";
-  const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-  const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
-  let NAMESPACE = HTML_NAMESPACE;
-  let IS_EMPTY_INPUT = false;
-  let ALLOWED_NAMESPACES = null;
-  const DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [
-    MATHML_NAMESPACE,
-    SVG_NAMESPACE,
-    HTML_NAMESPACE
-  ], stringToString);
-  const DEFAULT_MATHML_TEXT_INTEGRATION_POINTS = freeze([
-    "mi",
-    "mo",
-    "mn",
-    "ms",
-    "mtext"
-  ]);
-  let MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS);
-  const DEFAULT_HTML_INTEGRATION_POINTS = freeze(["annotation-xml"]);
-  let HTML_INTEGRATION_POINTS = addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS);
-  const COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, [
-    "title",
-    "style",
-    "font",
-    "a",
-    "script"
-  ]);
-  let PARSER_MEDIA_TYPE = null;
-  const SUPPORTED_PARSER_MEDIA_TYPES = ["application/xhtml+xml", "text/html"];
-  const DEFAULT_PARSER_MEDIA_TYPE = "text/html";
-  let transformCaseFunc = null;
-  let CONFIG = null;
-  const formElement = document2.createElement("form");
-  const isRegexOrFunction = function isRegexOrFunction2(testValue) {
-    return testValue instanceof RegExp || testValue instanceof Function;
-  };
-  const _parseConfig = function _parseConfig2() {
-    let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    if (CONFIG && CONFIG === cfg) return;
-    if (!cfg || typeof cfg !== "object") cfg = {};
-    cfg = clone(cfg);
-    PARSER_MEDIA_TYPE = SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? DEFAULT_PARSER_MEDIA_TYPE : cfg.PARSER_MEDIA_TYPE;
-    transformCaseFunc = PARSER_MEDIA_TYPE === "application/xhtml+xml" ? stringToString : stringToLowerCase;
-    ALLOWED_TAGS = _resolveSetOption(cfg, "ALLOWED_TAGS", DEFAULT_ALLOWED_TAGS, { transform: transformCaseFunc });
-    ALLOWED_ATTR = _resolveSetOption(cfg, "ALLOWED_ATTR", DEFAULT_ALLOWED_ATTR, { transform: transformCaseFunc });
-    ALLOWED_NAMESPACES = _resolveSetOption(cfg, "ALLOWED_NAMESPACES", DEFAULT_ALLOWED_NAMESPACES, { transform: stringToString });
-    URI_SAFE_ATTRIBUTES = _resolveSetOption(cfg, "ADD_URI_SAFE_ATTR", DEFAULT_URI_SAFE_ATTRIBUTES, {
-      transform: transformCaseFunc,
-      base: DEFAULT_URI_SAFE_ATTRIBUTES
-    });
-    DATA_URI_TAGS = _resolveSetOption(cfg, "ADD_DATA_URI_TAGS", DEFAULT_DATA_URI_TAGS, {
-      transform: transformCaseFunc,
-      base: DEFAULT_DATA_URI_TAGS
-    });
-    FORBID_CONTENTS = _resolveSetOption(cfg, "FORBID_CONTENTS", DEFAULT_FORBID_CONTENTS, { transform: transformCaseFunc });
-    FORBID_TAGS = _resolveSetOption(cfg, "FORBID_TAGS", clone({}), { transform: transformCaseFunc });
-    FORBID_ATTR = _resolveSetOption(cfg, "FORBID_ATTR", clone({}), { transform: transformCaseFunc });
-    USE_PROFILES = objectHasOwnProperty(cfg, "USE_PROFILES") ? cfg.USE_PROFILES && typeof cfg.USE_PROFILES === "object" ? clone(cfg.USE_PROFILES) : cfg.USE_PROFILES : false;
-    ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false;
-    ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false;
-    ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false;
-    ALLOW_SELF_CLOSE_IN_ATTR = cfg.ALLOW_SELF_CLOSE_IN_ATTR !== false;
-    SAFE_FOR_TEMPLATES = cfg.SAFE_FOR_TEMPLATES || false;
-    SAFE_FOR_XML = cfg.SAFE_FOR_XML !== false;
-    WHOLE_DOCUMENT = cfg.WHOLE_DOCUMENT || false;
-    RETURN_DOM = cfg.RETURN_DOM || false;
-    RETURN_DOM_FRAGMENT = cfg.RETURN_DOM_FRAGMENT || false;
-    RETURN_TRUSTED_TYPE = cfg.RETURN_TRUSTED_TYPE || false;
-    FORCE_BODY = cfg.FORCE_BODY || false;
-    SANITIZE_DOM = cfg.SANITIZE_DOM !== false;
-    SANITIZE_NAMED_PROPS = cfg.SANITIZE_NAMED_PROPS || false;
-    KEEP_CONTENT = cfg.KEEP_CONTENT !== false;
-    IN_PLACE = cfg.IN_PLACE || false;
-    IS_ALLOWED_URI$1 = isRegex(cfg.ALLOWED_URI_REGEXP) ? cfg.ALLOWED_URI_REGEXP : IS_ALLOWED_URI;
-    NAMESPACE = typeof cfg.NAMESPACE === "string" ? cfg.NAMESPACE : HTML_NAMESPACE;
-    MATHML_TEXT_INTEGRATION_POINTS = _resolveObjectOption(cfg, "MATHML_TEXT_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS));
-    HTML_INTEGRATION_POINTS = _resolveObjectOption(cfg, "HTML_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS));
-    const customElementHandling = _resolveObjectOption(cfg, "CUSTOM_ELEMENT_HANDLING", () => create(null));
-    CUSTOM_ELEMENT_HANDLING = create(null);
-    if (objectHasOwnProperty(customElementHandling, "tagNameCheck") && isRegexOrFunction(customElementHandling.tagNameCheck)) CUSTOM_ELEMENT_HANDLING.tagNameCheck = customElementHandling.tagNameCheck;
-    if (objectHasOwnProperty(customElementHandling, "attributeNameCheck") && isRegexOrFunction(customElementHandling.attributeNameCheck)) CUSTOM_ELEMENT_HANDLING.attributeNameCheck = customElementHandling.attributeNameCheck;
-    if (objectHasOwnProperty(customElementHandling, "allowCustomizedBuiltInElements") && typeof customElementHandling.allowCustomizedBuiltInElements === "boolean") CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements = customElementHandling.allowCustomizedBuiltInElements;
-    seal(CUSTOM_ELEMENT_HANDLING);
-    if (SAFE_FOR_TEMPLATES) ALLOW_DATA_ATTR = false;
-    if (RETURN_DOM_FRAGMENT) RETURN_DOM = true;
-    if (USE_PROFILES) {
-      ALLOWED_TAGS = addToSet({}, text);
-      ALLOWED_ATTR = create(null);
-      if (USE_PROFILES.html === true) {
-        addToSet(ALLOWED_TAGS, html$1);
-        addToSet(ALLOWED_ATTR, html);
-      }
-      if (USE_PROFILES.svg === true) {
-        addToSet(ALLOWED_TAGS, svg$1);
-        addToSet(ALLOWED_ATTR, svg);
-        addToSet(ALLOWED_ATTR, xml);
-      }
-      if (USE_PROFILES.svgFilters === true) {
-        addToSet(ALLOWED_TAGS, svgFilters);
-        addToSet(ALLOWED_ATTR, svg);
-        addToSet(ALLOWED_ATTR, xml);
-      }
-      if (USE_PROFILES.mathMl === true) {
-        addToSet(ALLOWED_TAGS, mathMl$1);
-        addToSet(ALLOWED_ATTR, mathMl);
-        addToSet(ALLOWED_ATTR, xml);
-      }
-    }
-    EXTRA_ELEMENT_HANDLING.tagCheck = null;
-    EXTRA_ELEMENT_HANDLING.attributeCheck = null;
-    if (objectHasOwnProperty(cfg, "ADD_TAGS")) {
-      if (typeof cfg.ADD_TAGS === "function") EXTRA_ELEMENT_HANDLING.tagCheck = cfg.ADD_TAGS;
-      else if (arrayIsArray(cfg.ADD_TAGS)) {
-        if (ALLOWED_TAGS === DEFAULT_ALLOWED_TAGS) ALLOWED_TAGS = clone(ALLOWED_TAGS);
-        addToSet(ALLOWED_TAGS, cfg.ADD_TAGS, transformCaseFunc);
-      }
-    }
-    if (objectHasOwnProperty(cfg, "ADD_ATTR")) {
-      if (typeof cfg.ADD_ATTR === "function") EXTRA_ELEMENT_HANDLING.attributeCheck = cfg.ADD_ATTR;
-      else if (arrayIsArray(cfg.ADD_ATTR)) {
-        if (ALLOWED_ATTR === DEFAULT_ALLOWED_ATTR) ALLOWED_ATTR = clone(ALLOWED_ATTR);
-        addToSet(ALLOWED_ATTR, cfg.ADD_ATTR, transformCaseFunc);
-      }
-    }
-    if (objectHasOwnProperty(cfg, "ADD_FORBID_CONTENTS") && arrayIsArray(cfg.ADD_FORBID_CONTENTS)) {
-      if (FORBID_CONTENTS === DEFAULT_FORBID_CONTENTS) FORBID_CONTENTS = clone(FORBID_CONTENTS);
-      addToSet(FORBID_CONTENTS, cfg.ADD_FORBID_CONTENTS, transformCaseFunc);
-    }
-    if (KEEP_CONTENT) ALLOWED_TAGS["#text"] = true;
-    if (WHOLE_DOCUMENT) addToSet(ALLOWED_TAGS, [
-      "html",
-      "head",
-      "body"
-    ]);
-    if (ALLOWED_TAGS.table) {
-      addToSet(ALLOWED_TAGS, ["tbody"]);
-      delete FORBID_TAGS.tbody;
-    }
-    if (cfg.TRUSTED_TYPES_POLICY) {
-      if (typeof cfg.TRUSTED_TYPES_POLICY.createHTML !== "function") throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
-      if (typeof cfg.TRUSTED_TYPES_POLICY.createScriptURL !== "function") throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.');
-      const previousTrustedTypesPolicy = trustedTypesPolicy;
-      trustedTypesPolicy = cfg.TRUSTED_TYPES_POLICY;
-      try {
-        emptyHTML = _createTrustedHTML("");
-      } catch (error) {
-        trustedTypesPolicy = previousTrustedTypesPolicy;
-        throw error;
-      }
-    } else if (cfg.TRUSTED_TYPES_POLICY === null) {
-      trustedTypesPolicy = void 0;
-      emptyHTML = "";
-    } else {
-      if (trustedTypesPolicy === void 0) trustedTypesPolicy = _getDefaultTrustedTypesPolicy();
-      if (trustedTypesPolicy && typeof emptyHTML === "string") emptyHTML = _createTrustedHTML("");
-    }
-    if (freeze) freeze(cfg);
-    CONFIG = cfg;
-  };
-  const ALL_SVG_TAGS = addToSet({}, [
-    ...svg$1,
-    ...svgFilters,
-    ...svgDisallowed
-  ]);
-  const ALL_MATHML_TAGS = addToSet({}, [...mathMl$1, ...mathMlDisallowed]);
-  const _checkSvgNamespace = function _checkSvgNamespace2(tagName, parent, parentTagName) {
-    if (parent.namespaceURI === HTML_NAMESPACE) return tagName === "svg";
-    if (parent.namespaceURI === MATHML_NAMESPACE) return tagName === "svg" && (parentTagName === "annotation-xml" || MATHML_TEXT_INTEGRATION_POINTS[parentTagName]);
-    return Boolean(ALL_SVG_TAGS[tagName]);
-  };
-  const _checkMathMlNamespace = function _checkMathMlNamespace2(tagName, parent, parentTagName) {
-    if (parent.namespaceURI === HTML_NAMESPACE) return tagName === "math";
-    if (parent.namespaceURI === SVG_NAMESPACE) return tagName === "math" && HTML_INTEGRATION_POINTS[parentTagName];
-    return Boolean(ALL_MATHML_TAGS[tagName]);
-  };
-  const _checkHtmlNamespace = function _checkHtmlNamespace2(tagName, parent, parentTagName) {
-    if (parent.namespaceURI === SVG_NAMESPACE && !HTML_INTEGRATION_POINTS[parentTagName]) return false;
-    if (parent.namespaceURI === MATHML_NAMESPACE && !MATHML_TEXT_INTEGRATION_POINTS[parentTagName]) return false;
-    return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
-  };
-  const _checkValidNamespace = function _checkValidNamespace2(element2) {
-    let parent = getParentNode(element2);
-    if (!parent || !parent.tagName) parent = {
-      namespaceURI: NAMESPACE,
-      tagName: "template"
-    };
-    const tagName = stringToLowerCase(element2.tagName);
-    const parentTagName = stringToLowerCase(parent.tagName);
-    if (!ALLOWED_NAMESPACES[element2.namespaceURI]) return false;
-    if (element2.namespaceURI === SVG_NAMESPACE) return _checkSvgNamespace(tagName, parent, parentTagName);
-    if (element2.namespaceURI === MATHML_NAMESPACE) return _checkMathMlNamespace(tagName, parent, parentTagName);
-    if (element2.namespaceURI === HTML_NAMESPACE) return _checkHtmlNamespace(tagName, parent, parentTagName);
-    if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && ALLOWED_NAMESPACES[element2.namespaceURI]) return true;
-    return false;
-  };
-  const _forceRemove = function _forceRemove2(node) {
-    arrayPush(DOMPurify.removed, { element: node });
-    try {
-      getParentNode(node).removeChild(node);
-    } catch (_3) {
-      remove(node);
-      if (!getParentNode(node)) throw typeErrorCreate("a node selected for removal could not be detached from its tree and cannot be safely returned; refusing to sanitize in place");
-    }
-  };
-  const _stripAttributeNode = function _stripAttributeNode2(element2, attribute, name) {
-    try {
-      removeAttributeNode(element2, attribute);
-    } catch (_3) {
-      try {
-        element2.removeAttribute(name);
-      } catch (_4) {
-      }
-    }
-  };
-  const _neutralizeRoot = function _neutralizeRoot2(root) {
-    _neutralizeSubtree(root);
-    const childNodes = getChildNodes(root);
-    if (childNodes) {
-      const snapshot = [];
-      arrayForEach(childNodes, (child) => {
-        arrayPush(snapshot, child);
-      });
-      arrayForEach(snapshot, (child) => {
-        try {
-          remove(child);
-        } catch (_3) {
-        }
-      });
-    }
-    const attributes = getAttributes(root);
-    if (attributes) for (let i2 = attributes.length - 1; i2 >= 0; --i2) {
-      const attribute = attributes[i2];
-      const name = attribute && attribute.name;
-      if (typeof name === "string") _stripAttributeNode(root, attribute, name);
-    }
-  };
-  const _removeAttribute = function _removeAttribute2(name, element2, attr) {
-    if (!attr) try {
-      attr = element2.getAttributeNode(name);
-    } catch (_3) {
-      attr = null;
-    }
-    arrayPush(DOMPurify.removed, {
-      attribute: attr || null,
-      from: element2
-    });
-    try {
-      if (attr) removeAttributeNode(element2, attr);
-      else element2.removeAttribute(name);
-    } catch (_3) {
-      try {
-        element2.removeAttribute(name);
-      } catch (_4) {
-      }
-    }
-    if (name === "is") {
-      if (RETURN_DOM || RETURN_DOM_FRAGMENT) try {
-        _forceRemove(element2);
-      } catch (_3) {
-      }
-      else try {
-        element2.setAttribute(name, "");
-      } catch (_3) {
-      }
-    }
-  };
-  const _stripDisallowedAttributes = function _stripDisallowedAttributes2(element2) {
-    const attributes = getAttributes(element2);
-    if (!attributes) return;
-    for (let i2 = attributes.length - 1; i2 >= 0; --i2) {
-      const attribute = attributes[i2];
-      const name = attribute && attribute.name;
-      if (typeof name !== "string" || ALLOWED_ATTR[transformCaseFunc(name)]) continue;
-      _stripAttributeNode(element2, attribute, name);
-    }
-  };
-  const _neutralizeSubtree = function _neutralizeSubtree2(root) {
-    const stack = [root];
-    while (stack.length > 0) {
-      const node = stack.pop();
-      if (_readNodeType(node) === NODE_TYPE.element) _stripDisallowedAttributes(node);
-      const childNodes = getChildNodes(node);
-      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push(childNodes[i2]);
-    }
-  };
-  const _isPatchLinkageAttribute = function _isPatchLinkageAttribute2(lcName, lcTag) {
-    if (!SAFE_FOR_XML) return false;
-    if (lcName === "patchsrc") return true;
-    return lcName === "for" && lcTag !== "label" && lcTag !== "output";
-  };
-  const _neutralizePatchLinkage = function _neutralizePatchLinkage2(root) {
-    if (!SAFE_FOR_XML) return;
-    const stack = [root];
-    while (stack.length > 0) {
-      const node = stack.pop();
-      const nodeType = _readNodeType(node);
-      if (nodeType === NODE_TYPE.processingInstruction || nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, node.data)) {
-        try {
-          remove(node);
-        } catch (_3) {
-        }
-        continue;
-      }
-      if (nodeType === NODE_TYPE.element) {
-        const element2 = node;
-        const lcTag = transformCaseFunc(_readNodeName(node));
-        try {
-          if (element2.hasAttribute && element2.hasAttribute("patchsrc")) element2.removeAttribute("patchsrc");
-          if (element2.hasAttribute && element2.hasAttribute("for") && _isPatchLinkageAttribute("for", lcTag)) element2.removeAttribute("for");
-        } catch (_3) {
-        }
-      }
-      const childNodes = getChildNodes(node);
-      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push(childNodes[i2]);
-    }
-  };
-  const _initDocument = function _initDocument2(dirty) {
-    let doc = null;
-    let leadingWhitespace = null;
-    if (FORCE_BODY) dirty = "<remove></remove>" + dirty;
-    else {
-      const matches = stringMatch(dirty, /^[\r\n\t ]+/);
-      leadingWhitespace = matches && matches[0];
-    }
-    if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && NAMESPACE === HTML_NAMESPACE) dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + "</body></html>";
-    const dirtyPayload = trustedTypesPolicy ? _createTrustedHTML(dirty) : dirty;
-    if (NAMESPACE === HTML_NAMESPACE) try {
-      doc = new DOMParser3().parseFromString(dirtyPayload, PARSER_MEDIA_TYPE);
-    } catch (_3) {
-    }
-    if (!doc || !doc.documentElement) {
-      doc = implementation.createDocument(NAMESPACE, "template", null);
-      try {
-        doc.documentElement.innerHTML = IS_EMPTY_INPUT ? emptyHTML : dirtyPayload;
-      } catch (_3) {
-      }
-    }
-    const body = doc.body || doc.documentElement;
-    if (dirty && leadingWhitespace) body.insertBefore(document2.createTextNode(leadingWhitespace), body.childNodes[0] || null);
-    if (NAMESPACE === HTML_NAMESPACE) return getElementsByTagName.call(doc, WHOLE_DOCUMENT ? "html" : "body")[0];
-    return WHOLE_DOCUMENT ? doc.documentElement : body;
-  };
-  const _createNodeIterator = function _createNodeIterator2(root) {
-    const doc = getOwnerDocument ? getOwnerDocument(root) : root.ownerDocument;
-    return createNodeIterator.call(doc || root, root, NodeFilter2.SHOW_ELEMENT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_PROCESSING_INSTRUCTION | NodeFilter2.SHOW_CDATA_SECTION, null);
-  };
-  const _stripTemplateExpressions = function _stripTemplateExpressions2(value) {
-    value = stringReplace(value, MUSTACHE_EXPR$1, " ");
-    value = stringReplace(value, ERB_EXPR$1, " ");
-    value = stringReplace(value, TMPLIT_EXPR$1, " ");
-    return value;
-  };
-  const _scrubTemplateExpressions2 = function _scrubTemplateExpressions(node) {
-    var _node$querySelectorAl;
-    node.normalize();
-    const doc = getOwnerDocument ? getOwnerDocument(node) : node.ownerDocument;
-    const walker = createNodeIterator.call(doc || node, node, NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_CDATA_SECTION | NodeFilter2.SHOW_PROCESSING_INSTRUCTION, null);
-    let currentNode = walker.nextNode();
-    while (currentNode) {
-      currentNode.data = _stripTemplateExpressions(currentNode.data);
-      currentNode = walker.nextNode();
-    }
-    const templates = (_node$querySelectorAl = node.querySelectorAll) === null || _node$querySelectorAl === void 0 ? void 0 : _node$querySelectorAl.call(node, "template");
-    if (templates) arrayForEach(templates, (tmpl) => {
-      if (_isDocumentFragment(tmpl.content)) _scrubTemplateExpressions2(tmpl.content);
-    });
-  };
-  const _isClobbered = function _isClobbered2(element2) {
-    const realTagName = getNodeName ? getNodeName(element2) : null;
-    if (typeof realTagName !== "string") return false;
-    if (transformCaseFunc(realTagName) !== "form") return false;
-    return typeof element2.nodeName !== "string" || typeof element2.textContent !== "string" || typeof element2.removeChild !== "function" || element2.attributes !== getAttributes(element2) || typeof element2.removeAttribute !== "function" || typeof element2.removeAttributeNode !== "function" || typeof element2.getAttributeNode !== "function" || typeof element2.setAttribute !== "function" || typeof element2.namespaceURI !== "string" || typeof element2.insertBefore !== "function" || typeof element2.hasChildNodes !== "function" || element2.nodeType !== getNodeType(element2) || element2.childNodes !== getChildNodes(element2);
-  };
-  const _isDocumentFragment = function _isDocumentFragment2(value) {
-    if (!getNodeType || typeof value !== "object" || value === null) return false;
-    try {
-      return getNodeType(value) === NODE_TYPE.documentFragment;
-    } catch (_3) {
-      return false;
-    }
-  };
-  const _isNode = function _isNode2(value) {
-    if (!getNodeType || typeof value !== "object" || value === null) return false;
-    try {
-      return typeof getNodeType(value) === "number";
-    } catch (_3) {
-      return false;
-    }
-  };
-  function _executeHooks(hooks2, currentNode, data) {
-    if (hooks2.length === 0) return;
-    arrayForEach(hooks2, (hook) => {
-      hook.call(DOMPurify, currentNode, data, CONFIG);
-    });
-  }
-  const _isUnsafeNode = function _isUnsafeNode2(currentNode, tagName) {
-    if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.textContent) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.innerHTML)) return true;
-    if (SAFE_FOR_XML && currentNode.namespaceURI === HTML_NAMESPACE && LITERAL_TEXT_ELEMENTS[tagName] && (_isNode(currentNode.firstElementChild) || typeof currentNode.textContent === "string" && regExpTest(LITERAL_TEXT_CLOSE[tagName], currentNode.textContent))) return true;
-    if (currentNode.nodeType === NODE_TYPE.processingInstruction) return true;
-    if (SAFE_FOR_XML && currentNode.nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, currentNode.data)) return true;
-    return false;
-  };
-  const _matchesNameCheck = function _matchesNameCheck2(check, name) {
-    if (check instanceof RegExp) return regExpTest(check, name);
-    if (check instanceof Function) {
-      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) args[_key - 2] = arguments[_key];
-      return Boolean(check(name, ...args));
-    }
-    return false;
-  };
-  const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName, root) {
-    if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
-    if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
-      const parentNode = getParentNode(currentNode);
-      const childNodes = getChildNodes(currentNode);
-      if (childNodes && parentNode) {
-        const childCount = childNodes.length;
-        for (let i2 = childCount - 1; i2 >= 0; --i2) {
-          const hoisted = currentNode === root ? cloneNode(childNodes[i2], true) : childNodes[i2];
-          parentNode.insertBefore(hoisted, getNextSibling(currentNode));
-        }
-      }
-    }
-    _forceRemove(currentNode);
-    return true;
-  };
-  const _forkSharedAllowlist = function _forkSharedAllowlist2(hookList, set, defaultSet, setConfigSet) {
-    if (hookList.length === 0) return set;
-    return set === defaultSet || set === setConfigSet ? clone(set) : set;
-  };
-  const _handleHookDetachedNode = function _handleHookDetachedNode2(currentNode, root) {
-    if (currentNode === root || getParentNode(currentNode) !== null) return false;
-    if (IN_PLACE) _neutralizeSubtree(currentNode);
-    return true;
-  };
-  const _sanitizeElements = function _sanitizeElements2(currentNode, root) {
-    _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
-    if (_handleHookDetachedNode(currentNode, root)) return true;
-    if (_isClobbered(currentNode)) {
-      _forceRemove(currentNode);
-      return true;
-    }
-    const tagName = transformCaseFunc(_readNodeName(currentNode));
-    ALLOWED_TAGS = _forkSharedAllowlist(hooks.uponSanitizeElement, ALLOWED_TAGS, DEFAULT_ALLOWED_TAGS, SET_CONFIG_ALLOWED_TAGS);
-    _executeHooks(hooks.uponSanitizeElement, currentNode, {
-      tagName,
-      allowedTags: ALLOWED_TAGS
-    });
-    if (_handleHookDetachedNode(currentNode, root)) return true;
-    if (_isUnsafeNode(currentNode, tagName)) {
-      _forceRemove(currentNode);
-      return true;
-    }
-    if (FORBID_TAGS[tagName] || !(EXTRA_ELEMENT_HANDLING.tagCheck instanceof Function && EXTRA_ELEMENT_HANDLING.tagCheck(tagName)) && !ALLOWED_TAGS[tagName]) {
-      const removed = _sanitizeDisallowedNode(currentNode, tagName, root);
-      if (removed === false) {
-        _executeHooks(hooks.afterSanitizeElements, currentNode, null);
-        if (_handleHookDetachedNode(currentNode, root)) return true;
-      }
-      return removed;
-    }
-    if (_readNodeType(currentNode) === NODE_TYPE.element && !_checkValidNamespace(currentNode)) {
-      _forceRemove(currentNode);
-      return true;
-    }
-    if ((tagName === "noscript" || tagName === "noembed" || tagName === "noframes") && regExpTest(FALLBACK_TAG_CLOSE, currentNode.innerHTML)) {
-      _forceRemove(currentNode);
-      return true;
-    }
-    if (SAFE_FOR_TEMPLATES && currentNode.nodeType === NODE_TYPE.text) {
-      const content = _stripTemplateExpressions(currentNode.textContent);
-      if (currentNode.textContent !== content) {
-        arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
-        currentNode.textContent = content;
-      }
-    }
-    _executeHooks(hooks.afterSanitizeElements, currentNode, null);
-    return _handleHookDetachedNode(currentNode, root);
-  };
-  const _isValidAttribute = function _isValidAttribute2(lcTag, lcName, value) {
-    if (FORBID_ATTR[lcName]) return false;
-    if (_isPatchLinkageAttribute(lcName, lcTag)) return false;
-    if (SANITIZE_DOM && (lcName === "id" || lcName === "name") && (value in document2 || value in formElement)) return false;
-    const nameIsPermitted = ALLOWED_ATTR[lcName] || EXTRA_ELEMENT_HANDLING.attributeCheck instanceof Function && EXTRA_ELEMENT_HANDLING.attributeCheck(lcName, lcTag);
-    if (ALLOW_DATA_ATTR && regExpTest(DATA_ATTR$1, lcName)) return true;
-    if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$1, lcName)) return true;
-    if (!nameIsPermitted) return _isBasicCustomElement(lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName, lcTag) || lcName === "is" && CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, value);
-    if (URI_SAFE_ATTRIBUTES[lcName]) return true;
-    if (regExpTest(IS_ALLOWED_URI$1, stringReplace(value, ATTR_WHITESPACE$1, ""))) return true;
-    if ((lcName === "src" || lcName === "xlink:href" || lcName === "href") && lcTag !== "script" && stringIndexOf(value, "data:") === 0 && DATA_URI_TAGS[lcTag]) return true;
-    if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$1, stringReplace(value, ATTR_WHITESPACE$1, ""))) return true;
-    return !value;
-  };
-  const RESERVED_CUSTOM_ELEMENT_NAMES = addToSet({}, [
-    "annotation-xml",
-    "color-profile",
-    "font-face",
-    "font-face-format",
-    "font-face-name",
-    "font-face-src",
-    "font-face-uri",
-    "missing-glyph"
-  ]);
-  const _isBasicCustomElement = function _isBasicCustomElement2(tagName) {
-    return !RESERVED_CUSTOM_ELEMENT_NAMES[stringToLowerCase(tagName)] && regExpTest(CUSTOM_ELEMENT$1, tagName);
-  };
-  const _applyTrustedTypesToAttribute = function _applyTrustedTypesToAttribute2(lcTag, lcName, namespaceURI, value) {
-    if (trustedTypesPolicy && typeof trustedTypes === "object" && typeof trustedTypes.getAttributeType === "function" && !namespaceURI) switch (trustedTypes.getAttributeType(lcTag, lcName)) {
-      case "TrustedHTML":
-        return _createTrustedHTML(value);
-      case "TrustedScriptURL":
-        return _createTrustedScriptURL(value);
-    }
-    return value;
-  };
-  const _setAttributeValue = function _setAttributeValue2(currentNode, name, namespaceURI, value) {
-    try {
-      if (namespaceURI) currentNode.setAttributeNS(namespaceURI, name, value);
-      else currentNode.setAttribute(name, value);
-      if (_isClobbered(currentNode)) {
-        _forceRemove(currentNode);
-        return false;
-      }
-      return true;
-    } catch (_3) {
-      _removeAttribute(name, currentNode);
-      return false;
-    }
-  };
-  const _sanitizeAttributes = function _sanitizeAttributes2(currentNode, root) {
-    _executeHooks(hooks.beforeSanitizeAttributes, currentNode, null);
-    if (_handleHookDetachedNode(currentNode, root)) return;
-    const attributes = currentNode.attributes;
-    if (!attributes || _isClobbered(currentNode)) return;
-    ALLOWED_ATTR = _forkSharedAllowlist(hooks.uponSanitizeAttribute, ALLOWED_ATTR, DEFAULT_ALLOWED_ATTR, SET_CONFIG_ALLOWED_ATTR);
-    const hookEvent = {
-      attrName: "",
-      attrValue: "",
-      keepAttr: true,
-      allowedAttributes: ALLOWED_ATTR,
-      forceKeepAttr: void 0
-    };
-    let l2 = attributes.length;
-    const lcTag = transformCaseFunc(currentNode.nodeName);
-    while (l2--) {
-      const attr = attributes[l2];
-      const name = attr.name, namespaceURI = attr.namespaceURI, attrValue = attr.value;
-      const lcName = transformCaseFunc(name);
-      const initValue = attrValue;
-      let value = name === "value" ? initValue : stringTrim(initValue);
-      let recreatedNamedProp = false;
-      hookEvent.attrName = lcName;
-      hookEvent.attrValue = value;
-      hookEvent.keepAttr = true;
-      hookEvent.forceKeepAttr = void 0;
-      _executeHooks(hooks.uponSanitizeAttribute, currentNode, hookEvent);
-      value = hookEvent.attrValue;
-      if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name") && stringIndexOf(value, SANITIZE_NAMED_PROPS_PREFIX) !== 0) {
-        _removeAttribute(name, currentNode, attr);
-        value = SANITIZE_NAMED_PROPS_PREFIX + value;
-        recreatedNamedProp = true;
-      }
-      if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) {
-        _removeAttribute(name, currentNode, attr);
-        continue;
-      }
-      if (lcName === "attributename" && stringMatch(value, "href")) {
-        _removeAttribute(name, currentNode, attr);
-        continue;
-      }
-      if (hookEvent.forceKeepAttr) continue;
-      if (!hookEvent.keepAttr) {
-        _removeAttribute(name, currentNode, attr);
-        continue;
-      }
-      if (!ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(SELF_CLOSING_TAG, value)) {
-        _removeAttribute(name, currentNode, attr);
-        continue;
-      }
-      if (SAFE_FOR_TEMPLATES) value = _stripTemplateExpressions(value);
-      if (!_isValidAttribute(lcTag, lcName, value)) {
-        _removeAttribute(name, currentNode, attr);
-        continue;
-      }
-      value = _applyTrustedTypesToAttribute(lcTag, lcName, namespaceURI, value);
-      if (value !== initValue) {
-        if (_setAttributeValue(currentNode, name, namespaceURI, value) && recreatedNamedProp) arrayPop(DOMPurify.removed);
-      }
-    }
-    _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
-    _handleHookDetachedNode(currentNode, root);
-  };
-  const _sanitizeShadowDOM2 = function _sanitizeShadowDOM(fragment) {
-    let shadowNode = null;
-    const shadowIterator = _createNodeIterator(fragment);
-    _executeHooks(hooks.beforeSanitizeShadowDOM, fragment, null);
-    while (shadowNode = shadowIterator.nextNode()) {
-      _executeHooks(hooks.uponSanitizeShadowNode, shadowNode, null);
-      _sanitizeElements(shadowNode, fragment);
-      _sanitizeAttributes(shadowNode, fragment);
-      if (_isDocumentFragment(shadowNode.content)) _sanitizeShadowDOM2(shadowNode.content);
-      if (_readNodeType(shadowNode) === NODE_TYPE.element) {
-        const innerSr = getShadowRoot(shadowNode);
-        if (_isDocumentFragment(innerSr)) {
-          _sanitizeAttachedShadowRoots(innerSr);
-          _sanitizeShadowDOM2(innerSr);
-        }
-      }
-    }
-    _executeHooks(hooks.afterSanitizeShadowDOM, fragment, null);
-  };
-  const _sanitizeAttachedShadowRoots = function _sanitizeAttachedShadowRoots2(root) {
-    const stack = [{
-      node: root,
-      shadow: null
-    }];
-    while (stack.length > 0) {
-      const item = stack.pop();
-      if (item.shadow) {
-        _sanitizeShadowDOM2(item.shadow);
-        continue;
-      }
-      const node = item.node;
-      const isElement = _readNodeType(node) === NODE_TYPE.element;
-      const childNodes = getChildNodes(node);
-      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push({
-        node: childNodes[i2],
-        shadow: null
-      });
-      if (isElement) {
-        const rootName = getNodeName ? getNodeName(node) : null;
-        if (typeof rootName === "string" && transformCaseFunc(rootName) === "template") {
-          const content = node.content;
-          if (_isDocumentFragment(content)) stack.push({
-            node: content,
-            shadow: null
-          });
-        }
-      }
-      if (isElement) {
-        const sr2 = getShadowRoot(node);
-        if (_isDocumentFragment(sr2)) stack.push({
-          node: null,
-          shadow: sr2
-        }, {
-          node: sr2,
-          shadow: null
-        });
-      }
-    }
-  };
-  DOMPurify.sanitize = function(dirty) {
-    let cfg = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    let body = null;
-    let importedNode = null;
-    let currentNode = null;
-    let returnNode = null;
-    IS_EMPTY_INPUT = !dirty;
-    if (IS_EMPTY_INPUT) dirty = "<!-->";
-    if (typeof dirty !== "string" && !_isNode(dirty)) {
-      dirty = stringifyValue(dirty);
-      if (typeof dirty !== "string") throw typeErrorCreate("dirty is not a string, aborting");
-    }
-    if (!DOMPurify.isSupported) return dirty;
-    if (SET_CONFIG) {
-      ALLOWED_TAGS = SET_CONFIG_ALLOWED_TAGS;
-      ALLOWED_ATTR = SET_CONFIG_ALLOWED_ATTR;
-    } else _parseConfig(cfg);
-    if (hooks.uponSanitizeElement.length > 0 || hooks.uponSanitizeAttribute.length > 0) ALLOWED_TAGS = clone(ALLOWED_TAGS);
-    if (hooks.uponSanitizeAttribute.length > 0) ALLOWED_ATTR = clone(ALLOWED_ATTR);
-    DOMPurify.removed = [];
-    const inPlace = IN_PLACE && typeof dirty !== "string" && _isNode(dirty);
-    if (inPlace) {
-      _neutralizePatchLinkage(dirty);
-      const nn2 = _readNodeName(dirty);
-      if (typeof nn2 === "string") {
-        const tagName = transformCaseFunc(nn2);
-        if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
-          _neutralizeRoot(dirty);
-          throw typeErrorCreate("root node is forbidden and cannot be sanitized in-place");
-        }
-      }
-      if (_isClobbered(dirty)) {
-        _neutralizeRoot(dirty);
-        throw typeErrorCreate("root node is clobbered and cannot be sanitized in-place");
-      }
-      try {
-        _sanitizeAttachedShadowRoots(dirty);
-      } catch (error) {
-        _neutralizeRoot(dirty);
-        throw error;
-      }
-    } else if (_isNode(dirty)) {
-      body = _initDocument("<!---->");
-      importedNode = body.ownerDocument.importNode(dirty, true);
-      if (importedNode.nodeType === NODE_TYPE.element && importedNode.nodeName === "BODY") body = importedNode;
-      else if (importedNode.nodeName === "HTML") body = importedNode;
-      else body.appendChild(importedNode);
-      _sanitizeAttachedShadowRoots(body);
-    } else {
-      if (!RETURN_DOM && !SAFE_FOR_TEMPLATES && !WHOLE_DOCUMENT && dirty.indexOf("<") === -1) return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(dirty) : dirty;
-      body = _initDocument(dirty);
-      if (!body) return RETURN_DOM ? null : RETURN_TRUSTED_TYPE ? emptyHTML : "";
-    }
-    if (body && FORCE_BODY) _forceRemove(body.firstChild);
-    const walkRoot = inPlace ? dirty : body;
-    try {
-      const nodeIterator = _createNodeIterator(walkRoot);
-      while (currentNode = nodeIterator.nextNode()) {
-        _sanitizeElements(currentNode, walkRoot);
-        _sanitizeAttributes(currentNode, walkRoot);
-        if (_isDocumentFragment(currentNode.content)) _sanitizeShadowDOM2(currentNode.content);
-      }
-    } catch (error) {
-      if (inPlace) {
-        _neutralizeRoot(dirty);
-        arrayForEach(DOMPurify.removed, (entry) => {
-          if (entry.element) _neutralizeSubtree(entry.element);
-        });
-      }
-      throw error;
-    }
-    if (inPlace) {
-      let rootWasRemoved = false;
-      arrayForEach(DOMPurify.removed, (entry) => {
-        if (entry.element) {
-          if (entry.element === dirty) rootWasRemoved = true;
-          _neutralizeSubtree(entry.element);
-        }
-      });
-      if (rootWasRemoved) throw typeErrorCreate("a node selected for removal could not be safely returned; refusing to sanitize in place");
-      if (SAFE_FOR_TEMPLATES) _scrubTemplateExpressions2(dirty);
-      return dirty;
-    }
-    if (RETURN_DOM) {
-      if (SAFE_FOR_TEMPLATES) _scrubTemplateExpressions2(body);
-      if (RETURN_DOM_FRAGMENT) {
-        returnNode = createDocumentFragment.call(body.ownerDocument);
-        while (body.firstChild) returnNode.appendChild(body.firstChild);
-      } else returnNode = body;
-      if (ALLOWED_ATTR.shadowroot || ALLOWED_ATTR.shadowrootmode) returnNode = importNode.call(originalDocument, returnNode, true);
-      return returnNode;
-    }
-    let serializedHTML = WHOLE_DOCUMENT ? body.outerHTML : body.innerHTML;
-    if (WHOLE_DOCUMENT && ALLOWED_TAGS["!doctype"] && body.ownerDocument && body.ownerDocument.doctype && body.ownerDocument.doctype.name && regExpTest(DOCTYPE_NAME, body.ownerDocument.doctype.name)) serializedHTML = "<!DOCTYPE " + body.ownerDocument.doctype.name + ">\n" + serializedHTML;
-    if (SAFE_FOR_TEMPLATES) serializedHTML = _stripTemplateExpressions(serializedHTML);
-    return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(serializedHTML) : serializedHTML;
-  };
-  DOMPurify.setConfig = function() {
-    let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    _parseConfig(cfg);
-    SET_CONFIG = true;
-    SET_CONFIG_ALLOWED_TAGS = ALLOWED_TAGS;
-    SET_CONFIG_ALLOWED_ATTR = ALLOWED_ATTR;
-  };
-  DOMPurify.clearConfig = function() {
-    CONFIG = null;
-    SET_CONFIG = false;
-    SET_CONFIG_ALLOWED_TAGS = null;
-    SET_CONFIG_ALLOWED_ATTR = null;
-    trustedTypesPolicy = defaultTrustedTypesPolicy;
-    emptyHTML = "";
-  };
-  DOMPurify.isValidAttribute = function(tag, attr, value) {
-    if (!CONFIG) _parseConfig({});
-    const lcTag = transformCaseFunc(tag);
-    const lcName = transformCaseFunc(attr);
-    return _isValidAttribute(lcTag, lcName, value);
-  };
-  DOMPurify.addHook = function(entryPoint, hookFunction) {
-    if (typeof hookFunction !== "function") return;
-    if (!objectHasOwnProperty(hooks, entryPoint)) return;
-    arrayPush(hooks[entryPoint], hookFunction);
-  };
-  DOMPurify.removeHook = function(entryPoint, hookFunction) {
-    if (!objectHasOwnProperty(hooks, entryPoint)) return;
-    if (hookFunction !== void 0) {
-      const index = arrayLastIndexOf(hooks[entryPoint], hookFunction);
-      return index === -1 ? void 0 : arraySplice(hooks[entryPoint], index, 1)[0];
-    }
-    return arrayPop(hooks[entryPoint]);
-  };
-  DOMPurify.removeHooks = function(entryPoint) {
-    if (!objectHasOwnProperty(hooks, entryPoint)) return;
-    hooks[entryPoint] = [];
-  };
-  DOMPurify.removeAllHooks = function() {
-    hooks = _createHooksMap();
-  };
-  return DOMPurify;
-}
-var purify_default = createDOMPurify();
-
 // node_modules/diff/libesm/diff/base.js
 var Diff = class {
   diff(oldStr, newStr, options = {}) {
@@ -26862,13 +24884,6 @@ var fixXhtmlVoidElements = (source) => {
   return result;
 };
 
-// chapter-hierarchy.js?v=20261007-66
-var nearestPreviousTopLevelId = (orderedIds, parentById, selectedId) => {
-  const position = orderedIds.indexOf(selectedId);
-  if (position < 1) return null;
-  return orderedIds.slice(0, position).reverse().find((id2) => !parentById.has(id2)) || null;
-};
-
 // chapter-history.js
 function createChapterHistory(monaco, project) {
   const entries2 = /* @__PURE__ */ new Map();
@@ -31431,51 +29446,6 @@ function mountTextStyles({ project, toolbar, cssEditor, onError }) {
     </footer>
   </form>`;
   dialog.className = "text-style-dialog";
-  const layout = document.createElement("style");
-  layout.textContent = `
-    .text-style-dialog{--style-label-width:92px;box-sizing:border-box;width:520px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 40px);padding:0;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--text);box-shadow:0 24px 80px #00000038;overflow:hidden}
-    .text-style-dialog::backdrop{background:#0c102052;backdrop-filter:blur(5px)}
-    .text-style-dialog form{display:flex;flex-direction:column;max-height:calc(100dvh - 42px);margin:0}
-    .text-style-dialog .style-dialog-header{display:flex;align-items:center;gap:14px;padding:26px 26px 22px;flex:none}
-    .text-style-dialog .style-dialog-mark{display:grid;place-items:center;flex:none;width:46px;height:46px;border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);border-radius:14px;background:var(--accent-soft);color:var(--accent);font:600 23px Georgia,serif;letter-spacing:-1px}
-    .text-style-dialog h2{margin:0;font-size:18px;line-height:1.5;letter-spacing:-.4px}
-    .text-style-dialog .style-dialog-header p{margin:4px 0 0;font-size:12px;line-height:1.6;color:var(--sub)}
-    .text-style-dialog .style-dialog-body{min-height:0;overflow-y:auto;padding:0 26px 20px;overscroll-behavior:contain;scrollbar-width:thin}
-    .text-style-dialog .style-dialog-picker{padding-bottom:18px}
-    .text-style-dialog .style-field-group{display:grid;gap:12px;border-top:1px solid var(--line);padding:18px 0}
-    .text-style-dialog .style-field{display:grid;grid-template-columns:var(--style-label-width) minmax(0,1fr);align-items:center;column-gap:18px;min-width:0;margin:0;font-size:13px;font-weight:500;line-height:1.5}
-    .text-style-dialog .style-field > label{margin:0;font-size:inherit;font-weight:inherit}
-    .text-style-dialog :is(input:not([type="radio"]),select){box-sizing:border-box;width:100%;min-width:0;height:40px;margin:0;padding:0 12px!important;border:1px solid var(--line)!important;border-radius:9px;background:var(--bg)!important;color:var(--text)!important;font-family:inherit;font-size:13px;font-weight:400;box-shadow:none;transition:border-color .16s,box-shadow .16s}
-    .text-style-dialog .style-target-kind{display:flex;align-items:center;gap:20px;min-height:40px}
-    .text-style-dialog .style-target-kind label{display:flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer;font-weight:400}
-    .text-style-dialog .style-target-kind input{width:16px;height:16px;margin:0;accent-color:var(--accent)}
-    .text-style-dialog select{cursor:pointer;font-weight:600}
-    .text-style-dialog :is(input:not([type="radio"]),select):focus{outline:none;border-color:var(--accent)!important;box-shadow:0 0 0 3px var(--focus-fill)!important}
-    .text-style-dialog input::placeholder{color:var(--sub);opacity:.72}
-    .text-style-dialog input:disabled{opacity:.5;cursor:not-allowed;background:var(--surface-2)!important}
-    .text-style-dialog .style-dialog-hint{margin:0 0 0 calc(var(--style-label-width) + 18px);color:var(--sub);font-size:11px;line-height:1.7}
-    .text-style-dialog .style-shortcut-control{position:relative;min-width:0}
-    .text-style-dialog .style-shortcut-control input{padding-right:52px!important;font-size:12px;cursor:pointer}
-    .text-style-dialog button{border:1px solid transparent;border-radius:8px;background:transparent;color:var(--text);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .16s,border-color .16s}
-    .text-style-dialog button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-    .text-style-dialog [data-shortcut-clear]{position:absolute;right:7px;top:7px;height:26px;padding:0 7px;color:var(--sub);font-size:11px}
-    .text-style-dialog [data-shortcut-clear]:hover{background:var(--surface-2);color:var(--text)}
-    .text-style-dialog .style-dialog-note{margin:0;padding:12px 14px;border-radius:9px;background:var(--surface-2);color:var(--sub);font-size:11px;line-height:1.8}
-    .text-style-dialog [role="alert"]{margin:12px 0 0;color:var(--destructive);font-size:12px;line-height:1.6}
-    .text-style-dialog [role="alert"]:empty{display:none}
-    .text-style-dialog .style-dialog-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex:none;padding:16px 26px;border-top:1px solid var(--line);background:var(--surface)}
-    .text-style-dialog .style-dialog-footer > div{display:flex;gap:8px;margin-left:auto}
-    .text-style-dialog .style-dialog-footer button{height:38px;padding:0 18px}
-    .text-style-dialog [data-style-close]{border-color:var(--line)}
-    .text-style-dialog [data-style-close]:hover{background:var(--surface-2)}
-    .text-style-dialog .style-dialog-footer [type="submit"]{background:var(--accent);color:var(--primary-foreground);min-width:76px}
-    .text-style-dialog .style-dialog-footer [type="submit"]:hover{background:color-mix(in srgb,var(--accent) 85%,var(--text))}
-    .text-style-dialog .style-dialog-footer [data-style-delete]{padding:0 4px;color:var(--destructive);font-weight:500}
-    .text-style-dialog [data-style-delete]:hover{text-decoration:underline}
-    @media(max-width:480px){.text-style-dialog{--style-label-width:68px;border-radius:16px}.text-style-dialog .style-dialog-header{padding:20px 18px;gap:10px}.text-style-dialog .style-dialog-body{padding:0 18px 18px}.text-style-dialog .style-dialog-footer{padding:14px 18px}.text-style-dialog .style-field{column-gap:12px}.text-style-dialog .style-dialog-hint{margin-left:calc(var(--style-label-width) + 12px)}.text-style-dialog .style-dialog-mark{width:38px;height:38px}.text-style-dialog h2{font-size:16px}.text-style-dialog .style-dialog-header p{font-size:11px}}
-    @media(prefers-reduced-motion:reduce){.text-style-dialog :is(input,select,button){transition:none}}
-  `;
-  document.head.append(layout);
   document.body.append(dialog);
   const form = dialog.querySelector("form");
   const fields = form.elements;
@@ -56379,95 +54349,4047 @@ function installMonacoTheme(monaco) {
   return "epub-semantic";
 }
 
-// ui.js?v=20261008-startup
-var uiStyle = document.createElement("style");
-uiStyle.textContent = `
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
-  body { overflow-x:clip; background:var(--bg)!important; color:var(--text)!important; font-family:'Noto Sans KR',system-ui,sans-serif!important; }
-  .app { grid-template-columns:248px minmax(0,1fr); background:var(--bg)!important; transition:grid-template-columns .22s ease; }
-  .side { position:relative; padding:72px 16px 20px!important; background:var(--surface)!important; border-right:1px solid var(--line); }
-  .brand { color:var(--text); padding:0 12px 28px!important; }.brand small,.tip { color:var(--sub)!important; }
-  .tab { background:var(--accent-soft)!important; color:var(--text)!important; border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); }
-  .drafts-panel { display:grid; gap:5px; margin:12px 0 0; padding:0 2px; }.drafts-panel[hidden] { display:none; }.drafts-title { padding:0 10px 4px; color:var(--sub); font-size:11px; font-weight:700; }.draft-item { width:100%; overflow:hidden; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:transparent; color:var(--text); font:600 12px inherit; text-align:left; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; }.draft-item:hover { border-color:var(--accent); color:var(--accent); }
-  .html-validation,.xhtml-diagnostics { display:none!important; }.editor-error-alert { flex:none; min-width:58px; height:32px; border:1px solid #ff8b72aa; border-radius:8px; padding:0 9px; background:#351916; color:#ffb09a; font:700 11px inherit; white-space:nowrap; cursor:pointer; }.editor-error-alert:hover,.editor-error-alert[aria-expanded="true"] { border-color:#ffb09a; background:#4b1e18; }.editor-error-alert[hidden] { display:none; }.chapter-error-popover { position:fixed; z-index:1100; width:min(320px,calc(100vw - 28px)); padding:12px; border:1px solid #ff8b72aa; border-radius:10px; background:var(--surface); color:var(--text); box-shadow:0 16px 42px #0008; }.chapter-error-popover[hidden] { display:none; }.chapter-error-popover__head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; color:#ffb09a; font-size:12px; font-weight:800; }.chapter-error-popover__close { width:24px; height:24px; border:0; border-radius:6px; background:transparent; color:var(--sub); font-size:19px; line-height:1; cursor:pointer; }.chapter-error-popover__close:hover { background:var(--surface-2); color:var(--text); }.chapter-error-popover__list { max-height:180px; margin:0; padding-left:18px; overflow:auto; color:var(--sub); font-size:12px; line-height:1.55; }.fields input[type="checkbox"] { width:18px!important; height:18px; padding:0!important; box-shadow:none!important; }.code-editor { display:grid; grid-template-columns:46px minmax(0,1fr); overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--bg); }.code-editor > .line-numbers { min-height:610px; margin:0; padding:10px 8px; overflow:hidden; border-right:1px solid var(--line); color:var(--sub); font:13px/1.65 Consolas,"Courier New",monospace; text-align:right; user-select:none; white-space:pre; }.code-editor > .code { height:610px!important; min-width:0; border:0!important; border-radius:0!important; box-shadow:none!important; }.status { position:relative; padding-right:42px!important; }.status-close { position:absolute; top:50%; right:10px; width:24px; height:24px; transform:translateY(-50%); border:0; border-radius:6px; background:transparent; color:currentColor; font-size:20px; line-height:20px; cursor:pointer; }.status-close:hover { background:#00000018; }
-  .theme-settings { margin-top:auto; padding:16px 10px; border-top:1px solid var(--line); color:var(--sub); font-size:12px; font-weight:700; }
-  .theme-settings > div:not(.theme-settings__head) { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px; }.theme-settings__head { display:flex; align-items:center; justify-content:space-between; }.theme-settings .api-settings-button { width:26px; height:26px; padding:0; font-size:14px; }.theme-settings button { border:1px solid var(--line); border-radius:7px; padding:7px 4px; background:var(--surface-2); color:var(--text); font:600 11px inherit; cursor:pointer; }.theme-settings button:hover { border-color:var(--accent); color:var(--accent); }
-  main { min-width:0; max-width:1680px!important; padding:24px 32px 42px!important; }.top { min-width:0; display:flex!important; align-items:center; justify-content:flex-end!important; min-height:52px; margin:0 0 18px!important; padding:8px 16px!important; background:var(--surface)!important; border:1px solid var(--line)!important; border-radius:14px!important; box-shadow:none!important; }
-  .primary { padding:8px 12px!important; border-radius:8px!important; background:var(--accent)!important; color:#fff!important; font-size:14px!important; line-height:1.2; box-shadow:none!important; }.primary:hover { transform:none!important; filter:brightness(1.08); }
-  .book-inline { flex:1; margin-right:14px; }.book-inline .settings { max-width:none!important; padding:0!important; background:none!important; border:0!important; box-shadow:none!important; }.book-inline section { display:flex; align-items:center; gap:10px; }.book-inline .field { display:flex; align-items:center; gap:7px; margin:0!important; }.book-inline label { margin:0!important; white-space:nowrap; color:var(--sub)!important; font-size:14px!important; }.book-inline input { width:130px!important; height:34px!important; padding:0 10px!important; }.book-inline .field:first-child input { width:195px!important; }.book-inline .cover { display:contents!important; border:0!important; padding:0!important; }.book-inline #coverInput,.book-inline .cover img { display:none!important; }.book-inline .cover-upload-button { display:inline-flex!important; align-items:center; height:34px; padding:0 10px; border:1px solid var(--accent)!important; border-radius:7px; background:var(--accent-soft); color:var(--accent)!important; font-size:14px!important; font-weight:600; cursor:pointer; }.book-inline .hint { display:none; }
-  .grid { --chapter-width:270px; --preview-width:440px; min-width:0; max-width:100%; position:relative; grid-template-columns:var(--chapter-width) minmax(420px,1fr) var(--preview-width)!important; gap:16px!important; }.panel-resize-handle { position:absolute; top:0; bottom:0; z-index:10; width:14px; transform:translateX(-7px); cursor:col-resize; touch-action:none; }.panel-resize-handle::after { content:''; position:absolute; top:20%; bottom:20%; left:6px; width:2px; border-radius:2px; background:transparent; transition:background .15s; }.panel-resize-handle:hover::after,.panel-resize-handle.is-resizing::after { background:var(--accent); }.card { min-width:0; background:var(--surface)!important; border-color:var(--line)!important; box-shadow:none!important; }.editor,.preview-card { min-width:0; padding:18px!important; }.head { padding:0!important; border:0!important; }.left-tabs { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:8px; border-bottom:1px solid var(--line); }.left-tab { border:0; border-radius:8px; padding:9px 6px; background:transparent; color:var(--sub); font:700 12px inherit; cursor:pointer; }.left-tab.active { background:var(--accent-soft); color:var(--accent); }
-  .chapter-card { display:flex; flex-direction:column; }.left-tabs { grid-template-columns:repeat(3,1fr)!important; }.left-panel-host { position:relative; flex:1; min-height:0; overflow:hidden; }.left-panel { display:none!important; position:absolute; inset:0; overflow:auto; }.left-panel.active { display:block!important; }.left-panel#chaptersPanel.active { display:flex!important; flex-direction:column; overflow:hidden; }.left-panel#chaptersPanel .chapters { flex:1; min-height:0; overflow-y:auto; padding:8px 8px 20px!important; }.chapter { position:relative; overflow:hidden; padding-left:34px!important; padding-right:38px!important; text-overflow:ellipsis; white-space:nowrap; }.toc-toggle { position:absolute; right:29px; top:50%; z-index:2; width:18px; height:18px; transform:translateY(-50%); border:0; padding:0; background:transparent; color:var(--sub); font-size:14px; cursor:pointer; }.toc-toggle:hover { color:var(--accent); }.toc-eye { position:absolute; left:7px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:var(--sub); cursor:pointer; }.toc-eye.is-hidden { opacity:.35; }.add { flex:none; width:calc(100% - 16px)!important; margin:7px 8px 13px!important; background:var(--surface)!important; border-color:var(--accent)!important; color:var(--accent)!important; }.left-panel#cssPanel,.left-panel#assetsPanel { padding:12px!important; }.left-panel#cssPanel section { padding:0!important; }.left-panel#cssPanel .css { height:520px!important; }.left-panel#cssPanel #images { display:none!important; }.left-panel#cssPanel .hint,.asset-hint { color:var(--sub)!important; }.asset-upload { display:flex; align-items:center; justify-content:center; width:100%; margin-bottom:10px; border:1px dashed var(--accent); border-radius:8px; padding:10px; color:var(--accent); font-size:12px; font-weight:700; cursor:pointer; }.asset-hint { color:var(--sub); font-size:12px; }.asset-row { display:flex; align-items:center; gap:6px; margin:5px 0; }.asset-row .draft-item { flex:1; }.asset-insert { width:28px; height:28px; border:1px solid var(--accent); border-radius:7px; background:var(--accent-soft); color:var(--accent); font-size:18px; cursor:pointer; }.draft-row { display:flex; gap:4px; }.draft-row .draft-item { flex:1; }.draft-delete { width:30px; border:1px solid var(--line); border-radius:8px; background:transparent; color:#ff9c75; cursor:pointer; }.cover-chapter { display:flex!important; align-items:center; gap:8px; }.cover-chapter::before { content:'\u25A7'; color:var(--accent); font-size:14px; }
-  .editor-controls { min-width:0; display:flex; align-items:center; gap:10px; margin:0 0 14px; }.editor-mode { display:flex; flex:none; align-items:center; gap:4px; padding:4px; border:1px solid var(--line); border-radius:10px; background:var(--bg); }.editor-mode button { border:0; border-radius:7px; padding:7px 10px; background:transparent; color:var(--sub); font:700 12px inherit; cursor:pointer; white-space:nowrap; }.editor-mode button.active { background:var(--accent-soft); color:var(--accent); }.toolbar-viewport { position:relative; min-width:0; flex:1; overflow:hidden; }.rich-toolbar { display:flex; flex-wrap:nowrap; align-items:center; gap:6px; min-width:0; overflow-x:auto; overflow-y:hidden; justify-content:space-between; padding:5px 4px; margin:0; border:1px solid var(--line); border-radius:10px; background:var(--surface-2); scrollbar-width:none; }.rich-toolbar::-webkit-scrollbar { display:none; }.toolbar-viewport::before,.toolbar-viewport::after { content:''; pointer-events:none; opacity:0; transition:opacity .2s ease; position:absolute; top:1px; bottom:1px; z-index:1; width:64px; }.toolbar-viewport.show-previous::before,.toolbar-viewport.show-next::after { opacity:1; }.toolbar-viewport::before { left:1px; border-radius:9px 0 0 9px; background:linear-gradient(90deg,var(--surface-2) 15%,color-mix(in srgb,var(--surface-2) 85%,transparent) 48%,transparent); }.toolbar-viewport::after { right:1px; border-radius:0 9px 9px 0; background:linear-gradient(270deg,var(--surface-2) 15%,color-mix(in srgb,var(--surface-2) 85%,transparent) 48%,transparent); }.toolbar-previous,.toolbar-next { position:absolute; top:50%; z-index:2; width:29px; height:29px; transform:translateY(-50%); border:0; border-radius:7px; padding:6px; background:transparent; color:var(--text); cursor:pointer; }.toolbar-previous { left:5px; }.toolbar-next { right:5px; }.toolbar-previous:hover,.toolbar-next:hover { background:var(--accent-soft); color:var(--accent); }.toolbar-previous svg,.toolbar-next svg { display:block; }.rich-toolbar button { min-width:30px; border:1px solid var(--line); border-radius:6px; padding:5px 7px; background:var(--bg); color:var(--text); font:700 12px inherit; cursor:pointer; white-space:nowrap; }.rich-toolbar button:hover { border-color:var(--accent); color:var(--accent); }.rich-toolbar input { width:31px!important; height:28px; padding:2px!important; cursor:pointer; }.rich-toolbar select { height:29px; flex:none; border:1px solid var(--line); border-radius:6px; padding:0 6px; background:var(--bg); color:var(--text); font:600 11px inherit; cursor:pointer; }.rich-toolbar .tool-separator { width:1px; height:22px; flex:none; background:var(--line); }.rich-editor { min-height:610px; padding:18px; border:1px solid var(--line); border-radius:10px; background:var(--bg); color:var(--text); line-height:1.8; outline:none; overflow:auto; }.rich-editor:focus { border-color:var(--accent); box-shadow:0 0 0 3px #ff510030; }.rich-editor img { max-width:100%; height:auto; }.rich-editor table { border-collapse:collapse; max-width:100%; }.rich-editor td,.rich-editor th { min-width:72px; border:1px solid var(--sub); padding:6px; }
-  .preview-card .head { display:flex; align-items:center; justify-content:space-between; gap:10px; }.device-controls { display:flex; align-items:center; gap:6px; }.device-controls select { max-width:118px; height:28px; border:1px solid var(--line); border-radius:6px; padding:0 5px; background:var(--bg); color:var(--text); font:600 11px inherit; cursor:pointer; }.preview-card { overflow:hidden; }.preview .cover-preview-page { display:flex; align-items:center; justify-content:center; min-height:100%; }.preview .cover-preview-page img { display:block; max-width:100%; max-height:100%; object-fit:contain; }.preview[data-device-preview="true"] { box-sizing:content-box!important; flex:none; margin:0!important; padding:0!important; border:8px solid #1b1b1e!important; border-radius:22px; box-shadow:0 10px 30px #00000045; transform-origin:top left; transition:transform .16s ease; }
-  .rich-toolbar button.active { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }.rich-toolbar button svg { display:block; width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }.rich-toolbar input[data-font-size] { width:62px!important; height:29px; flex:none; font-size:11px!important; }.rich-toolbar input[data-table-color] { width:29px!important; height:29px; flex:none; }.table-color-control { display:flex; align-items:center; gap:4px; height:29px; flex:none; }.rich-toolbar .tool-label { flex:none; color:var(--sub); font-size:12px; line-height:29px; white-space:nowrap; }
-  .rich-editor { height:clamp(420px,calc(100vh - 310px),900px); min-height:0; }.preview-card { position:sticky; top:24px; align-self:start; max-height:calc(100vh - 48px); display:flex; flex-direction:column; overflow:hidden; }.preview-card .preview { flex:none; }.preview .preview-focus { background:#ff510018; outline:1px solid #ff5100aa; outline-offset:4px; border-radius:4px; transition:background .15s; }.preview mark.preview-context { background:#ff510052; color:inherit; border-radius:2px; padding:0 1px; }
-  h1,h2,label { color:var(--text)!important; } input,textarea { background:var(--bg)!important; border-color:var(--line)!important; color:var(--text)!important; } input:focus,textarea:focus { border-color:var(--accent)!important; box-shadow:0 0 0 3px #ff510030!important; }.secondary { background:var(--surface-2)!important; border-color:var(--line)!important; color:var(--text)!important; }.danger { color:#ff8660!important; }.chapter { color:var(--text)!important; }.chapter:hover { background:var(--surface-2)!important; }.chapter.active { background:var(--accent-soft)!important; color:var(--accent)!important; }.preview { background:var(--bg)!important; border-color:var(--line)!important; color:var(--text)!important; }.preview-card .head { padding:0 0 12px!important; border-bottom:1px solid var(--line)!important; margin-bottom:12px; }.code { height:610px!important; }
-  @media(max-width:1550px) { .grid { grid-template-columns:minmax(210px,var(--chapter-width)) minmax(0,1fr)!important; }.panel-resize-handle { display:none; }.preview-card { grid-column:1/-1; position:static; max-height:none; }.preview-card .preview { margin:auto; }.book-inline { min-width:0; overflow:hidden; } }
-  @media(max-width:1050px) { .grid { grid-template-columns:240px minmax(0,1fr)!important; }.panel-resize-handle { display:none; }.preview-card { grid-column:1/-1; }.book-inline .field:nth-child(3) { display:none; } }
-  @media(max-width:700px) { .app { grid-template-columns:1fr!important; }.side { display:none; } main { padding:14px!important; }.top { align-items:stretch!important; flex-direction:column; }.book-inline { margin:0; }.book-inline section { flex-wrap:wrap; }.book-inline input { width:110px!important; }.primary { align-self:flex-end; }.grid { display:block!important; }.editor,.preview-card { margin-top:16px; }.editor-controls { align-items:stretch; flex-direction:column; }.rich-toolbar { flex-wrap:nowrap; }.left-panel#cssPanel .css { height:260px!important; } }
-  .side nav { position:relative; }.new-book { position:absolute; top:7px; right:7px; z-index:2; width:28px; height:28px; border:1px solid var(--accent); border-radius:7px; background:var(--surface); color:var(--accent); font-size:19px; line-height:20px; cursor:pointer; }.new-book:hover { background:var(--accent-soft); }.chapter { padding-left:10px!important; padding-right:38px!important; }.chapter::after { content:''; position:absolute; right:11px; top:50%; width:16px; height:16px; transform:translateY(-50%); background:var(--accent); -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; }.chapter.is-toc-hidden { color:var(--sub)!important; background:transparent!important; }.chapter.is-toc-hidden::after { background:#777; opacity:1; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z M3 3l18 18'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z M3 3l18 18'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; }.asset-rename { width:28px; height:28px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2); color:var(--sub); font-size:15px; cursor:pointer; }.asset-rename:hover { border-color:var(--accent); color:var(--accent); }.fields select { height:36px; width:100%; border:1px solid var(--line); border-radius:8px; padding:0 30px 0 10px; background:var(--bg); color:var(--text); font:600 13px inherit; cursor:pointer; appearance:auto; }.fields select:focus { border-color:var(--accent); box-shadow:0 0 0 3px #ff510030; outline:0; }.editor > .toolbar label[for="image"] { display:none!important; }.css-save { width:100%; margin:0 0 10px; padding:8px; font-size:12px; }.status.ok,.status.error { position:fixed!important; top:20px; right:20px; z-index:1000; display:flex!important; align-items:center; min-height:46px; max-width:min(440px,calc(100vw - 40px)); margin:0!important; padding:12px 44px 12px 15px!important; border:1px solid #ffffff38; border-radius:11px; background:#0000001a!important; color:#fff!important; box-shadow:0 14px 36px #00000028; -webkit-backdrop-filter:blur(30px); backdrop-filter:blur(30px); opacity:1; transform:translateY(0); transition:opacity .28s ease,transform .28s ease; }.status.error { border-color:#ff8b72aa; }.status.is-leaving { opacity:0; transform:translateY(-8px); }
-  .fields { grid-template-columns:minmax(0,1fr) minmax(170px,.3fr)!important; align-items:end; }.fields > div:not(.full) { display:flex; min-width:0; flex-direction:column; }.fields > div:not(.full) label { height:16px; margin-bottom:6px!important; font-size:12px!important; line-height:16px!important; }.fields > div:not(.full) input,.fields > div:not(.full) select { height:36px!important; min-height:36px; padding:0 10px!important; }.chapter::after { background:#FF5100!important; }.chapter.is-toc-hidden::after { background:#707078!important; }.chapter.is-toc-hidden { color:#707078!important; }
-  .chapter { padding-right:56px!important; }
-  .preview { -ms-overflow-style:none; scrollbar-width:none; }.preview::-webkit-scrollbar { display:none; width:0; height:0; }.preview[data-device-preview="true"] { overflow:hidden!important; }.preview[data-device-preview="true"] .preview-isolated-frame { -ms-overflow-style:none; scrollbar-width:none; }.preview[data-device-preview="true"] .preview-isolated-frame::-webkit-scrollbar { display:none; width:0; height:0; }
-  .css-preset-control { display:grid; gap:8px; margin:0 0 10px; }.css-preset-row { display:flex; min-width:0; align-items:center; gap:8px; }.css-preset-control label { margin:0!important; white-space:nowrap; font-size:12px!important; }.css-preset-control select,.css-preset-control input { min-width:0; height:34px; border:1px solid var(--line); border-radius:8px; padding:0 9px; background:var(--bg); color:var(--text); }.css-preset-control select,.css-preset-control input { flex:1 1 auto; }.css-preset-save,.css-preset-delete { flex:none; height:30px; border:1px solid var(--accent); border-radius:7px; padding:0 9px; background:var(--accent-soft); color:var(--accent); font:700 12px inherit; cursor:pointer; }.css-preset-delete { border-color:#9b4850; background:#4b2026; color:#ffb7bd; }.left-panel#cssPanel:has(#css-monaco-editor) .css { display:none!important; }#css-monaco-editor { height:520px; border:1px solid var(--line); border-radius:8px; overflow:hidden; }@media(max-width:700px) { #css-monaco-editor { height:260px; } }
-  .drag-handle { display:inline-flex; width:16px; margin-right:5px; color:var(--sub); cursor:grab; user-select:none; }.drag-handle:active { cursor:grabbing; }.chapter.is-dragging { opacity:.45; }.chapter.drop-before { box-shadow:inset 0 2px var(--accent); }.chapter.drop-after { box-shadow:inset 0 -2px var(--accent); }.chapter.drop-child { background:var(--accent-soft)!important; outline:1px dashed var(--accent); }
-  .fields { grid-template-columns:minmax(0,1fr) minmax(125px,.5fr) minmax(125px,.38fr)!important; }.fields > .full { grid-column:1/-1!important; }
-  .code-editor > .code { overflow:auto!important; white-space:pre-wrap!important; overflow-wrap:break-word; }.preview p,.preview h1,.preview h2,.preview h3,.preview h4,.preview h5,.preview li,.preview blockquote,.preview td,.preview th { cursor:text; }.fields { position:relative; }.fields.is-custom-width { grid-template-columns:minmax(220px,min(var(--chapter-title-width),calc(100% - 182px))) minmax(170px,1fr)!important; }.field-resize-handle { position:absolute; top:0; bottom:auto; left:0; z-index:4; width:14px; height:58px; transform:translateX(-7px); cursor:col-resize; touch-action:none; }.field-resize-handle::after { content:''; position:absolute; top:20px; bottom:2px; left:6px; width:2px; border-radius:2px; background:var(--line); transition:background .15s; }.field-resize-handle:hover::after,.field-resize-handle.is-resizing::after { background:var(--accent); }
-  .editor .fields.is-custom-width { grid-template-columns:minmax(120px,min(var(--chapter-title-width),calc(100% - 244px))) minmax(110px,1fr) minmax(110px,.76fr)!important; }
-  @media(min-width:1921px) {
-    main { max-width:none!important; width:100%!important; margin:0!important; padding:clamp(28px,2vw,72px)!important; }
-    .grid { --chapter-width:clamp(270px,16vw,480px); --preview-width:minmax(480px,1fr); grid-template-columns:var(--chapter-width) minmax(620px,1.65fr) var(--preview-width)!important; gap:clamp(16px,1vw,30px)!important; }
-    .top { min-height:52px; padding:8px 16px!important; }
-    .code { height:clamp(610px,48vw,1080px)!important; }.preview { height:clamp(680px,53vw,1180px)!important; }
-    .book-inline input { width:160px!important; padding:0 10px!important; }.book-inline .field:first-child input { width:240px!important; }
-    .primary { padding:8px 12px!important; font-size:14px!important; }
-    .left-tab,.secondary { font-size:14px!important; }.chapter { padding:10px!important; font-size:14px!important; }
-    label,.head { font-size:14px!important; }.top { font-size:14px; }
+// node_modules/dompurify/dist/purify.es.mjs
+function _OverloadYield(e3, d2) {
+  this.v = e3, this.k = d2;
+}
+function _arrayLikeToArray(r2, a2) {
+  (null == a2 || a2 > r2.length) && (a2 = r2.length);
+  for (var e3 = 0, n2 = Array(a2); e3 < a2; e3++) n2[e3] = r2[e3];
+  return n2;
+}
+function _arrayWithHoles(r2) {
+  if (Array.isArray(r2)) return r2;
+}
+function _iterableToArrayLimit(r2, l2) {
+  var t3 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
+  if (null != t3) {
+    var e3, n2, i2, u2, a2 = [], f3 = true, o2 = false;
+    try {
+      if (i2 = (t3 = t3.call(r2)).next, 0 === l2) {
+        if (Object(t3) !== t3) return;
+        f3 = false;
+      } else for (; !(f3 = (e3 = i2.call(t3)).done) && (a2.push(e3.value), a2.length !== l2); f3 = true) ;
+    } catch (r3) {
+      o2 = true, n2 = r3;
+    } finally {
+      try {
+        if (!f3 && null != t3.return && (u2 = t3.return(), Object(u2) !== u2)) return;
+      } finally {
+        if (o2) throw n2;
+      }
+    }
+    return a2;
   }
-  /* \uC791\uC5C5 \uD654\uBA74\uC740 viewport \uC548\uC5D0\uC11C \uB0A8\uC740 \uB192\uC774\uB97C \uD328\uB110\uC5D0 \uC804\uB2EC\uD55C\uB2E4. \uD398\uC774\uC9C0\uAC00 \uC544\uB2CC \uAC01 \uD328\uB110 \uB0B4\uBD80\uB9CC \uC2A4\uD06C\uB864\uD55C\uB2E4. */
-  .app { height:100dvh; min-height:0; overflow:hidden; }
-  main { height:100dvh; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
-  #editorView.view.active { display:flex; flex:1; min-height:0; }
-  #editorView .grid { flex:1; min-height:0; height:100%; align-items:stretch!important; overflow:hidden; }
-  .chapter-card,.editor,.preview-card { min-height:0; height:100%!important; max-height:none!important; }
-  .preview-card { position:static!important; align-self:stretch!important; display:flex; flex-direction:column; }
-  .preview-card .preview { flex:1!important; min-height:0; height:auto!important; }
-  .preview-stage { display:flex; flex:1; min-width:0; min-height:0; align-items:flex-start; justify-content:center; }
-  .preview-stage > .preview[data-device-preview="false"] { align-self:stretch; width:100%!important; height:100%!important; }
-  .preview-stage > .preview[data-device-preview="true"] { box-sizing:border-box!important; flex:0 0 auto!important; align-self:flex-start; margin:0!important; }
-  .draft-delete { color:var(--destructive)!important; }
-  .draft-delete svg { width:15px; height:15px; }
-  .draft-delete-dialog .delete-dialog-copy { padding:16px; margin:0; font-size:13px; }
-  .draft-delete-dialog [value="delete"] { background:var(--destructive)!important; color:var(--destructive-foreground)!important; }
-  .editor { display:flex; flex-direction:column; overflow:hidden; }
-  .editor-controls { flex:none; }
-  /* \uC7A5 \uC81C\uBAA9\xB7\uBAA9\uCC28 \uC785\uB825 \uC601\uC5ED\uACFC \uB450 \uD3B8\uC9D1\uAE30 \uC0AC\uC774\uC758 \uAC04\uACA9\uC740 \uBAA8\uB4DC\uC640 \uAD00\uACC4\uC5C6\uC774 \uD558\uB098\uB85C \uC720\uC9C0\uD55C\uB2E4. */
-  .editor { --editor-content-gap:12px; }
-  .editor .fields { flex:none; min-height:0; row-gap:0!important; }
-  .editor > .full,.editor > .rich-editor { margin-top:var(--editor-content-gap); }
-  /* XHTML \uC548\uB0B4 \uB77C\uBCA8\uC740 \uBCF4\uC870\uAE30\uAE30\uC5D0\uB9CC \uB0A8\uACA8 \uCF54\uB4DC \uD3B8\uC9D1\uAE30\uC758 \uC2DC\uC791\uC810\uC744 \uC77C\uBC18\uD3B8\uC9D1\uAE30\uC640 \uB9DE\uCD98\uB2E4. */
-  .editor > .full > label { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
-  .editor > .full:not([hidden]) { flex:1; min-height:0; display:flex; flex-direction:column; }
-  .editor > .full:not([hidden]) .code-editor { flex:1; min-height:0; height:auto!important; }
-  .editor > .full:not([hidden]) .code-editor > .line-numbers { min-height:0; }
-  .editor > .full:not([hidden]) > .code-editor > textarea.code { height:100%!important; min-height:0; }
-  .editor .rich-editor { flex:1; min-height:0; height:auto!important; }
-  #xhtml-monaco-editor { height:100%!important; }
-  .editor-mode { padding:3px!important; }
-  .editor-mode button { min-width:76px; padding:7px 9px!important; }
-  .parent-toc-picker { position:relative; width:100%; }.parent-toc-button { display:flex; align-items:center; justify-content:space-between; width:100%; height:36px; overflow:hidden; border:1px solid var(--line); border-radius:8px; padding:0 10px; background:var(--bg); color:var(--text); font:600 13px inherit; text-align:left; white-space:nowrap; text-overflow:ellipsis; cursor:pointer; }.parent-toc-button::after { content:'\u2304'; flex:none; margin-left:8px; color:var(--sub); font-size:16px; }.parent-toc-button:hover,.parent-toc-button[aria-expanded="true"] { border-color:var(--accent); }.parent-toc-menu { position:absolute; top:calc(100% + 5px); left:0; z-index:30; width:100%; max-height:220px; overflow:auto; padding:4px; border:1px solid var(--line); border-radius:8px; background:var(--surface); box-shadow:0 14px 34px #0008; }.parent-toc-menu[hidden] { display:none; }.parent-toc-option { display:block; width:100%; overflow:hidden; border:0; border-radius:6px; padding:8px; background:transparent; color:var(--text); font:600 12px inherit; text-align:left; white-space:nowrap; text-overflow:ellipsis; cursor:pointer; }.parent-toc-option:hover,.parent-toc-option[aria-selected="true"] { background:var(--accent-soft); color:var(--accent); }
-  .chapter-search-panel { position:fixed; top:76px; right:24px; z-index:1200; width:min(440px,calc(100vw - 28px)); padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); box-shadow:0 20px 52px #000a; }.chapter-search-panel[hidden] { display:none; }.chapter-search-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }.chapter-search-head strong { font-size:13px; }.chapter-search-close { width:26px; height:26px; border:0; border-radius:6px; background:transparent; color:var(--sub); font-size:19px; cursor:pointer; }.chapter-search-close:hover { background:var(--surface-2); color:var(--text); }.chapter-search-fields { display:grid; grid-template-columns:1fr 1fr; gap:7px; }.chapter-search-fields input { width:100%; height:34px; padding:6px 8px!important; font-size:12px!important; }.chapter-search-actions { display:flex; align-items:center; gap:7px; margin-top:9px; }.chapter-search-actions button { padding:7px 9px; font-size:12px; }.chapter-search-summary { margin:10px 0 6px; color:var(--sub); font-size:12px; }.chapter-search-results { max-height:280px; margin:0; padding:0; overflow:auto; list-style:none; }.chapter-search-result { display:block; width:100%; border:0; border-bottom:1px solid var(--line); padding:9px 4px; background:transparent; color:var(--text); text-align:left; cursor:pointer; }.chapter-search-result:hover { color:var(--accent); background:var(--accent-soft); }.chapter-search-result small { display:block; margin-top:3px; color:var(--sub); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .epub-transfer { display:flex; flex:none; align-items:stretch; gap:8px; }.epub-transfer .primary { margin:0; }
-  .epub-topbar[hidden] { display:none!important; }
-  .account-area { position:relative; flex:none; margin-right:10px; }.account-button { border:1px solid var(--line); border-radius:8px; padding:8px 11px; background:var(--surface-2); color:var(--text); font:700 12px inherit; cursor:pointer; }.account-button:hover { border-color:var(--accent); color:var(--accent); }
-  .account-panel { position:absolute; top:calc(100% + 8px); right:0; z-index:40; width:270px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); box-shadow:0 18px 45px #0008; }.account-panel[hidden] { display:none; }.account-panel h3 { margin:0 0 10px; font-size:13px; }.account-panel label { display:block; margin:8px 0 4px; font-size:11px; color:var(--sub)!important; }.account-panel input { width:100%!important; height:34px; padding:6px 8px!important; }.account-actions { display:flex; gap:6px; margin-top:10px; }.account-actions button { flex:1; }.account-message { margin:8px 0 0; color:var(--sub); font-size:11px; line-height:1.4; }.account-message.error { color:#ff9c75; }.admin-panel { margin-top:14px; padding-top:12px; border-top:1px solid var(--line); }
-  @media(max-width:1550px) { #editorView .grid { grid-template-rows:minmax(0,1fr) minmax(180px,.7fr); }.chapter-card,.editor { height:100%!important; }.preview-card { height:auto!important; max-height:none!important; } }
-  @media(max-width:700px) { .app,main { height:100dvh; }.app { overflow:hidden; } main { overflow:auto; }.chapter-card,.editor,.preview-card { height:auto!important; max-height:none!important; }.epub-transfer { width:100%; flex-wrap:wrap; }.epub-transfer .primary { flex:1; } }
-`;
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _slicedToArray(r2, e3) {
+  return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e3) || _unsupportedIterableToArray(r2, e3) || _nonIterableRest();
+}
+function _unsupportedIterableToArray(r2, a2) {
+  if (r2) {
+    if ("string" == typeof r2) return _arrayLikeToArray(r2, a2);
+    var t3 = {}.toString.call(r2).slice(8, -1);
+    return "Object" === t3 && r2.constructor && (t3 = r2.constructor.name), "Map" === t3 || "Set" === t3 ? Array.from(r2) : "Arguments" === t3 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t3) ? _arrayLikeToArray(r2, a2) : void 0;
+  }
+}
+function AsyncGenerator(e3) {
+  var t3, n2;
+  function resume(t4, n3) {
+    try {
+      var r2 = e3[t4](n3), o2 = r2.value, u2 = o2 instanceof _OverloadYield;
+      Promise.resolve(u2 ? o2.v : o2).then(function(n4) {
+        if (u2) {
+          var i2 = "return" === t4 && o2.k ? t4 : "next";
+          if (!o2.k || n4.done) return resume(i2, n4);
+          n4 = e3[i2](n4).value;
+        }
+        settle(!!r2.done, n4);
+      }, function(e4) {
+        resume("throw", e4);
+      });
+    } catch (e4) {
+      settle(2, e4);
+    }
+  }
+  function settle(e4, r2) {
+    2 === e4 ? t3.reject(r2) : t3.resolve({
+      value: r2,
+      done: e4
+    }), (t3 = t3.next) ? resume(t3.key, t3.arg) : n2 = null;
+  }
+  this._invoke = function(e4, r2) {
+    return new Promise(function(o2, u2) {
+      var i2 = {
+        key: e4,
+        arg: r2,
+        resolve: o2,
+        reject: u2,
+        next: null
+      };
+      n2 ? n2 = n2.next = i2 : (t3 = n2 = i2, resume(e4, r2));
+    });
+  }, "function" != typeof e3.return && (this.return = void 0);
+}
+AsyncGenerator.prototype["function" == typeof Symbol && Symbol.asyncIterator || "@@asyncIterator"] = function() {
+  return this;
+}, AsyncGenerator.prototype.next = function(e3) {
+  return this._invoke("next", e3);
+}, AsyncGenerator.prototype.throw = function(e3) {
+  return this._invoke("throw", e3);
+}, AsyncGenerator.prototype.return = function(e3) {
+  return this._invoke("return", e3);
+};
+var entries = Object.entries;
+var setPrototypeOf = Object.setPrototypeOf;
+var isFrozen = Object.isFrozen;
+var getPrototypeOf = Object.getPrototypeOf;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var freeze = Object.freeze;
+var seal = Object.seal;
+var create = Object.create;
+var _ref = typeof Reflect !== "undefined" && Reflect;
+var apply = _ref.apply;
+var construct = _ref.construct;
+if (!freeze) freeze = function freeze2(x3) {
+  return x3;
+};
+if (!seal) seal = function seal2(x3) {
+  return x3;
+};
+if (!apply) apply = function apply2(func, thisArg) {
+  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) args[_key - 2] = arguments[_key];
+  return func.apply(thisArg, args);
+};
+if (!construct) construct = function construct2(Func) {
+  for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) args[_key2 - 1] = arguments[_key2];
+  return new Func(...args);
+};
+var arrayForEach = unapply(Array.prototype.forEach);
+Array.prototype.indexOf;
+var arrayLastIndexOf = unapply(Array.prototype.lastIndexOf);
+var arrayPop = unapply(Array.prototype.pop);
+var arrayPush = unapply(Array.prototype.push);
+Array.prototype.slice;
+var arraySplice = unapply(Array.prototype.splice);
+var arrayIsArray = Array.isArray;
+var stringToLowerCase = unapply(String.prototype.toLowerCase);
+var stringToString = unapply(String.prototype.toString);
+var stringMatch = unapply(String.prototype.match);
+var stringReplace = unapply(String.prototype.replace);
+var stringIndexOf = unapply(String.prototype.indexOf);
+var stringTrim = unapply(String.prototype.trim);
+var numberToString = unapply(Number.prototype.toString);
+var booleanToString = unapply(Boolean.prototype.toString);
+var bigintToString = typeof BigInt === "undefined" ? null : unapply(BigInt.prototype.toString);
+var symbolToString = typeof Symbol === "undefined" ? null : unapply(Symbol.prototype.toString);
+var objectHasOwnProperty = unapply(Object.prototype.hasOwnProperty);
+var objectToString = unapply(Object.prototype.toString);
+var regExpTest = unapply(RegExp.prototype.test);
+var typeErrorCreate = unconstruct(TypeError);
+function unapply(func) {
+  return function(thisArg) {
+    if (thisArg instanceof RegExp) thisArg.lastIndex = 0;
+    for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) args[_key3 - 1] = arguments[_key3];
+    return apply(func, thisArg, args);
+  };
+}
+function unconstruct(Func) {
+  return function() {
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) args[_key4] = arguments[_key4];
+    return construct(Func, args);
+  };
+}
+function addToSet(set, array) {
+  let transformCaseFunc = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : stringToLowerCase;
+  if (setPrototypeOf) setPrototypeOf(set, null);
+  if (!arrayIsArray(array)) return set;
+  let l2 = array.length;
+  while (l2--) {
+    let element2 = array[l2];
+    if (typeof element2 === "string") {
+      const lcElement = transformCaseFunc(element2);
+      if (lcElement !== element2) {
+        if (!isFrozen(array)) array[l2] = lcElement;
+        element2 = lcElement;
+      }
+    }
+    set[element2] = true;
+  }
+  return set;
+}
+function cleanArray(array) {
+  for (let index = 0; index < array.length; index++) if (!objectHasOwnProperty(array, index)) array[index] = null;
+  return array;
+}
+function clone(object) {
+  const newObject = create(null);
+  for (const _ref2 of entries(object)) {
+    var _ref3 = _slicedToArray(_ref2, 2);
+    const property = _ref3[0];
+    const value = _ref3[1];
+    if (objectHasOwnProperty(object, property)) {
+      if (arrayIsArray(value)) newObject[property] = cleanArray(value);
+      else if (value && typeof value === "object" && value.constructor === Object) newObject[property] = clone(value);
+      else newObject[property] = value;
+    }
+  }
+  return newObject;
+}
+function stringifyValue(value) {
+  switch (typeof value) {
+    case "string":
+      return value;
+    case "number":
+      return numberToString(value);
+    case "boolean":
+      return booleanToString(value);
+    case "bigint":
+      return bigintToString ? bigintToString(value) : "0";
+    case "symbol":
+      return symbolToString ? symbolToString(value) : "Symbol()";
+    case "undefined":
+      return objectToString(value);
+    case "function":
+    case "object": {
+      if (value === null) return objectToString(value);
+      const valueAsRecord = value;
+      const valueToString = lookupGetter(valueAsRecord, "toString");
+      if (typeof valueToString === "function") {
+        const stringified = valueToString(valueAsRecord);
+        return typeof stringified === "string" ? stringified : objectToString(stringified);
+      }
+      return objectToString(value);
+    }
+    default:
+      return objectToString(value);
+  }
+}
+function lookupGetter(object, prop) {
+  while (object !== null) {
+    const desc = getOwnPropertyDescriptor(object, prop);
+    if (desc) {
+      if (desc.get) return unapply(desc.get);
+      if (typeof desc.value === "function") return unapply(desc.value);
+    }
+    object = getPrototypeOf(object);
+  }
+  function fallbackValue() {
+    return null;
+  }
+  return fallbackValue;
+}
+function isRegex(value) {
+  try {
+    regExpTest(value, "");
+    return true;
+  } catch (_unused) {
+    return false;
+  }
+}
+var html$1 = freeze([
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "bdi",
+  "bdo",
+  "big",
+  "blink",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "content",
+  "data",
+  "datalist",
+  "dd",
+  "decorator",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "dir",
+  "div",
+  "dl",
+  "dt",
+  "element",
+  "em",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "head",
+  "header",
+  "hgroup",
+  "hr",
+  "html",
+  "i",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "main",
+  "map",
+  "mark",
+  "marquee",
+  "menu",
+  "menuitem",
+  "meter",
+  "nav",
+  "nobr",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "picture",
+  "pre",
+  "progress",
+  "q",
+  "rp",
+  "rt",
+  "ruby",
+  "s",
+  "samp",
+  "search",
+  "section",
+  "select",
+  "shadow",
+  "slot",
+  "small",
+  "source",
+  "spacer",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "tr",
+  "track",
+  "tt",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr"
+]);
+var svg$1 = freeze([
+  "svg",
+  "a",
+  "altglyph",
+  "altglyphdef",
+  "altglyphitem",
+  "animatecolor",
+  "animatemotion",
+  "animatetransform",
+  "circle",
+  "clippath",
+  "defs",
+  "desc",
+  "ellipse",
+  "enterkeyhint",
+  "exportparts",
+  "filter",
+  "font",
+  "g",
+  "glyph",
+  "glyphref",
+  "hkern",
+  "image",
+  "inputmode",
+  "line",
+  "lineargradient",
+  "marker",
+  "mask",
+  "metadata",
+  "mpath",
+  "part",
+  "path",
+  "pattern",
+  "polygon",
+  "polyline",
+  "radialgradient",
+  "rect",
+  "stop",
+  "style",
+  "switch",
+  "symbol",
+  "text",
+  "textpath",
+  "title",
+  "tref",
+  "tspan",
+  "view",
+  "vkern"
+]);
+var svgFilters = freeze([
+  "feBlend",
+  "feColorMatrix",
+  "feComponentTransfer",
+  "feComposite",
+  "feConvolveMatrix",
+  "feDiffuseLighting",
+  "feDisplacementMap",
+  "feDistantLight",
+  "feDropShadow",
+  "feFlood",
+  "feFuncA",
+  "feFuncB",
+  "feFuncG",
+  "feFuncR",
+  "feGaussianBlur",
+  "feImage",
+  "feMerge",
+  "feMergeNode",
+  "feMorphology",
+  "feOffset",
+  "fePointLight",
+  "feSpecularLighting",
+  "feSpotLight",
+  "feTile",
+  "feTurbulence"
+]);
+var svgDisallowed = freeze([
+  "animate",
+  "color-profile",
+  "cursor",
+  "discard",
+  "font-face",
+  "font-face-format",
+  "font-face-name",
+  "font-face-src",
+  "font-face-uri",
+  "foreignobject",
+  "hatch",
+  "hatchpath",
+  "mesh",
+  "meshgradient",
+  "meshpatch",
+  "meshrow",
+  "missing-glyph",
+  "script",
+  "set",
+  "solidcolor",
+  "unknown",
+  "use"
+]);
+var mathMl$1 = freeze([
+  "math",
+  "menclose",
+  "merror",
+  "mfenced",
+  "mfrac",
+  "mglyph",
+  "mi",
+  "mlabeledtr",
+  "mmultiscripts",
+  "mn",
+  "mo",
+  "mover",
+  "mpadded",
+  "mphantom",
+  "mroot",
+  "mrow",
+  "ms",
+  "mspace",
+  "msqrt",
+  "mstyle",
+  "msub",
+  "msup",
+  "msubsup",
+  "mtable",
+  "mtd",
+  "mtext",
+  "mtr",
+  "munder",
+  "munderover",
+  "mprescripts"
+]);
+var mathMlDisallowed = freeze([
+  "maction",
+  "maligngroup",
+  "malignmark",
+  "mlongdiv",
+  "mscarries",
+  "mscarry",
+  "msgroup",
+  "mstack",
+  "msline",
+  "msrow",
+  "semantics",
+  "annotation",
+  "annotation-xml",
+  "mprescripts",
+  "none"
+]);
+var text = freeze(["#text"]);
+var html = freeze([
+  "accept",
+  "action",
+  "align",
+  "alt",
+  "autocapitalize",
+  "autocomplete",
+  "autopictureinpicture",
+  "autoplay",
+  "background",
+  "bgcolor",
+  "border",
+  "capture",
+  "cellpadding",
+  "cellspacing",
+  "checked",
+  "cite",
+  "class",
+  "clear",
+  "color",
+  "cols",
+  "colspan",
+  "command",
+  "commandfor",
+  "controls",
+  "controlslist",
+  "coords",
+  "crossorigin",
+  "datetime",
+  "decoding",
+  "default",
+  "dir",
+  "disabled",
+  "disablepictureinpicture",
+  "disableremoteplayback",
+  "download",
+  "draggable",
+  "enctype",
+  "enterkeyhint",
+  "exportparts",
+  "face",
+  "for",
+  "headers",
+  "height",
+  "hidden",
+  "high",
+  "href",
+  "hreflang",
+  "id",
+  "inert",
+  "inputmode",
+  "integrity",
+  "ismap",
+  "kind",
+  "label",
+  "lang",
+  "list",
+  "loading",
+  "loop",
+  "low",
+  "max",
+  "maxlength",
+  "media",
+  "method",
+  "min",
+  "minlength",
+  "multiple",
+  "muted",
+  "name",
+  "nonce",
+  "noshade",
+  "novalidate",
+  "nowrap",
+  "open",
+  "optimum",
+  "part",
+  "pattern",
+  "placeholder",
+  "playsinline",
+  "popover",
+  "popovertarget",
+  "popovertargetaction",
+  "poster",
+  "preload",
+  "pubdate",
+  "radiogroup",
+  "readonly",
+  "rel",
+  "required",
+  "rev",
+  "reversed",
+  "role",
+  "rows",
+  "rowspan",
+  "spellcheck",
+  "scope",
+  "selected",
+  "shape",
+  "size",
+  "sizes",
+  "slot",
+  "span",
+  "srclang",
+  "start",
+  "src",
+  "srcset",
+  "step",
+  "style",
+  "summary",
+  "tabindex",
+  "title",
+  "translate",
+  "type",
+  "usemap",
+  "valign",
+  "value",
+  "width",
+  "wrap",
+  "xmlns"
+]);
+var svg = freeze([
+  "accent-height",
+  "accumulate",
+  "additive",
+  "alignment-baseline",
+  "amplitude",
+  "ascent",
+  "attributename",
+  "attributetype",
+  "azimuth",
+  "basefrequency",
+  "baseline-shift",
+  "begin",
+  "bias",
+  "by",
+  "class",
+  "clip",
+  "clippathunits",
+  "clip-path",
+  "clip-rule",
+  "color",
+  "color-interpolation",
+  "color-interpolation-filters",
+  "color-profile",
+  "color-rendering",
+  "cx",
+  "cy",
+  "d",
+  "dx",
+  "dy",
+  "diffuseconstant",
+  "direction",
+  "display",
+  "divisor",
+  "dominant-baseline",
+  "dur",
+  "edgemode",
+  "elevation",
+  "end",
+  "exponent",
+  "fill",
+  "fill-opacity",
+  "fill-rule",
+  "filter",
+  "filterunits",
+  "flood-color",
+  "flood-opacity",
+  "font-family",
+  "font-size",
+  "font-size-adjust",
+  "font-stretch",
+  "font-style",
+  "font-variant",
+  "font-weight",
+  "fx",
+  "fy",
+  "g1",
+  "g2",
+  "glyph-name",
+  "glyphref",
+  "gradientunits",
+  "gradienttransform",
+  "height",
+  "href",
+  "id",
+  "image-rendering",
+  "in",
+  "in2",
+  "intercept",
+  "k",
+  "k1",
+  "k2",
+  "k3",
+  "k4",
+  "kerning",
+  "keypoints",
+  "keysplines",
+  "keytimes",
+  "lang",
+  "lengthadjust",
+  "letter-spacing",
+  "kernelmatrix",
+  "kernelunitlength",
+  "lighting-color",
+  "local",
+  "marker-end",
+  "marker-mid",
+  "marker-start",
+  "markerheight",
+  "markerunits",
+  "markerwidth",
+  "maskcontentunits",
+  "maskunits",
+  "max",
+  "mask",
+  "mask-type",
+  "media",
+  "method",
+  "mode",
+  "min",
+  "name",
+  "numoctaves",
+  "offset",
+  "operator",
+  "opacity",
+  "order",
+  "orient",
+  "orientation",
+  "origin",
+  "overflow",
+  "paint-order",
+  "path",
+  "pathlength",
+  "patterncontentunits",
+  "patterntransform",
+  "patternunits",
+  "pointer-events",
+  "points",
+  "preservealpha",
+  "preserveaspectratio",
+  "primitiveunits",
+  "r",
+  "rx",
+  "ry",
+  "radius",
+  "refx",
+  "refy",
+  "repeatcount",
+  "repeatdur",
+  "restart",
+  "result",
+  "rotate",
+  "scale",
+  "seed",
+  "shape-rendering",
+  "slope",
+  "specularconstant",
+  "specularexponent",
+  "spreadmethod",
+  "startoffset",
+  "stddeviation",
+  "stitchtiles",
+  "stop-color",
+  "stop-opacity",
+  "stroke-dasharray",
+  "stroke-dashoffset",
+  "stroke-linecap",
+  "stroke-linejoin",
+  "stroke-miterlimit",
+  "stroke-opacity",
+  "stroke",
+  "stroke-width",
+  "style",
+  "surfacescale",
+  "systemlanguage",
+  "tabindex",
+  "tablevalues",
+  "targetx",
+  "targety",
+  "transform",
+  "transform-origin",
+  "text-anchor",
+  "text-decoration",
+  "text-orientation",
+  "text-rendering",
+  "textlength",
+  "type",
+  "u1",
+  "u2",
+  "unicode",
+  "values",
+  "vector-effect",
+  "viewbox",
+  "visibility",
+  "version",
+  "vert-adv-y",
+  "vert-origin-x",
+  "vert-origin-y",
+  "width",
+  "word-spacing",
+  "wrap",
+  "writing-mode",
+  "xchannelselector",
+  "ychannelselector",
+  "x",
+  "x1",
+  "x2",
+  "xmlns",
+  "y",
+  "y1",
+  "y2",
+  "z",
+  "zoomandpan"
+]);
+var mathMl = freeze([
+  "accent",
+  "accentunder",
+  "align",
+  "bevelled",
+  "close",
+  "columnalign",
+  "columnlines",
+  "columnspacing",
+  "columnspan",
+  "denomalign",
+  "depth",
+  "dir",
+  "display",
+  "displaystyle",
+  "encoding",
+  "fence",
+  "frame",
+  "height",
+  "href",
+  "id",
+  "largeop",
+  "length",
+  "linethickness",
+  "lquote",
+  "lspace",
+  "mathbackground",
+  "mathcolor",
+  "mathsize",
+  "mathvariant",
+  "maxsize",
+  "minsize",
+  "movablelimits",
+  "notation",
+  "numalign",
+  "open",
+  "rowalign",
+  "rowlines",
+  "rowspacing",
+  "rowspan",
+  "rspace",
+  "rquote",
+  "scriptlevel",
+  "scriptminsize",
+  "scriptsizemultiplier",
+  "selection",
+  "separator",
+  "separators",
+  "stretchy",
+  "subscriptshift",
+  "supscriptshift",
+  "symmetric",
+  "voffset",
+  "width",
+  "xmlns"
+]);
+var xml = freeze([
+  "xlink:href",
+  "xml:id",
+  "xlink:title",
+  "xml:space",
+  "xmlns:xlink"
+]);
+var MUSTACHE_EXPR = seal(/{{[\w\W]*|^[\w\W]*}}/g);
+var ERB_EXPR = seal(/<%[\w\W]*|^[\w\W]*%>/g);
+var TMPLIT_EXPR = seal(/\${[\w\W]*/g);
+var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/);
+var ARIA_ATTR = seal(/^aria-[\-\w]+$/);
+var IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i);
+var IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
+var ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g);
+var DOCTYPE_NAME = seal(/^html$/i);
+var CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
+var ELEMENT_MARKUP_PROBE = seal(/<[/\w!]/g);
+var COMMENT_MARKUP_PROBE = seal(/<[/\w]/g);
+var FALLBACK_TAG_CLOSE = seal(/<\/no(script|embed|frames)/i);
+var SELF_CLOSING_TAG = seal(/\/>/i);
+var NODE_TYPE = {
+  element: 1,
+  attribute: 2,
+  text: 3,
+  cdataSection: 4,
+  entityReference: 5,
+  entityNode: 6,
+  processingInstruction: 7,
+  comment: 8,
+  document: 9,
+  documentType: 10,
+  documentFragment: 11,
+  notation: 12
+};
+var LITERAL_TEXT_ELEMENT_NAMES = [
+  "style",
+  "script",
+  "xmp",
+  "iframe",
+  "noembed",
+  "noframes",
+  "plaintext",
+  "noscript"
+];
+var LITERAL_TEXT_ELEMENTS = freeze(addToSet({}, LITERAL_TEXT_ELEMENT_NAMES));
+var LITERAL_TEXT_CLOSE = (function() {
+  const map = {};
+  arrayForEach(LITERAL_TEXT_ELEMENT_NAMES, (name) => {
+    map[name] = seal(new RegExp("</" + name + "(?=[\\t\\n\\f\\r />])", "i"));
+  });
+  return freeze(map);
+})();
+var getGlobal = function getGlobal2() {
+  return typeof window === "undefined" ? null : window;
+};
+var _createTrustedTypesPolicy = function _createTrustedTypesPolicy2(trustedTypes, purifyHostElement) {
+  if (typeof trustedTypes !== "object" || typeof trustedTypes.createPolicy !== "function") return null;
+  let suffix = null;
+  const ATTR_NAME = "data-tt-policy-suffix";
+  if (purifyHostElement && purifyHostElement.hasAttribute(ATTR_NAME)) suffix = purifyHostElement.getAttribute(ATTR_NAME);
+  const policyName = "dompurify" + (suffix ? "#" + suffix : "");
+  try {
+    return trustedTypes.createPolicy(policyName, {
+      createHTML(html2) {
+        return html2;
+      },
+      createScriptURL(scriptUrl) {
+        return scriptUrl;
+      }
+    });
+  } catch (_3) {
+    console.warn("TrustedTypes policy " + policyName + " could not be created.");
+    return null;
+  }
+};
+var _createHooksMap = function _createHooksMap2() {
+  return {
+    afterSanitizeAttributes: [],
+    afterSanitizeElements: [],
+    afterSanitizeShadowDOM: [],
+    beforeSanitizeAttributes: [],
+    beforeSanitizeElements: [],
+    beforeSanitizeShadowDOM: [],
+    uponSanitizeAttribute: [],
+    uponSanitizeElement: [],
+    uponSanitizeShadowNode: []
+  };
+};
+var _resolveSetOption = function _resolveSetOption2(cfg, key, fallback, options) {
+  return objectHasOwnProperty(cfg, key) && arrayIsArray(cfg[key]) ? addToSet(options.base ? clone(options.base) : {}, cfg[key], options.transform) : fallback;
+};
+var _resolveObjectOption = function _resolveObjectOption2(cfg, key, makeFallback) {
+  const value = objectHasOwnProperty(cfg, key) ? cfg[key] : void 0;
+  return value && typeof value === "object" ? clone(value) : makeFallback();
+};
+function createDOMPurify() {
+  let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
+  const DOMPurify = (root) => createDOMPurify(root);
+  DOMPurify.version = "3.4.16";
+  DOMPurify.removed = [];
+  if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
+    DOMPurify.isSupported = false;
+    return DOMPurify;
+  }
+  let document2 = window2.document;
+  const originalDocument = document2;
+  const currentScript = originalDocument.currentScript;
+  window2.DocumentFragment;
+  const HTMLTemplateElement = window2.HTMLTemplateElement, Node3 = window2.Node, Element = window2.Element, NodeFilter2 = window2.NodeFilter;
+  window2.NamedNodeMap === void 0 && (window2.NamedNodeMap || window2.MozNamedAttrMap);
+  window2.HTMLFormElement;
+  const DOMParser3 = window2.DOMParser, trustedTypes = window2.trustedTypes;
+  const ElementPrototype = Element.prototype;
+  const cloneNode = lookupGetter(ElementPrototype, "cloneNode");
+  const remove = lookupGetter(ElementPrototype, "remove");
+  const removeAttributeNode = lookupGetter(ElementPrototype, "removeAttributeNode");
+  const getNextSibling = lookupGetter(ElementPrototype, "nextSibling");
+  const getChildNodes = lookupGetter(ElementPrototype, "childNodes");
+  const getParentNode = lookupGetter(ElementPrototype, "parentNode");
+  const getShadowRoot = lookupGetter(ElementPrototype, "shadowRoot");
+  const getAttributes = lookupGetter(ElementPrototype, "attributes");
+  const getNodeType = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "nodeType") : null;
+  const getNodeName = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "nodeName") : null;
+  const getOwnerDocument = Node3 && Node3.prototype ? lookupGetter(Node3.prototype, "ownerDocument") : null;
+  const _readNodeType = function _readNodeType2(node) {
+    return getNodeType ? getNodeType(node) : node.nodeType;
+  };
+  const _readNodeName = function _readNodeName2(node) {
+    return getNodeName ? getNodeName(node) : node.nodeName;
+  };
+  if (typeof HTMLTemplateElement === "function") {
+    const template = document2.createElement("template");
+    if (template.content && template.content.ownerDocument) document2 = template.content.ownerDocument;
+  }
+  let trustedTypesPolicy;
+  let emptyHTML = "";
+  let defaultTrustedTypesPolicy;
+  let defaultTrustedTypesPolicyResolved = false;
+  let IN_TRUSTED_TYPES_POLICY = 0;
+  const _assertNotInTrustedTypesPolicy = function _assertNotInTrustedTypesPolicy2() {
+    if (IN_TRUSTED_TYPES_POLICY > 0) throw typeErrorCreate('A configured TRUSTED_TYPES_POLICY callback (createHTML or createScriptURL) must not call DOMPurify.sanitize, as that causes infinite recursion. Do not pass a policy whose callbacks wrap DOMPurify as TRUSTED_TYPES_POLICY; see the "DOMPurify and Trusted Types" section of the README.');
+  };
+  const _createTrustedHTML = function _createTrustedHTML2(html2) {
+    _assertNotInTrustedTypesPolicy();
+    IN_TRUSTED_TYPES_POLICY++;
+    try {
+      return trustedTypesPolicy.createHTML(html2);
+    } finally {
+      IN_TRUSTED_TYPES_POLICY--;
+    }
+  };
+  const _createTrustedScriptURL = function _createTrustedScriptURL2(scriptUrl) {
+    _assertNotInTrustedTypesPolicy();
+    IN_TRUSTED_TYPES_POLICY++;
+    try {
+      return trustedTypesPolicy.createScriptURL(scriptUrl);
+    } finally {
+      IN_TRUSTED_TYPES_POLICY--;
+    }
+  };
+  const _getDefaultTrustedTypesPolicy = function _getDefaultTrustedTypesPolicy2() {
+    if (!defaultTrustedTypesPolicyResolved) {
+      defaultTrustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, currentScript);
+      defaultTrustedTypesPolicyResolved = true;
+    }
+    return defaultTrustedTypesPolicy;
+  };
+  const _document = document2, implementation = _document.implementation, createNodeIterator = _document.createNodeIterator, createDocumentFragment = _document.createDocumentFragment, getElementsByTagName = _document.getElementsByTagName;
+  const importNode = originalDocument.importNode;
+  let hooks = _createHooksMap();
+  DOMPurify.isSupported = typeof entries === "function" && typeof getParentNode === "function" && implementation && implementation.createHTMLDocument !== void 0;
+  const MUSTACHE_EXPR$1 = MUSTACHE_EXPR, ERB_EXPR$1 = ERB_EXPR, TMPLIT_EXPR$1 = TMPLIT_EXPR, DATA_ATTR$1 = DATA_ATTR, ARIA_ATTR$1 = ARIA_ATTR, IS_SCRIPT_OR_DATA$1 = IS_SCRIPT_OR_DATA, ATTR_WHITESPACE$1 = ATTR_WHITESPACE, CUSTOM_ELEMENT$1 = CUSTOM_ELEMENT;
+  let IS_ALLOWED_URI$1 = IS_ALLOWED_URI;
+  let ALLOWED_TAGS = null;
+  const DEFAULT_ALLOWED_TAGS = addToSet({}, [
+    ...html$1,
+    ...svg$1,
+    ...svgFilters,
+    ...mathMl$1,
+    ...text
+  ]);
+  let ALLOWED_ATTR = null;
+  const DEFAULT_ALLOWED_ATTR = addToSet({}, [
+    ...html,
+    ...svg,
+    ...mathMl,
+    ...xml
+  ]);
+  let CUSTOM_ELEMENT_HANDLING = Object.seal(create(null, {
+    tagNameCheck: {
+      writable: true,
+      configurable: false,
+      enumerable: true,
+      value: null
+    },
+    attributeNameCheck: {
+      writable: true,
+      configurable: false,
+      enumerable: true,
+      value: null
+    },
+    allowCustomizedBuiltInElements: {
+      writable: true,
+      configurable: false,
+      enumerable: true,
+      value: false
+    }
+  }));
+  let FORBID_TAGS = null;
+  let FORBID_ATTR = null;
+  const EXTRA_ELEMENT_HANDLING = Object.seal(create(null, {
+    tagCheck: {
+      writable: true,
+      configurable: false,
+      enumerable: true,
+      value: null
+    },
+    attributeCheck: {
+      writable: true,
+      configurable: false,
+      enumerable: true,
+      value: null
+    }
+  }));
+  let ALLOW_ARIA_ATTR = true;
+  let ALLOW_DATA_ATTR = true;
+  let ALLOW_UNKNOWN_PROTOCOLS = false;
+  let ALLOW_SELF_CLOSE_IN_ATTR = true;
+  let SAFE_FOR_TEMPLATES = false;
+  let SAFE_FOR_XML = true;
+  let WHOLE_DOCUMENT = false;
+  let SET_CONFIG = false;
+  let SET_CONFIG_ALLOWED_TAGS = null;
+  let SET_CONFIG_ALLOWED_ATTR = null;
+  let FORCE_BODY = false;
+  let RETURN_DOM = false;
+  let RETURN_DOM_FRAGMENT = false;
+  let RETURN_TRUSTED_TYPE = false;
+  let SANITIZE_DOM = true;
+  let SANITIZE_NAMED_PROPS = false;
+  const SANITIZE_NAMED_PROPS_PREFIX = "user-content-";
+  let KEEP_CONTENT = true;
+  let IN_PLACE = false;
+  let USE_PROFILES = {};
+  let FORBID_CONTENTS = null;
+  const DEFAULT_FORBID_CONTENTS = addToSet({}, [
+    "annotation-xml",
+    "audio",
+    "colgroup",
+    "desc",
+    "foreignobject",
+    "head",
+    "iframe",
+    "math",
+    "mi",
+    "mn",
+    "mo",
+    "ms",
+    "mtext",
+    "noembed",
+    "noframes",
+    "noscript",
+    "plaintext",
+    "script",
+    "selectedcontent",
+    "style",
+    "svg",
+    "template",
+    "thead",
+    "title",
+    "video",
+    "xmp"
+  ]);
+  let DATA_URI_TAGS = null;
+  const DEFAULT_DATA_URI_TAGS = addToSet({}, [
+    "audio",
+    "video",
+    "img",
+    "source",
+    "image",
+    "track"
+  ]);
+  let URI_SAFE_ATTRIBUTES = null;
+  const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, [
+    "alt",
+    "class",
+    "for",
+    "id",
+    "label",
+    "name",
+    "pattern",
+    "placeholder",
+    "role",
+    "summary",
+    "title",
+    "value",
+    "style",
+    "xmlns"
+  ]);
+  const MATHML_NAMESPACE = "http://www.w3.org/1998/Math/MathML";
+  const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+  const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+  let NAMESPACE = HTML_NAMESPACE;
+  let IS_EMPTY_INPUT = false;
+  let ALLOWED_NAMESPACES = null;
+  const DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [
+    MATHML_NAMESPACE,
+    SVG_NAMESPACE,
+    HTML_NAMESPACE
+  ], stringToString);
+  const DEFAULT_MATHML_TEXT_INTEGRATION_POINTS = freeze([
+    "mi",
+    "mo",
+    "mn",
+    "ms",
+    "mtext"
+  ]);
+  let MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS);
+  const DEFAULT_HTML_INTEGRATION_POINTS = freeze(["annotation-xml"]);
+  let HTML_INTEGRATION_POINTS = addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS);
+  const COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, [
+    "title",
+    "style",
+    "font",
+    "a",
+    "script"
+  ]);
+  let PARSER_MEDIA_TYPE = null;
+  const SUPPORTED_PARSER_MEDIA_TYPES = ["application/xhtml+xml", "text/html"];
+  const DEFAULT_PARSER_MEDIA_TYPE = "text/html";
+  let transformCaseFunc = null;
+  let CONFIG = null;
+  const formElement = document2.createElement("form");
+  const isRegexOrFunction = function isRegexOrFunction2(testValue) {
+    return testValue instanceof RegExp || testValue instanceof Function;
+  };
+  const _parseConfig = function _parseConfig2() {
+    let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    if (CONFIG && CONFIG === cfg) return;
+    if (!cfg || typeof cfg !== "object") cfg = {};
+    cfg = clone(cfg);
+    PARSER_MEDIA_TYPE = SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? DEFAULT_PARSER_MEDIA_TYPE : cfg.PARSER_MEDIA_TYPE;
+    transformCaseFunc = PARSER_MEDIA_TYPE === "application/xhtml+xml" ? stringToString : stringToLowerCase;
+    ALLOWED_TAGS = _resolveSetOption(cfg, "ALLOWED_TAGS", DEFAULT_ALLOWED_TAGS, { transform: transformCaseFunc });
+    ALLOWED_ATTR = _resolveSetOption(cfg, "ALLOWED_ATTR", DEFAULT_ALLOWED_ATTR, { transform: transformCaseFunc });
+    ALLOWED_NAMESPACES = _resolveSetOption(cfg, "ALLOWED_NAMESPACES", DEFAULT_ALLOWED_NAMESPACES, { transform: stringToString });
+    URI_SAFE_ATTRIBUTES = _resolveSetOption(cfg, "ADD_URI_SAFE_ATTR", DEFAULT_URI_SAFE_ATTRIBUTES, {
+      transform: transformCaseFunc,
+      base: DEFAULT_URI_SAFE_ATTRIBUTES
+    });
+    DATA_URI_TAGS = _resolveSetOption(cfg, "ADD_DATA_URI_TAGS", DEFAULT_DATA_URI_TAGS, {
+      transform: transformCaseFunc,
+      base: DEFAULT_DATA_URI_TAGS
+    });
+    FORBID_CONTENTS = _resolveSetOption(cfg, "FORBID_CONTENTS", DEFAULT_FORBID_CONTENTS, { transform: transformCaseFunc });
+    FORBID_TAGS = _resolveSetOption(cfg, "FORBID_TAGS", clone({}), { transform: transformCaseFunc });
+    FORBID_ATTR = _resolveSetOption(cfg, "FORBID_ATTR", clone({}), { transform: transformCaseFunc });
+    USE_PROFILES = objectHasOwnProperty(cfg, "USE_PROFILES") ? cfg.USE_PROFILES && typeof cfg.USE_PROFILES === "object" ? clone(cfg.USE_PROFILES) : cfg.USE_PROFILES : false;
+    ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false;
+    ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false;
+    ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false;
+    ALLOW_SELF_CLOSE_IN_ATTR = cfg.ALLOW_SELF_CLOSE_IN_ATTR !== false;
+    SAFE_FOR_TEMPLATES = cfg.SAFE_FOR_TEMPLATES || false;
+    SAFE_FOR_XML = cfg.SAFE_FOR_XML !== false;
+    WHOLE_DOCUMENT = cfg.WHOLE_DOCUMENT || false;
+    RETURN_DOM = cfg.RETURN_DOM || false;
+    RETURN_DOM_FRAGMENT = cfg.RETURN_DOM_FRAGMENT || false;
+    RETURN_TRUSTED_TYPE = cfg.RETURN_TRUSTED_TYPE || false;
+    FORCE_BODY = cfg.FORCE_BODY || false;
+    SANITIZE_DOM = cfg.SANITIZE_DOM !== false;
+    SANITIZE_NAMED_PROPS = cfg.SANITIZE_NAMED_PROPS || false;
+    KEEP_CONTENT = cfg.KEEP_CONTENT !== false;
+    IN_PLACE = cfg.IN_PLACE || false;
+    IS_ALLOWED_URI$1 = isRegex(cfg.ALLOWED_URI_REGEXP) ? cfg.ALLOWED_URI_REGEXP : IS_ALLOWED_URI;
+    NAMESPACE = typeof cfg.NAMESPACE === "string" ? cfg.NAMESPACE : HTML_NAMESPACE;
+    MATHML_TEXT_INTEGRATION_POINTS = _resolveObjectOption(cfg, "MATHML_TEXT_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS));
+    HTML_INTEGRATION_POINTS = _resolveObjectOption(cfg, "HTML_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS));
+    const customElementHandling = _resolveObjectOption(cfg, "CUSTOM_ELEMENT_HANDLING", () => create(null));
+    CUSTOM_ELEMENT_HANDLING = create(null);
+    if (objectHasOwnProperty(customElementHandling, "tagNameCheck") && isRegexOrFunction(customElementHandling.tagNameCheck)) CUSTOM_ELEMENT_HANDLING.tagNameCheck = customElementHandling.tagNameCheck;
+    if (objectHasOwnProperty(customElementHandling, "attributeNameCheck") && isRegexOrFunction(customElementHandling.attributeNameCheck)) CUSTOM_ELEMENT_HANDLING.attributeNameCheck = customElementHandling.attributeNameCheck;
+    if (objectHasOwnProperty(customElementHandling, "allowCustomizedBuiltInElements") && typeof customElementHandling.allowCustomizedBuiltInElements === "boolean") CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements = customElementHandling.allowCustomizedBuiltInElements;
+    seal(CUSTOM_ELEMENT_HANDLING);
+    if (SAFE_FOR_TEMPLATES) ALLOW_DATA_ATTR = false;
+    if (RETURN_DOM_FRAGMENT) RETURN_DOM = true;
+    if (USE_PROFILES) {
+      ALLOWED_TAGS = addToSet({}, text);
+      ALLOWED_ATTR = create(null);
+      if (USE_PROFILES.html === true) {
+        addToSet(ALLOWED_TAGS, html$1);
+        addToSet(ALLOWED_ATTR, html);
+      }
+      if (USE_PROFILES.svg === true) {
+        addToSet(ALLOWED_TAGS, svg$1);
+        addToSet(ALLOWED_ATTR, svg);
+        addToSet(ALLOWED_ATTR, xml);
+      }
+      if (USE_PROFILES.svgFilters === true) {
+        addToSet(ALLOWED_TAGS, svgFilters);
+        addToSet(ALLOWED_ATTR, svg);
+        addToSet(ALLOWED_ATTR, xml);
+      }
+      if (USE_PROFILES.mathMl === true) {
+        addToSet(ALLOWED_TAGS, mathMl$1);
+        addToSet(ALLOWED_ATTR, mathMl);
+        addToSet(ALLOWED_ATTR, xml);
+      }
+    }
+    EXTRA_ELEMENT_HANDLING.tagCheck = null;
+    EXTRA_ELEMENT_HANDLING.attributeCheck = null;
+    if (objectHasOwnProperty(cfg, "ADD_TAGS")) {
+      if (typeof cfg.ADD_TAGS === "function") EXTRA_ELEMENT_HANDLING.tagCheck = cfg.ADD_TAGS;
+      else if (arrayIsArray(cfg.ADD_TAGS)) {
+        if (ALLOWED_TAGS === DEFAULT_ALLOWED_TAGS) ALLOWED_TAGS = clone(ALLOWED_TAGS);
+        addToSet(ALLOWED_TAGS, cfg.ADD_TAGS, transformCaseFunc);
+      }
+    }
+    if (objectHasOwnProperty(cfg, "ADD_ATTR")) {
+      if (typeof cfg.ADD_ATTR === "function") EXTRA_ELEMENT_HANDLING.attributeCheck = cfg.ADD_ATTR;
+      else if (arrayIsArray(cfg.ADD_ATTR)) {
+        if (ALLOWED_ATTR === DEFAULT_ALLOWED_ATTR) ALLOWED_ATTR = clone(ALLOWED_ATTR);
+        addToSet(ALLOWED_ATTR, cfg.ADD_ATTR, transformCaseFunc);
+      }
+    }
+    if (objectHasOwnProperty(cfg, "ADD_FORBID_CONTENTS") && arrayIsArray(cfg.ADD_FORBID_CONTENTS)) {
+      if (FORBID_CONTENTS === DEFAULT_FORBID_CONTENTS) FORBID_CONTENTS = clone(FORBID_CONTENTS);
+      addToSet(FORBID_CONTENTS, cfg.ADD_FORBID_CONTENTS, transformCaseFunc);
+    }
+    if (KEEP_CONTENT) ALLOWED_TAGS["#text"] = true;
+    if (WHOLE_DOCUMENT) addToSet(ALLOWED_TAGS, [
+      "html",
+      "head",
+      "body"
+    ]);
+    if (ALLOWED_TAGS.table) {
+      addToSet(ALLOWED_TAGS, ["tbody"]);
+      delete FORBID_TAGS.tbody;
+    }
+    if (cfg.TRUSTED_TYPES_POLICY) {
+      if (typeof cfg.TRUSTED_TYPES_POLICY.createHTML !== "function") throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
+      if (typeof cfg.TRUSTED_TYPES_POLICY.createScriptURL !== "function") throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.');
+      const previousTrustedTypesPolicy = trustedTypesPolicy;
+      trustedTypesPolicy = cfg.TRUSTED_TYPES_POLICY;
+      try {
+        emptyHTML = _createTrustedHTML("");
+      } catch (error) {
+        trustedTypesPolicy = previousTrustedTypesPolicy;
+        throw error;
+      }
+    } else if (cfg.TRUSTED_TYPES_POLICY === null) {
+      trustedTypesPolicy = void 0;
+      emptyHTML = "";
+    } else {
+      if (trustedTypesPolicy === void 0) trustedTypesPolicy = _getDefaultTrustedTypesPolicy();
+      if (trustedTypesPolicy && typeof emptyHTML === "string") emptyHTML = _createTrustedHTML("");
+    }
+    if (freeze) freeze(cfg);
+    CONFIG = cfg;
+  };
+  const ALL_SVG_TAGS = addToSet({}, [
+    ...svg$1,
+    ...svgFilters,
+    ...svgDisallowed
+  ]);
+  const ALL_MATHML_TAGS = addToSet({}, [...mathMl$1, ...mathMlDisallowed]);
+  const _checkSvgNamespace = function _checkSvgNamespace2(tagName, parent, parentTagName) {
+    if (parent.namespaceURI === HTML_NAMESPACE) return tagName === "svg";
+    if (parent.namespaceURI === MATHML_NAMESPACE) return tagName === "svg" && (parentTagName === "annotation-xml" || MATHML_TEXT_INTEGRATION_POINTS[parentTagName]);
+    return Boolean(ALL_SVG_TAGS[tagName]);
+  };
+  const _checkMathMlNamespace = function _checkMathMlNamespace2(tagName, parent, parentTagName) {
+    if (parent.namespaceURI === HTML_NAMESPACE) return tagName === "math";
+    if (parent.namespaceURI === SVG_NAMESPACE) return tagName === "math" && HTML_INTEGRATION_POINTS[parentTagName];
+    return Boolean(ALL_MATHML_TAGS[tagName]);
+  };
+  const _checkHtmlNamespace = function _checkHtmlNamespace2(tagName, parent, parentTagName) {
+    if (parent.namespaceURI === SVG_NAMESPACE && !HTML_INTEGRATION_POINTS[parentTagName]) return false;
+    if (parent.namespaceURI === MATHML_NAMESPACE && !MATHML_TEXT_INTEGRATION_POINTS[parentTagName]) return false;
+    return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
+  };
+  const _checkValidNamespace = function _checkValidNamespace2(element2) {
+    let parent = getParentNode(element2);
+    if (!parent || !parent.tagName) parent = {
+      namespaceURI: NAMESPACE,
+      tagName: "template"
+    };
+    const tagName = stringToLowerCase(element2.tagName);
+    const parentTagName = stringToLowerCase(parent.tagName);
+    if (!ALLOWED_NAMESPACES[element2.namespaceURI]) return false;
+    if (element2.namespaceURI === SVG_NAMESPACE) return _checkSvgNamespace(tagName, parent, parentTagName);
+    if (element2.namespaceURI === MATHML_NAMESPACE) return _checkMathMlNamespace(tagName, parent, parentTagName);
+    if (element2.namespaceURI === HTML_NAMESPACE) return _checkHtmlNamespace(tagName, parent, parentTagName);
+    if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && ALLOWED_NAMESPACES[element2.namespaceURI]) return true;
+    return false;
+  };
+  const _forceRemove = function _forceRemove2(node) {
+    arrayPush(DOMPurify.removed, { element: node });
+    try {
+      getParentNode(node).removeChild(node);
+    } catch (_3) {
+      remove(node);
+      if (!getParentNode(node)) throw typeErrorCreate("a node selected for removal could not be detached from its tree and cannot be safely returned; refusing to sanitize in place");
+    }
+  };
+  const _stripAttributeNode = function _stripAttributeNode2(element2, attribute, name) {
+    try {
+      removeAttributeNode(element2, attribute);
+    } catch (_3) {
+      try {
+        element2.removeAttribute(name);
+      } catch (_4) {
+      }
+    }
+  };
+  const _neutralizeRoot = function _neutralizeRoot2(root) {
+    _neutralizeSubtree(root);
+    const childNodes = getChildNodes(root);
+    if (childNodes) {
+      const snapshot = [];
+      arrayForEach(childNodes, (child) => {
+        arrayPush(snapshot, child);
+      });
+      arrayForEach(snapshot, (child) => {
+        try {
+          remove(child);
+        } catch (_3) {
+        }
+      });
+    }
+    const attributes = getAttributes(root);
+    if (attributes) for (let i2 = attributes.length - 1; i2 >= 0; --i2) {
+      const attribute = attributes[i2];
+      const name = attribute && attribute.name;
+      if (typeof name === "string") _stripAttributeNode(root, attribute, name);
+    }
+  };
+  const _removeAttribute = function _removeAttribute2(name, element2, attr) {
+    if (!attr) try {
+      attr = element2.getAttributeNode(name);
+    } catch (_3) {
+      attr = null;
+    }
+    arrayPush(DOMPurify.removed, {
+      attribute: attr || null,
+      from: element2
+    });
+    try {
+      if (attr) removeAttributeNode(element2, attr);
+      else element2.removeAttribute(name);
+    } catch (_3) {
+      try {
+        element2.removeAttribute(name);
+      } catch (_4) {
+      }
+    }
+    if (name === "is") {
+      if (RETURN_DOM || RETURN_DOM_FRAGMENT) try {
+        _forceRemove(element2);
+      } catch (_3) {
+      }
+      else try {
+        element2.setAttribute(name, "");
+      } catch (_3) {
+      }
+    }
+  };
+  const _stripDisallowedAttributes = function _stripDisallowedAttributes2(element2) {
+    const attributes = getAttributes(element2);
+    if (!attributes) return;
+    for (let i2 = attributes.length - 1; i2 >= 0; --i2) {
+      const attribute = attributes[i2];
+      const name = attribute && attribute.name;
+      if (typeof name !== "string" || ALLOWED_ATTR[transformCaseFunc(name)]) continue;
+      _stripAttributeNode(element2, attribute, name);
+    }
+  };
+  const _neutralizeSubtree = function _neutralizeSubtree2(root) {
+    const stack = [root];
+    while (stack.length > 0) {
+      const node = stack.pop();
+      if (_readNodeType(node) === NODE_TYPE.element) _stripDisallowedAttributes(node);
+      const childNodes = getChildNodes(node);
+      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push(childNodes[i2]);
+    }
+  };
+  const _isPatchLinkageAttribute = function _isPatchLinkageAttribute2(lcName, lcTag) {
+    if (!SAFE_FOR_XML) return false;
+    if (lcName === "patchsrc") return true;
+    return lcName === "for" && lcTag !== "label" && lcTag !== "output";
+  };
+  const _neutralizePatchLinkage = function _neutralizePatchLinkage2(root) {
+    if (!SAFE_FOR_XML) return;
+    const stack = [root];
+    while (stack.length > 0) {
+      const node = stack.pop();
+      const nodeType = _readNodeType(node);
+      if (nodeType === NODE_TYPE.processingInstruction || nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, node.data)) {
+        try {
+          remove(node);
+        } catch (_3) {
+        }
+        continue;
+      }
+      if (nodeType === NODE_TYPE.element) {
+        const element2 = node;
+        const lcTag = transformCaseFunc(_readNodeName(node));
+        try {
+          if (element2.hasAttribute && element2.hasAttribute("patchsrc")) element2.removeAttribute("patchsrc");
+          if (element2.hasAttribute && element2.hasAttribute("for") && _isPatchLinkageAttribute("for", lcTag)) element2.removeAttribute("for");
+        } catch (_3) {
+        }
+      }
+      const childNodes = getChildNodes(node);
+      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push(childNodes[i2]);
+    }
+  };
+  const _initDocument = function _initDocument2(dirty) {
+    let doc = null;
+    let leadingWhitespace = null;
+    if (FORCE_BODY) dirty = "<remove></remove>" + dirty;
+    else {
+      const matches = stringMatch(dirty, /^[\r\n\t ]+/);
+      leadingWhitespace = matches && matches[0];
+    }
+    if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && NAMESPACE === HTML_NAMESPACE) dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + "</body></html>";
+    const dirtyPayload = trustedTypesPolicy ? _createTrustedHTML(dirty) : dirty;
+    if (NAMESPACE === HTML_NAMESPACE) try {
+      doc = new DOMParser3().parseFromString(dirtyPayload, PARSER_MEDIA_TYPE);
+    } catch (_3) {
+    }
+    if (!doc || !doc.documentElement) {
+      doc = implementation.createDocument(NAMESPACE, "template", null);
+      try {
+        doc.documentElement.innerHTML = IS_EMPTY_INPUT ? emptyHTML : dirtyPayload;
+      } catch (_3) {
+      }
+    }
+    const body = doc.body || doc.documentElement;
+    if (dirty && leadingWhitespace) body.insertBefore(document2.createTextNode(leadingWhitespace), body.childNodes[0] || null);
+    if (NAMESPACE === HTML_NAMESPACE) return getElementsByTagName.call(doc, WHOLE_DOCUMENT ? "html" : "body")[0];
+    return WHOLE_DOCUMENT ? doc.documentElement : body;
+  };
+  const _createNodeIterator = function _createNodeIterator2(root) {
+    const doc = getOwnerDocument ? getOwnerDocument(root) : root.ownerDocument;
+    return createNodeIterator.call(doc || root, root, NodeFilter2.SHOW_ELEMENT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_PROCESSING_INSTRUCTION | NodeFilter2.SHOW_CDATA_SECTION, null);
+  };
+  const _stripTemplateExpressions = function _stripTemplateExpressions2(value) {
+    value = stringReplace(value, MUSTACHE_EXPR$1, " ");
+    value = stringReplace(value, ERB_EXPR$1, " ");
+    value = stringReplace(value, TMPLIT_EXPR$1, " ");
+    return value;
+  };
+  const _scrubTemplateExpressions2 = function _scrubTemplateExpressions(node) {
+    var _node$querySelectorAl;
+    node.normalize();
+    const doc = getOwnerDocument ? getOwnerDocument(node) : node.ownerDocument;
+    const walker = createNodeIterator.call(doc || node, node, NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_CDATA_SECTION | NodeFilter2.SHOW_PROCESSING_INSTRUCTION, null);
+    let currentNode = walker.nextNode();
+    while (currentNode) {
+      currentNode.data = _stripTemplateExpressions(currentNode.data);
+      currentNode = walker.nextNode();
+    }
+    const templates = (_node$querySelectorAl = node.querySelectorAll) === null || _node$querySelectorAl === void 0 ? void 0 : _node$querySelectorAl.call(node, "template");
+    if (templates) arrayForEach(templates, (tmpl) => {
+      if (_isDocumentFragment(tmpl.content)) _scrubTemplateExpressions2(tmpl.content);
+    });
+  };
+  const _isClobbered = function _isClobbered2(element2) {
+    const realTagName = getNodeName ? getNodeName(element2) : null;
+    if (typeof realTagName !== "string") return false;
+    if (transformCaseFunc(realTagName) !== "form") return false;
+    return typeof element2.nodeName !== "string" || typeof element2.textContent !== "string" || typeof element2.removeChild !== "function" || element2.attributes !== getAttributes(element2) || typeof element2.removeAttribute !== "function" || typeof element2.removeAttributeNode !== "function" || typeof element2.getAttributeNode !== "function" || typeof element2.setAttribute !== "function" || typeof element2.namespaceURI !== "string" || typeof element2.insertBefore !== "function" || typeof element2.hasChildNodes !== "function" || element2.nodeType !== getNodeType(element2) || element2.childNodes !== getChildNodes(element2);
+  };
+  const _isDocumentFragment = function _isDocumentFragment2(value) {
+    if (!getNodeType || typeof value !== "object" || value === null) return false;
+    try {
+      return getNodeType(value) === NODE_TYPE.documentFragment;
+    } catch (_3) {
+      return false;
+    }
+  };
+  const _isNode = function _isNode2(value) {
+    if (!getNodeType || typeof value !== "object" || value === null) return false;
+    try {
+      return typeof getNodeType(value) === "number";
+    } catch (_3) {
+      return false;
+    }
+  };
+  function _executeHooks(hooks2, currentNode, data) {
+    if (hooks2.length === 0) return;
+    arrayForEach(hooks2, (hook) => {
+      hook.call(DOMPurify, currentNode, data, CONFIG);
+    });
+  }
+  const _isUnsafeNode = function _isUnsafeNode2(currentNode, tagName) {
+    if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.textContent) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.innerHTML)) return true;
+    if (SAFE_FOR_XML && currentNode.namespaceURI === HTML_NAMESPACE && LITERAL_TEXT_ELEMENTS[tagName] && (_isNode(currentNode.firstElementChild) || typeof currentNode.textContent === "string" && regExpTest(LITERAL_TEXT_CLOSE[tagName], currentNode.textContent))) return true;
+    if (currentNode.nodeType === NODE_TYPE.processingInstruction) return true;
+    if (SAFE_FOR_XML && currentNode.nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, currentNode.data)) return true;
+    return false;
+  };
+  const _matchesNameCheck = function _matchesNameCheck2(check, name) {
+    if (check instanceof RegExp) return regExpTest(check, name);
+    if (check instanceof Function) {
+      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) args[_key - 2] = arguments[_key];
+      return Boolean(check(name, ...args));
+    }
+    return false;
+  };
+  const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName, root) {
+    if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
+    if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
+      const parentNode = getParentNode(currentNode);
+      const childNodes = getChildNodes(currentNode);
+      if (childNodes && parentNode) {
+        const childCount = childNodes.length;
+        for (let i2 = childCount - 1; i2 >= 0; --i2) {
+          const hoisted = currentNode === root ? cloneNode(childNodes[i2], true) : childNodes[i2];
+          parentNode.insertBefore(hoisted, getNextSibling(currentNode));
+        }
+      }
+    }
+    _forceRemove(currentNode);
+    return true;
+  };
+  const _forkSharedAllowlist = function _forkSharedAllowlist2(hookList, set, defaultSet, setConfigSet) {
+    if (hookList.length === 0) return set;
+    return set === defaultSet || set === setConfigSet ? clone(set) : set;
+  };
+  const _handleHookDetachedNode = function _handleHookDetachedNode2(currentNode, root) {
+    if (currentNode === root || getParentNode(currentNode) !== null) return false;
+    if (IN_PLACE) _neutralizeSubtree(currentNode);
+    return true;
+  };
+  const _sanitizeElements = function _sanitizeElements2(currentNode, root) {
+    _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
+    if (_handleHookDetachedNode(currentNode, root)) return true;
+    if (_isClobbered(currentNode)) {
+      _forceRemove(currentNode);
+      return true;
+    }
+    const tagName = transformCaseFunc(_readNodeName(currentNode));
+    ALLOWED_TAGS = _forkSharedAllowlist(hooks.uponSanitizeElement, ALLOWED_TAGS, DEFAULT_ALLOWED_TAGS, SET_CONFIG_ALLOWED_TAGS);
+    _executeHooks(hooks.uponSanitizeElement, currentNode, {
+      tagName,
+      allowedTags: ALLOWED_TAGS
+    });
+    if (_handleHookDetachedNode(currentNode, root)) return true;
+    if (_isUnsafeNode(currentNode, tagName)) {
+      _forceRemove(currentNode);
+      return true;
+    }
+    if (FORBID_TAGS[tagName] || !(EXTRA_ELEMENT_HANDLING.tagCheck instanceof Function && EXTRA_ELEMENT_HANDLING.tagCheck(tagName)) && !ALLOWED_TAGS[tagName]) {
+      const removed = _sanitizeDisallowedNode(currentNode, tagName, root);
+      if (removed === false) {
+        _executeHooks(hooks.afterSanitizeElements, currentNode, null);
+        if (_handleHookDetachedNode(currentNode, root)) return true;
+      }
+      return removed;
+    }
+    if (_readNodeType(currentNode) === NODE_TYPE.element && !_checkValidNamespace(currentNode)) {
+      _forceRemove(currentNode);
+      return true;
+    }
+    if ((tagName === "noscript" || tagName === "noembed" || tagName === "noframes") && regExpTest(FALLBACK_TAG_CLOSE, currentNode.innerHTML)) {
+      _forceRemove(currentNode);
+      return true;
+    }
+    if (SAFE_FOR_TEMPLATES && currentNode.nodeType === NODE_TYPE.text) {
+      const content = _stripTemplateExpressions(currentNode.textContent);
+      if (currentNode.textContent !== content) {
+        arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
+        currentNode.textContent = content;
+      }
+    }
+    _executeHooks(hooks.afterSanitizeElements, currentNode, null);
+    return _handleHookDetachedNode(currentNode, root);
+  };
+  const _isValidAttribute = function _isValidAttribute2(lcTag, lcName, value) {
+    if (FORBID_ATTR[lcName]) return false;
+    if (_isPatchLinkageAttribute(lcName, lcTag)) return false;
+    if (SANITIZE_DOM && (lcName === "id" || lcName === "name") && (value in document2 || value in formElement)) return false;
+    const nameIsPermitted = ALLOWED_ATTR[lcName] || EXTRA_ELEMENT_HANDLING.attributeCheck instanceof Function && EXTRA_ELEMENT_HANDLING.attributeCheck(lcName, lcTag);
+    if (ALLOW_DATA_ATTR && regExpTest(DATA_ATTR$1, lcName)) return true;
+    if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$1, lcName)) return true;
+    if (!nameIsPermitted) return _isBasicCustomElement(lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName, lcTag) || lcName === "is" && CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, value);
+    if (URI_SAFE_ATTRIBUTES[lcName]) return true;
+    if (regExpTest(IS_ALLOWED_URI$1, stringReplace(value, ATTR_WHITESPACE$1, ""))) return true;
+    if ((lcName === "src" || lcName === "xlink:href" || lcName === "href") && lcTag !== "script" && stringIndexOf(value, "data:") === 0 && DATA_URI_TAGS[lcTag]) return true;
+    if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$1, stringReplace(value, ATTR_WHITESPACE$1, ""))) return true;
+    return !value;
+  };
+  const RESERVED_CUSTOM_ELEMENT_NAMES = addToSet({}, [
+    "annotation-xml",
+    "color-profile",
+    "font-face",
+    "font-face-format",
+    "font-face-name",
+    "font-face-src",
+    "font-face-uri",
+    "missing-glyph"
+  ]);
+  const _isBasicCustomElement = function _isBasicCustomElement2(tagName) {
+    return !RESERVED_CUSTOM_ELEMENT_NAMES[stringToLowerCase(tagName)] && regExpTest(CUSTOM_ELEMENT$1, tagName);
+  };
+  const _applyTrustedTypesToAttribute = function _applyTrustedTypesToAttribute2(lcTag, lcName, namespaceURI, value) {
+    if (trustedTypesPolicy && typeof trustedTypes === "object" && typeof trustedTypes.getAttributeType === "function" && !namespaceURI) switch (trustedTypes.getAttributeType(lcTag, lcName)) {
+      case "TrustedHTML":
+        return _createTrustedHTML(value);
+      case "TrustedScriptURL":
+        return _createTrustedScriptURL(value);
+    }
+    return value;
+  };
+  const _setAttributeValue = function _setAttributeValue2(currentNode, name, namespaceURI, value) {
+    try {
+      if (namespaceURI) currentNode.setAttributeNS(namespaceURI, name, value);
+      else currentNode.setAttribute(name, value);
+      if (_isClobbered(currentNode)) {
+        _forceRemove(currentNode);
+        return false;
+      }
+      return true;
+    } catch (_3) {
+      _removeAttribute(name, currentNode);
+      return false;
+    }
+  };
+  const _sanitizeAttributes = function _sanitizeAttributes2(currentNode, root) {
+    _executeHooks(hooks.beforeSanitizeAttributes, currentNode, null);
+    if (_handleHookDetachedNode(currentNode, root)) return;
+    const attributes = currentNode.attributes;
+    if (!attributes || _isClobbered(currentNode)) return;
+    ALLOWED_ATTR = _forkSharedAllowlist(hooks.uponSanitizeAttribute, ALLOWED_ATTR, DEFAULT_ALLOWED_ATTR, SET_CONFIG_ALLOWED_ATTR);
+    const hookEvent = {
+      attrName: "",
+      attrValue: "",
+      keepAttr: true,
+      allowedAttributes: ALLOWED_ATTR,
+      forceKeepAttr: void 0
+    };
+    let l2 = attributes.length;
+    const lcTag = transformCaseFunc(currentNode.nodeName);
+    while (l2--) {
+      const attr = attributes[l2];
+      const name = attr.name, namespaceURI = attr.namespaceURI, attrValue = attr.value;
+      const lcName = transformCaseFunc(name);
+      const initValue = attrValue;
+      let value = name === "value" ? initValue : stringTrim(initValue);
+      let recreatedNamedProp = false;
+      hookEvent.attrName = lcName;
+      hookEvent.attrValue = value;
+      hookEvent.keepAttr = true;
+      hookEvent.forceKeepAttr = void 0;
+      _executeHooks(hooks.uponSanitizeAttribute, currentNode, hookEvent);
+      value = hookEvent.attrValue;
+      if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name") && stringIndexOf(value, SANITIZE_NAMED_PROPS_PREFIX) !== 0) {
+        _removeAttribute(name, currentNode, attr);
+        value = SANITIZE_NAMED_PROPS_PREFIX + value;
+        recreatedNamedProp = true;
+      }
+      if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) {
+        _removeAttribute(name, currentNode, attr);
+        continue;
+      }
+      if (lcName === "attributename" && stringMatch(value, "href")) {
+        _removeAttribute(name, currentNode, attr);
+        continue;
+      }
+      if (hookEvent.forceKeepAttr) continue;
+      if (!hookEvent.keepAttr) {
+        _removeAttribute(name, currentNode, attr);
+        continue;
+      }
+      if (!ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(SELF_CLOSING_TAG, value)) {
+        _removeAttribute(name, currentNode, attr);
+        continue;
+      }
+      if (SAFE_FOR_TEMPLATES) value = _stripTemplateExpressions(value);
+      if (!_isValidAttribute(lcTag, lcName, value)) {
+        _removeAttribute(name, currentNode, attr);
+        continue;
+      }
+      value = _applyTrustedTypesToAttribute(lcTag, lcName, namespaceURI, value);
+      if (value !== initValue) {
+        if (_setAttributeValue(currentNode, name, namespaceURI, value) && recreatedNamedProp) arrayPop(DOMPurify.removed);
+      }
+    }
+    _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
+    _handleHookDetachedNode(currentNode, root);
+  };
+  const _sanitizeShadowDOM2 = function _sanitizeShadowDOM(fragment) {
+    let shadowNode = null;
+    const shadowIterator = _createNodeIterator(fragment);
+    _executeHooks(hooks.beforeSanitizeShadowDOM, fragment, null);
+    while (shadowNode = shadowIterator.nextNode()) {
+      _executeHooks(hooks.uponSanitizeShadowNode, shadowNode, null);
+      _sanitizeElements(shadowNode, fragment);
+      _sanitizeAttributes(shadowNode, fragment);
+      if (_isDocumentFragment(shadowNode.content)) _sanitizeShadowDOM2(shadowNode.content);
+      if (_readNodeType(shadowNode) === NODE_TYPE.element) {
+        const innerSr = getShadowRoot(shadowNode);
+        if (_isDocumentFragment(innerSr)) {
+          _sanitizeAttachedShadowRoots(innerSr);
+          _sanitizeShadowDOM2(innerSr);
+        }
+      }
+    }
+    _executeHooks(hooks.afterSanitizeShadowDOM, fragment, null);
+  };
+  const _sanitizeAttachedShadowRoots = function _sanitizeAttachedShadowRoots2(root) {
+    const stack = [{
+      node: root,
+      shadow: null
+    }];
+    while (stack.length > 0) {
+      const item = stack.pop();
+      if (item.shadow) {
+        _sanitizeShadowDOM2(item.shadow);
+        continue;
+      }
+      const node = item.node;
+      const isElement = _readNodeType(node) === NODE_TYPE.element;
+      const childNodes = getChildNodes(node);
+      if (childNodes) for (let i2 = childNodes.length - 1; i2 >= 0; --i2) stack.push({
+        node: childNodes[i2],
+        shadow: null
+      });
+      if (isElement) {
+        const rootName = getNodeName ? getNodeName(node) : null;
+        if (typeof rootName === "string" && transformCaseFunc(rootName) === "template") {
+          const content = node.content;
+          if (_isDocumentFragment(content)) stack.push({
+            node: content,
+            shadow: null
+          });
+        }
+      }
+      if (isElement) {
+        const sr2 = getShadowRoot(node);
+        if (_isDocumentFragment(sr2)) stack.push({
+          node: null,
+          shadow: sr2
+        }, {
+          node: sr2,
+          shadow: null
+        });
+      }
+    }
+  };
+  DOMPurify.sanitize = function(dirty) {
+    let cfg = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let body = null;
+    let importedNode = null;
+    let currentNode = null;
+    let returnNode = null;
+    IS_EMPTY_INPUT = !dirty;
+    if (IS_EMPTY_INPUT) dirty = "<!-->";
+    if (typeof dirty !== "string" && !_isNode(dirty)) {
+      dirty = stringifyValue(dirty);
+      if (typeof dirty !== "string") throw typeErrorCreate("dirty is not a string, aborting");
+    }
+    if (!DOMPurify.isSupported) return dirty;
+    if (SET_CONFIG) {
+      ALLOWED_TAGS = SET_CONFIG_ALLOWED_TAGS;
+      ALLOWED_ATTR = SET_CONFIG_ALLOWED_ATTR;
+    } else _parseConfig(cfg);
+    if (hooks.uponSanitizeElement.length > 0 || hooks.uponSanitizeAttribute.length > 0) ALLOWED_TAGS = clone(ALLOWED_TAGS);
+    if (hooks.uponSanitizeAttribute.length > 0) ALLOWED_ATTR = clone(ALLOWED_ATTR);
+    DOMPurify.removed = [];
+    const inPlace = IN_PLACE && typeof dirty !== "string" && _isNode(dirty);
+    if (inPlace) {
+      _neutralizePatchLinkage(dirty);
+      const nn2 = _readNodeName(dirty);
+      if (typeof nn2 === "string") {
+        const tagName = transformCaseFunc(nn2);
+        if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
+          _neutralizeRoot(dirty);
+          throw typeErrorCreate("root node is forbidden and cannot be sanitized in-place");
+        }
+      }
+      if (_isClobbered(dirty)) {
+        _neutralizeRoot(dirty);
+        throw typeErrorCreate("root node is clobbered and cannot be sanitized in-place");
+      }
+      try {
+        _sanitizeAttachedShadowRoots(dirty);
+      } catch (error) {
+        _neutralizeRoot(dirty);
+        throw error;
+      }
+    } else if (_isNode(dirty)) {
+      body = _initDocument("<!---->");
+      importedNode = body.ownerDocument.importNode(dirty, true);
+      if (importedNode.nodeType === NODE_TYPE.element && importedNode.nodeName === "BODY") body = importedNode;
+      else if (importedNode.nodeName === "HTML") body = importedNode;
+      else body.appendChild(importedNode);
+      _sanitizeAttachedShadowRoots(body);
+    } else {
+      if (!RETURN_DOM && !SAFE_FOR_TEMPLATES && !WHOLE_DOCUMENT && dirty.indexOf("<") === -1) return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(dirty) : dirty;
+      body = _initDocument(dirty);
+      if (!body) return RETURN_DOM ? null : RETURN_TRUSTED_TYPE ? emptyHTML : "";
+    }
+    if (body && FORCE_BODY) _forceRemove(body.firstChild);
+    const walkRoot = inPlace ? dirty : body;
+    try {
+      const nodeIterator = _createNodeIterator(walkRoot);
+      while (currentNode = nodeIterator.nextNode()) {
+        _sanitizeElements(currentNode, walkRoot);
+        _sanitizeAttributes(currentNode, walkRoot);
+        if (_isDocumentFragment(currentNode.content)) _sanitizeShadowDOM2(currentNode.content);
+      }
+    } catch (error) {
+      if (inPlace) {
+        _neutralizeRoot(dirty);
+        arrayForEach(DOMPurify.removed, (entry) => {
+          if (entry.element) _neutralizeSubtree(entry.element);
+        });
+      }
+      throw error;
+    }
+    if (inPlace) {
+      let rootWasRemoved = false;
+      arrayForEach(DOMPurify.removed, (entry) => {
+        if (entry.element) {
+          if (entry.element === dirty) rootWasRemoved = true;
+          _neutralizeSubtree(entry.element);
+        }
+      });
+      if (rootWasRemoved) throw typeErrorCreate("a node selected for removal could not be safely returned; refusing to sanitize in place");
+      if (SAFE_FOR_TEMPLATES) _scrubTemplateExpressions2(dirty);
+      return dirty;
+    }
+    if (RETURN_DOM) {
+      if (SAFE_FOR_TEMPLATES) _scrubTemplateExpressions2(body);
+      if (RETURN_DOM_FRAGMENT) {
+        returnNode = createDocumentFragment.call(body.ownerDocument);
+        while (body.firstChild) returnNode.appendChild(body.firstChild);
+      } else returnNode = body;
+      if (ALLOWED_ATTR.shadowroot || ALLOWED_ATTR.shadowrootmode) returnNode = importNode.call(originalDocument, returnNode, true);
+      return returnNode;
+    }
+    let serializedHTML = WHOLE_DOCUMENT ? body.outerHTML : body.innerHTML;
+    if (WHOLE_DOCUMENT && ALLOWED_TAGS["!doctype"] && body.ownerDocument && body.ownerDocument.doctype && body.ownerDocument.doctype.name && regExpTest(DOCTYPE_NAME, body.ownerDocument.doctype.name)) serializedHTML = "<!DOCTYPE " + body.ownerDocument.doctype.name + ">\n" + serializedHTML;
+    if (SAFE_FOR_TEMPLATES) serializedHTML = _stripTemplateExpressions(serializedHTML);
+    return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(serializedHTML) : serializedHTML;
+  };
+  DOMPurify.setConfig = function() {
+    let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    _parseConfig(cfg);
+    SET_CONFIG = true;
+    SET_CONFIG_ALLOWED_TAGS = ALLOWED_TAGS;
+    SET_CONFIG_ALLOWED_ATTR = ALLOWED_ATTR;
+  };
+  DOMPurify.clearConfig = function() {
+    CONFIG = null;
+    SET_CONFIG = false;
+    SET_CONFIG_ALLOWED_TAGS = null;
+    SET_CONFIG_ALLOWED_ATTR = null;
+    trustedTypesPolicy = defaultTrustedTypesPolicy;
+    emptyHTML = "";
+  };
+  DOMPurify.isValidAttribute = function(tag, attr, value) {
+    if (!CONFIG) _parseConfig({});
+    const lcTag = transformCaseFunc(tag);
+    const lcName = transformCaseFunc(attr);
+    return _isValidAttribute(lcTag, lcName, value);
+  };
+  DOMPurify.addHook = function(entryPoint, hookFunction) {
+    if (typeof hookFunction !== "function") return;
+    if (!objectHasOwnProperty(hooks, entryPoint)) return;
+    arrayPush(hooks[entryPoint], hookFunction);
+  };
+  DOMPurify.removeHook = function(entryPoint, hookFunction) {
+    if (!objectHasOwnProperty(hooks, entryPoint)) return;
+    if (hookFunction !== void 0) {
+      const index = arrayLastIndexOf(hooks[entryPoint], hookFunction);
+      return index === -1 ? void 0 : arraySplice(hooks[entryPoint], index, 1)[0];
+    }
+    return arrayPop(hooks[entryPoint]);
+  };
+  DOMPurify.removeHooks = function(entryPoint) {
+    if (!objectHasOwnProperty(hooks, entryPoint)) return;
+    hooks[entryPoint] = [];
+  };
+  DOMPurify.removeAllHooks = function() {
+    hooks = _createHooksMap();
+  };
+  return DOMPurify;
+}
+var purify_default = createDOMPurify();
+
+// preview-ui.js
+function mountPreviewDevice(preview) {
+  let previewIframe = null;
+  const previewContentRoot = () => previewIframe?.isConnected ? previewIframe.contentDocument?.body || preview : preview;
+  const previewScrollRoot = () => previewIframe?.isConnected ? previewIframe.contentDocument?.scrollingElement || previewContentRoot() : preview;
+  const previewCard = preview.closest(".preview-card");
+  const previewHeader = previewCard.querySelector(".head");
+  const previewStage = document.createElement("div");
+  previewStage.className = "preview-stage";
+  const previewDeviceShell = document.createElement("div");
+  previewDeviceShell.className = "preview-device-shell";
+  preview.before(previewStage);
+  previewStage.append(previewDeviceShell);
+  previewDeviceShell.append(preview);
+  const devicePresets = {
+    "iphone-16": { label: "iPhone 16", width: 393, height: 852 },
+    "iphone-16-plus": { label: "iPhone 16 Plus", width: 430, height: 932 },
+    "iphone-16-pro": { label: "iPhone 16 Pro", width: 402, height: 874 },
+    "iphone-16-pro-max": {
+      label: "iPhone 16 Pro Max",
+      width: 440,
+      height: 956
+    },
+    "iphone-17": { label: "iPhone 17", width: 393, height: 852 },
+    "iphone-17-air": { label: "iPhone 17 Air", width: 430, height: 932 },
+    "iphone-17-pro": { label: "iPhone 17 Pro", width: 402, height: 874 },
+    "iphone-17-pro-max": {
+      label: "iPhone 17 Pro Max",
+      width: 440,
+      height: 956
+    },
+    "iphone-18": { label: "iPhone 18", width: 393, height: 852 },
+    "iphone-18-pro": { label: "iPhone 18 Pro", width: 402, height: 874 },
+    "iphone-18-pro-max": {
+      label: "iPhone 18 Pro Max",
+      width: 440,
+      height: 956
+    },
+    "ipad-mini": { label: "iPad mini", width: 744, height: 1133 },
+    ipad: { label: "iPad", width: 820, height: 1180 },
+    "ipad-air": { label: "iPad Air", width: 820, height: 1180 },
+    "ipad-pro-11": { label: "iPad Pro 11\u2033", width: 834, height: 1194 },
+    "ipad-pro-13": { label: "iPad Pro 13\u2033", width: 1032, height: 1376 }
+  };
+  previewHeader.innerHTML = `<span>\uBBF8\uB9AC\uBCF4\uAE30</span><div class="device-controls"><select id="phonePreview" aria-label="\uC544\uC774\uD3F0 \uBBF8\uB9AC\uBCF4\uAE30"><option value="">\uC544\uC774\uD3F0</option><option value="iphone-16">iPhone 16</option><option value="iphone-16-plus">16 Plus</option><option value="iphone-16-pro">16 Pro</option><option value="iphone-16-pro-max">16 Pro Max</option><option value="iphone-17">iPhone 17</option><option value="iphone-17-air">17 Air</option><option value="iphone-17-pro">17 Pro</option><option value="iphone-17-pro-max">17 Pro Max</option><option value="iphone-18">iPhone 18</option><option value="iphone-18-pro">18 Pro</option><option value="iphone-18-pro-max">18 Pro Max</option></select><select id="tabletPreview" aria-label="\uD0DC\uBE14\uB9BF \uBBF8\uB9AC\uBCF4\uAE30"><option value="">Tablet</option><option value="ipad-mini">iPad mini</option><option value="ipad">iPad</option><option value="ipad-air">iPad Air</option><option value="ipad-pro-11">iPad Pro 11\u2033</option><option value="ipad-pro-13">iPad Pro 13\u2033</option></select><span class="tablet-scale-controls" hidden><button type="button" data-tablet-scale="fit" aria-pressed="true">\uB9DE\uCDA4</button><button type="button" data-tablet-scale="actual" aria-pressed="false">100%</button></span></div>`;
+  const phonePreview = previewHeader.querySelector("#phonePreview");
+  const tabletPreview = previewHeader.querySelector("#tabletPreview");
+  const tabletScaleControls = previewHeader.querySelector(".tablet-scale-controls");
+  let selectedDevice = "";
+  let tabletScaleMode = "fit";
+  const applyDevicePreview = () => {
+    const device = devicePresets[selectedDevice];
+    const isTablet = selectedDevice.startsWith("ipad");
+    tabletScaleControls.hidden = !isTablet;
+    tabletScaleControls.querySelectorAll("button").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.tabletScale === tabletScaleMode)));
+    previewStage.dataset.tabletActual = String(isTablet && tabletScaleMode === "actual");
+    if (!device) {
+      preview.dataset.devicePreview = "false";
+      previewDeviceShell.dataset.devicePreview = "false";
+      preview.style.removeProperty("width");
+      preview.style.removeProperty("height");
+      preview.style.removeProperty("aspect-ratio");
+      preview.style.removeProperty("transform");
+      previewDeviceShell.style.removeProperty("width");
+      previewDeviceShell.style.removeProperty("height");
+      return;
+    }
+    const availableWidth = Math.max(1, previewStage.clientWidth);
+    const availableHeight = Math.max(1, previewStage.clientHeight);
+    const fitScale = Math.max(
+      0.1,
+      Math.min(
+        1,
+        availableWidth / (device.width + 16),
+        availableHeight / (device.height + 16)
+      )
+    );
+    const scale = isTablet && tabletScaleMode === "actual" ? 1 : fitScale;
+    preview.dataset.devicePreview = "true";
+    previewDeviceShell.dataset.devicePreview = "true";
+    preview.style.setProperty("width", `${device.width}px`, "important");
+    preview.style.setProperty("height", `${device.height}px`, "important");
+    preview.style.setProperty("transform", `scale(${scale})`);
+    previewDeviceShell.style.width = `${Math.round((device.width + 16) * scale)}px`;
+    previewDeviceShell.style.height = `${Math.round((device.height + 16) * scale)}px`;
+  };
+  phonePreview.addEventListener("change", () => {
+    selectedDevice = phonePreview.value;
+    if (selectedDevice) tabletPreview.value = "";
+    applyDevicePreview();
+  });
+  tabletPreview.addEventListener("change", () => {
+    selectedDevice = tabletPreview.value;
+    if (selectedDevice) phonePreview.value = "";
+    applyDevicePreview();
+  });
+  tabletScaleControls.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-tablet-scale]");
+    if (!button) return;
+    tabletScaleMode = button.dataset.tabletScale;
+    applyDevicePreview();
+  });
+  new ResizeObserver(applyDevicePreview).observe(previewCard);
+  new ResizeObserver(applyDevicePreview).observe(previewStage);
+  return {
+    previewCard,
+    previewContentRoot,
+    previewScrollRoot,
+    setPreviewIframe: (frame) => {
+      previewIframe = frame;
+    }
+  };
+}
+function mountPreviewSync({
+  previewUi,
+  preview,
+  htmlEditor,
+  cssEditor,
+  visualEditor,
+  bookProject,
+  isCoverSelected,
+  showCoverPreview,
+  snapshotCurrentChapter,
+  hydrateResourceImages,
+  activeChapterIndex,
+  getVisualLoadedChapterId,
+  getTiptapEditor,
+  followBookLink
+}) {
+  const { previewContentRoot, previewScrollRoot } = previewUi;
+  const refreshPreview = () => {
+    cancelAnimationFrame(previewFrame);
+    if (isCoverSelected()) {
+      showCoverPreview();
+      return;
+    }
+    snapshotCurrentChapter();
+    const content = document.createElement("template");
+    content.innerHTML = purify_default.sanitize(htmlEditor.value, {
+      USE_PROFILES: { html: true, svg: true, svgFilters: true },
+      ADD_ATTR: ["epub:type", "xml:lang", "data-sitescout-footnote"]
+    });
+    const scrollTop = previewScrollRoot().scrollTop;
+    const chapterId = bookProject.selectedChapterId;
+    const frame = document.createElement("iframe");
+    frame.className = "preview-isolated-frame";
+    frame.title = "\uACA9\uB9AC\uB41C EPUB \uBBF8\uB9AC\uBCF4\uAE30";
+    frame.setAttribute("sandbox", "allow-same-origin");
+    frame.addEventListener(
+      "load",
+      () => {
+        if (!frame.isConnected || chapterId !== bookProject.selectedChapterId)
+          return;
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        const colors = getComputedStyle(preview);
+        doc.documentElement.style.color = colors.color;
+        doc.documentElement.style.backgroundColor = colors.backgroundColor;
+        const style = doc.createElement("style");
+        style.textContent = cssEditor.value;
+        doc.head.append(style);
+        doc.body.style.setProperty("font-size", "20px", "important");
+        const scrollbarStyle = doc.createElement("style");
+        scrollbarStyle.textContent = "html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}";
+        doc.head.append(scrollbarStyle);
+        hydrateResourceImages(doc.body, activeChapterIndex());
+        (doc.scrollingElement || doc.body).scrollTop = scrollTop;
+        doc.addEventListener("click", handlePreviewClick);
+      },
+      { once: true }
+    );
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}.preview-focus{background:rgba(240,142,49,.16);outline:2px solid #e88a31}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
+    previewUi.setPreviewIframe(frame);
+    preview.replaceChildren(frame);
+  };
+  let previewFrame = 0;
+  const schedulePreview = () => {
+    cancelAnimationFrame(previewFrame);
+    const chapterId = bookProject.selectedChapterId;
+    previewFrame = requestAnimationFrame(() => {
+      if (chapterId === bookProject.selectedChapterId) refreshPreview();
+    });
+  };
+  cssEditor.addEventListener("input", schedulePreview);
+  const previewBlockSelector = "p,h1,h2,h3,h4,h5,h6,li,blockquote,td,th,img,hr,br";
+  let focusSyncing = false;
+  const sourceNodeForElement = (element2, rootNode) => {
+    if (!element2 || !rootNode.contains(element2)) return null;
+    const nodes = sourceElements2(htmlEditor.value);
+    if (element2.id) {
+      const match = nodes.find(
+        (node) => sourceAttribute(node, "id") === element2.id
+      );
+      if (match) return match;
+    }
+    const tag = element2.tagName?.toLowerCase();
+    const occurrence = Array.from(rootNode.querySelectorAll(tag)).indexOf(
+      element2
+    );
+    return nodes.filter((node) => node.tag === tag)[occurrence] || null;
+  };
+  const renderedElementForSource = (node, rootNode) => {
+    if (!node) return null;
+    const id2 = sourceAttribute(node, "id");
+    if (id2) {
+      const exact = Array.from(rootNode.querySelectorAll("[id]")).find(
+        (element2) => element2.id === id2
+      );
+      if (exact) return exact;
+    }
+    const direct = elementAtPath(rootNode, node.path);
+    if (direct?.tagName.toLowerCase() === node.tag) return direct;
+    const peers = sourceElements2(htmlEditor.value).filter(
+      (item) => item.tag === node.tag
+    );
+    const ordinal = peers.findIndex((item) => item.start === node.start);
+    return Array.from(rootNode.querySelectorAll(node.tag))[ordinal] || null;
+  };
+  const scrollWithin = (panel, target) => {
+    if (!target || panel.hidden) return;
+    const bounds = target.getBoundingClientRect();
+    const frame = panel === panel.ownerDocument.scrollingElement ? { top: 0, bottom: panel.ownerDocument.defaultView.innerHeight, height: panel.ownerDocument.defaultView.innerHeight } : panel.getBoundingClientRect();
+    if (bounds.top < frame.top || bounds.bottom > frame.bottom)
+      panel.scrollTop += bounds.top - frame.top - frame.height / 3;
+  };
+  const previewTextOffset = (element2, container, offset2) => {
+    if (!element2 || !container || !element2.contains(container)) return 0;
+    try {
+      const range = element2.ownerDocument.createRange();
+      range.selectNodeContents(element2);
+      range.setEnd(container, offset2);
+      return range.toString().length;
+    } catch {
+      return 0;
+    }
+  };
+  const sourceTextOffset = (node, offset2) => {
+    if (!node || !Number.isInteger(offset2)) return 0;
+    const source = htmlEditor.value.slice(
+      node.start,
+      Math.max(node.start, offset2)
+    );
+    const contentStart = source.indexOf(">");
+    if (contentStart < 0) return 0;
+    return new DOMParser().parseFromString(
+      `<body>${source.slice(contentStart + 1)}</body>`,
+      "text/html"
+    ).body.textContent.length;
+  };
+  const sourcePositionAtText = (node, textOffset) => {
+    const source = htmlEditor.value;
+    let position = source.indexOf(">", node.start) + 1;
+    if (!position || position > node.end) return node.start;
+    let seen = 0;
+    while (position < node.end) {
+      const char = source[position];
+      if (char === "<") {
+        let close = position + 1, quote = "";
+        for (; close < node.end; close++) {
+          if (quote) {
+            if (source[close] === quote) quote = "";
+          } else if (source[close] === '"' || source[close] === "'") quote = source[close];
+          else if (source[close] === ">") break;
+        }
+        if (close >= node.end) break;
+        position = close + 1;
+        continue;
+      }
+      if (seen >= textOffset) return position;
+      if (char === "&") {
+        const end = source.indexOf(";", position + 1);
+        if (end > position && end < node.end) {
+          const decoded = new DOMParser().parseFromString(`<span>${source.slice(position, end + 1)}</span>`, "text/html").body.textContent;
+          seen += decoded.length;
+          position = end + 1;
+          continue;
+        }
+      }
+      seen++;
+      position++;
+    }
+    return Math.min(position, node.end);
+  };
+  const textPositionAtOffset = (element2, textOffset) => {
+    const walker = element2.ownerDocument.createTreeWalker(element2, NodeFilter.SHOW_TEXT);
+    let node;
+    let remaining = textOffset;
+    while (node = walker.nextNode()) {
+      if (remaining <= node.data.length) return { node, offset: remaining };
+      remaining -= node.data.length;
+    }
+    return null;
+  };
+  const highlightPreviewContext = (element2, caretOffset = 0) => {
+    const rootNode = previewContentRoot();
+    rootNode.querySelectorAll("mark.preview-context").forEach((mark) => mark.replaceWith(...mark.childNodes));
+    if (!element2) return;
+    const walker = document.createTreeWalker(element2, NodeFilter.SHOW_TEXT);
+    const words = [];
+    let node;
+    let base = 0;
+    while (node = walker.nextNode()) {
+      for (const match of node.data.matchAll(/\S+/g))
+        words.push({
+          node,
+          start: base + match.index,
+          end: base + match.index + match[0].length,
+          localStart: match.index,
+          localEnd: match.index + match[0].length
+        });
+      base += node.data.length;
+    }
+    const index = words.findIndex(
+      (word) => caretOffset >= word.start && caretOffset <= word.end
+    );
+    const selected = (index >= 0 ? [words[Math.max(0, index - 1)], words[index], words[index + 1]] : words.slice(0, 2)).filter(Boolean);
+    for (const word of [...new Set(selected)].sort(
+      (left, right) => right.start - left.start
+    )) {
+      const range = rootNode.ownerDocument.createRange();
+      range.setStart(word.node, word.localStart);
+      range.setEnd(word.node, word.localEnd);
+      const mark = rootNode.ownerDocument.createElement("mark");
+      mark.className = "preview-context";
+      try {
+        range.surroundContents(mark);
+      } catch {
+      }
+    }
+  };
+  const synchronizeFocus = (node, origin, caretOffset = 0) => {
+    if (!node || focusSyncing || isCoverSelected()) return;
+    const chapterId = bookProject.selectedChapterId;
+    focusSyncing = true;
+    try {
+      const previewRoot = previewContentRoot();
+      const previewElement = renderedElementForSource(node, previewRoot);
+      if (previewElement) {
+        previewRoot.querySelectorAll(".preview-focus").forEach((element2) => element2.classList.remove("preview-focus"));
+        previewElement.classList.add("preview-focus");
+        highlightPreviewContext(previewElement, caretOffset);
+        if (origin !== "preview")
+          scrollWithin(previewScrollRoot(), previewElement);
+      }
+      const visualRoot = visualEditor.querySelector(".ProseMirror") || visualEditor;
+      const visualElement = renderedElementForSource(node, visualRoot);
+      if (visualElement && origin !== "visual" && getVisualLoadedChapterId() === chapterId) {
+        if (getTiptapEditor()) {
+          try {
+            const point = textPositionAtOffset(visualElement, caretOffset);
+            getTiptapEditor().commands.setTextSelection(
+              point ? getTiptapEditor().view.posAtDOM(point.node, point.offset) : getTiptapEditor().view.posAtDOM(visualElement, 0)
+            );
+          } catch {
+          }
+        }
+        scrollWithin(visualEditor, visualElement);
+      }
+      const editor = window.epubMonacoEditor;
+      if (editor && origin !== "monaco" && editor.getValue() === htmlEditor.value) {
+        const position = editor.getModel().getPositionAt(sourcePositionAtText(node, caretOffset));
+        editor.setPosition(position);
+        editor.revealPositionInCenterIfOutsideViewport(position);
+      }
+    } finally {
+      focusSyncing = false;
+    }
+  };
+  const handlePreviewClick = (event) => {
+    const anchor = event.target.closest("a[href]");
+    if (anchor && followBookLink(anchor)) {
+      event.preventDefault();
+      return;
+    }
+    const rootNode = previewContentRoot();
+    const target = event.target.closest(previewBlockSelector);
+    const doc = event.target.ownerDocument;
+    const caret = doc.caretPositionFromPoint?.(event.clientX, event.clientY);
+    const range = !caret ? doc.caretRangeFromPoint?.(event.clientX, event.clientY) : null;
+    const textNode = caret?.offsetNode || range?.startContainer;
+    const textOffset = caret?.offset ?? range?.startOffset ?? 0;
+    synchronizeFocus(
+      sourceNodeForElement(target, rootNode),
+      "preview",
+      previewTextOffset(target, textNode, textOffset)
+    );
+  };
+  preview.addEventListener("click", handlePreviewClick);
+  visualEditor.addEventListener("click", (event) => {
+    const anchor = event.target.closest("a[href]");
+    if (anchor && followBookLink(anchor)) {
+      event.preventDefault();
+      return;
+    }
+    const target = event.target.closest(
+      previewBlockSelector + ",a,span,strong,em"
+    );
+    const selection = window.getSelection();
+    synchronizeFocus(
+      sourceNodeForElement(target, visualEditor),
+      "visual",
+      previewTextOffset(
+        target,
+        selection?.anchorNode,
+        selection?.anchorOffset || 0
+      )
+    );
+  });
+  visualEditor.addEventListener("keyup", () => {
+    const selection = window.getSelection();
+    const element2 = selection?.anchorNode?.nodeType === 1 ? selection.anchorNode : selection?.anchorNode?.parentElement;
+    synchronizeFocus(
+      sourceNodeForElement(element2, visualEditor),
+      "visual",
+      previewTextOffset(
+        element2,
+        selection?.anchorNode,
+        selection?.anchorOffset || 0
+      )
+    );
+  });
+  return {
+    refreshPreview,
+    schedulePreview,
+    synchronizeFocus,
+    sourceNodeForElement,
+    previewBlockSelector,
+    previewTextOffset,
+    sourceTextOffset,
+    isFocusSyncing: () => focusSyncing
+  };
+}
+
+// chapter-hierarchy.js?v=20261007-66
+var nearestPreviousSiblingId = (orderedIds, parentById, selectedId) => {
+  const position = orderedIds.indexOf(selectedId);
+  if (position < 1) return null;
+  const parent = parentById.get(selectedId);
+  return orderedIds.slice(0, position).reverse().find((id2) => parentById.get(id2) === parent) || null;
+};
+
+// chapter-toc-ui.js
+function mountChapterToc({
+  chapterList,
+  parentToc,
+  parentTocMap,
+  collapsedTocRoots,
+  tocExcluded,
+  parentTocButton,
+  parentTocMenu,
+  parentTocPicker,
+  bookProject,
+  activeChapterIndex,
+  selectedChapterElement,
+  saveCurrentChapter,
+  isCoverSelected
+}) {
+  let arrangingChapters = false;
+  let ignoreInternalChapterMutation = false;
+  let chapterControlsRefreshQueued = false;
+  const chapterLabel = (chapter) => Array.from(chapter.childNodes).filter((node) => node.nodeType === Node.TEXT_NODE).map((node) => node.textContent.trim()).join(" ").trim() || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5";
+  const isDescendantOf = (index, ancestor) => {
+    const seen = /* @__PURE__ */ new Set();
+    let parent = parentTocMap.get(index);
+    while (parent !== void 0 && !seen.has(parent)) {
+      if (parent === ancestor) return true;
+      seen.add(parent);
+      parent = parentTocMap.get(parent);
+    }
+    return false;
+  };
+  const arrangeChapterList = ({ reorder = false } = {}) => {
+    if (arrangingChapters) return;
+    const chapters = Array.from(
+      chapterList.querySelectorAll(".chapter[data-i]")
+    );
+    if (chapters.length) ignoreInternalChapterMutation = true;
+    const available = new Set(
+      chapters.map((chapter) => Number(chapter.dataset.i))
+    );
+    parentTocMap.forEach((parent, child) => {
+      if (!available.has(parent) || parent === child || isDescendantOf(parent, child))
+        parentTocMap.delete(child);
+    });
+    const ordered = [];
+    const visit = (parent, depth) => {
+      let number = 0;
+      chapters.filter(
+        (chapter) => (parentTocMap.get(Number(chapter.dataset.i)) ?? null) === parent
+      ).forEach((chapter) => {
+        number += 1;
+        chapter.querySelector(".num").textContent = String(number);
+        chapter.style.setProperty(
+          "padding-left",
+          `${10 + depth * 18}px`,
+          "important"
+        );
+        chapter.style.setProperty("--toc-depth", depth);
+        ordered.push(chapter);
+        visit(Number(chapter.dataset.i), depth + 1);
+      });
+    };
+    visit(null, 0);
+    if (ordered.length !== chapters.length) return;
+    if (reorder && !ordered.every((chapter, index) => chapter === chapters[index])) {
+      arrangingChapters = true;
+      ignoreInternalChapterMutation = true;
+      ordered.forEach((chapter) => chapterList.append(chapter));
+      arrangingChapters = false;
+    }
+    const rootHasChildren = /* @__PURE__ */ new Set();
+    chapters.forEach((chapter) => {
+      const index = Number(chapter.dataset.i);
+      const parent = parentTocMap.get(index) ?? null;
+      if (parent !== null && (parentTocMap.get(parent) ?? null) === null)
+        rootHasChildren.add(parent);
+    });
+    chapters.forEach((chapter) => {
+      const index = Number(chapter.dataset.i);
+      const parent = parentTocMap.get(index) ?? null;
+      let ancestor = parent;
+      let isCollapsedDescendant = false;
+      const seen = /* @__PURE__ */ new Set([index]);
+      while (ancestor !== null && ancestor !== void 0 && !seen.has(ancestor)) {
+        if (collapsedTocRoots.has(ancestor)) {
+          isCollapsedDescendant = true;
+          break;
+        }
+        seen.add(ancestor);
+        ancestor = parentTocMap.get(ancestor) ?? null;
+      }
+      chapter.hidden = isCollapsedDescendant;
+      chapter.querySelector(".toc-toggle")?.remove();
+      chapter.querySelector(".drag-handle")?.remove();
+      const handle = document.createElement("span");
+      handle.className = "drag-handle";
+      handle.draggable = true;
+      handle.title = "\uB04C\uC5B4\uC11C \uC21C\uC11C \uB610\uB294 \uBAA9\uCC28 \uACC4\uCE35 \uBCC0\uACBD";
+      handle.setAttribute("aria-label", handle.title);
+      handle.textContent = "\u2261";
+      chapter.prepend(handle);
+      if (parent === null && rootHasChildren.has(index)) {
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "toc-toggle";
+        const collapsed = collapsedTocRoots.has(index);
+        toggle.textContent = collapsed ? "\u25B8" : "\u25BE";
+        toggle.title = collapsed ? "\uD558\uC704 \uBAA9\uCC28 \uD3BC\uCE58\uAE30" : "\uD558\uC704 \uBAA9\uCC28 \uC811\uAE30";
+        toggle.setAttribute("aria-label", toggle.title);
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+        toggle.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+        toggle.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (collapsedTocRoots.has(index)) collapsedTocRoots.delete(index);
+          else collapsedTocRoots.add(index);
+          arrangeChapterList();
+        });
+        chapter.append(toggle);
+      }
+    });
+  };
+  let stopParentTocPosition = null;
+  const closeParentTocMenu = () => {
+    stopParentTocPosition?.();
+    stopParentTocPosition = null;
+    parentTocMenu.hidden = true;
+    parentTocButton.setAttribute("aria-expanded", "false");
+  };
+  const renderParentTocPicker = () => {
+    const selected = parentToc.selectedOptions[0];
+    parentTocButton.textContent = selected?.textContent || "\uCD5C\uC0C1\uC704 \uBAA9\uCC28";
+    parentTocMenu.replaceChildren();
+    Array.from(parentToc.options).forEach((option) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "parent-toc-option";
+      item.setAttribute("role", "option");
+      item.setAttribute("aria-selected", String(option.selected));
+      item.textContent = option.textContent;
+      const choose = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        parentToc.value = option.value;
+        closeParentTocMenu();
+        parentToc.dispatchEvent(new Event("change", { bubbles: true }));
+        parentTocButton.focus({ preventScroll: true });
+      };
+      item.addEventListener("pointerdown", choose);
+      item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") choose(event);
+      });
+      parentTocMenu.append(item);
+    });
+  };
+  const refreshChapterControls = () => {
+    arrangeChapterList();
+    const activeIndex = activeChapterIndex();
+    const chapters = Array.from(
+      chapterList.querySelectorAll(".chapter[data-i]")
+    );
+    parentToc.replaceChildren(new Option("\uCD5C\uC0C1\uC704 \uBAA9\uCC28", ""));
+    chapters.forEach((chapter) => {
+      const index = Number(chapter.dataset.i);
+      if (index !== activeIndex && !tocExcluded.has(index) && !isDescendantOf(index, activeIndex))
+        parentToc.add(new Option(chapterLabel(chapter), String(index)));
+      const visible = !tocExcluded.has(index);
+      chapter.classList.toggle("is-toc-hidden", !visible);
+    });
+    parentToc.value = parentTocMap.get(activeIndex) ?? "";
+    renderParentTocPicker();
+  };
+  const scheduleChapterControlsRefresh = () => {
+    if (chapterControlsRefreshQueued) return;
+    chapterControlsRefreshQueued = true;
+    requestAnimationFrame(() => {
+      chapterControlsRefreshQueued = false;
+      refreshChapterControls();
+    });
+  };
+  const chapterShortcutTargetIsEditable = (target) => Boolean(
+    target?.closest?.(
+      "input,textarea,select,[contenteditable],.monaco-editor,.ProseMirror"
+    )
+  );
+  const setSelectedParent = (nextParent) => {
+    const selected = selectedChapterElement();
+    if (!selected) return;
+    const selectedIndex = Number(selected.dataset.i);
+    const previousParent = parentTocMap.get(selectedIndex);
+    if ((previousParent ?? null) === (nextParent ?? null) || nextParent === selectedIndex || nextParent !== null && isDescendantOf(nextParent, selectedIndex)) return;
+    const chapters = Array.from(chapterList.querySelectorAll(".chapter[data-i]"));
+    const anchorIndex = nextParent ?? previousParent;
+    if (anchorIndex !== void 0 && anchorIndex !== null) {
+      const last = chapters.filter((chapter) => {
+        const index = Number(chapter.dataset.i);
+        return chapter !== selected && !isDescendantOf(index, selectedIndex) && (index === anchorIndex || isDescendantOf(index, anchorIndex));
+      }).at(-1);
+      if (last) chapterList.insertBefore(selected, last.nextSibling);
+    }
+    if (nextParent === null) parentTocMap.delete(selectedIndex);
+    else {
+      parentTocMap.set(selectedIndex, nextParent);
+      collapsedTocRoots.delete(nextParent);
+    }
+    bookProject.dirty = true;
+    bookProject.revision++;
+    arrangeChapterList({ reorder: true });
+    refreshChapterControls();
+  };
+  const moveSelectedChapterHierarchy = (direction) => {
+    if (isCoverSelected() || !bookProject.selectedChapterId) return;
+    const selected = selectedChapterElement();
+    if (!selected) return;
+    saveCurrentChapter();
+    const chapters = Array.from(
+      chapterList.querySelectorAll(".chapter[data-i]")
+    );
+    if (direction === "outdent") {
+      const parent = parentTocMap.get(Number(selected.dataset.i));
+      if (parent === void 0) return;
+      setSelectedParent(parentTocMap.get(parent) ?? null);
+    } else {
+      const chapterById = new Map(
+        chapters.map((chapter) => [chapter.dataset.chapterId, chapter])
+      );
+      const parentById = new Map(
+        chapters.flatMap((chapter) => {
+          const parentIndex = parentTocMap.get(Number(chapter.dataset.i));
+          const parent2 = chapters.find(
+            (item) => Number(item.dataset.i) === parentIndex
+          );
+          return parent2 ? [[chapter.dataset.chapterId, parent2.dataset.chapterId]] : [];
+        })
+      );
+      const parentId = nearestPreviousSiblingId(
+        chapters.map((chapter) => chapter.dataset.chapterId),
+        parentById,
+        selected.dataset.chapterId
+      );
+      const parent = parentId ? chapterById.get(parentId) : null;
+      if (!parent) return;
+      setSelectedParent(Number(parent.dataset.i));
+    }
+  };
+  document.addEventListener("keydown", (event) => {
+    if (!event.shiftKey || event.altKey || event.ctrlKey || event.metaKey || chapterShortcutTargetIsEditable(event.target))
+      return;
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      moveSelectedChapterHierarchy("indent");
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      moveSelectedChapterHierarchy("outdent");
+    }
+  });
+  parentToc.addEventListener("change", () => {
+    setSelectedParent(parentToc.value ? Number(parentToc.value) : null);
+  });
+  parentTocButton.addEventListener("click", () => {
+    const opening = parentTocMenu.hidden;
+    closeParentTocMenu();
+    if (opening) {
+      parentTocMenu.hidden = false;
+      parentTocMenu.style.width = `${parentTocButton.getBoundingClientRect().width}px`;
+      parentTocMenu.style.visibility = "hidden";
+      stopParentTocPosition = autoUpdate(parentTocButton, parentTocMenu, () => {
+        computePosition(parentTocButton, parentTocMenu, {
+          strategy: "fixed",
+          placement: "bottom-start",
+          middleware: [offset(5), flip(), shift({ padding: 8 })]
+        }).then(({ x: x3, y: y3 }) => {
+          if (parentTocMenu.hidden) return;
+          const opening2 = parentTocMenu.style.visibility === "hidden";
+          Object.assign(parentTocMenu.style, {
+            left: `${x3}px`,
+            top: `${y3}px`,
+            width: `${parentTocButton.getBoundingClientRect().width}px`,
+            visibility: "visible"
+          });
+          if (opening2)
+            parentTocMenu.querySelector('[aria-selected="true"]')?.focus({ preventScroll: true });
+        });
+      });
+      parentTocButton.setAttribute("aria-expanded", "true");
+    }
+  });
+  document.addEventListener(
+    "pointerdown",
+    (event) => {
+      if (!parentTocPicker.contains(event.target) && !parentTocMenu.contains(event.target))
+        closeParentTocMenu();
+    },
+    true
+  );
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !parentTocMenu.hidden) {
+      closeParentTocMenu();
+      parentTocButton.focus();
+    }
+    if (parentTocMenu.hidden || !["ArrowDown", "ArrowUp"].includes(event.key) || !parentTocMenu.contains(event.target))
+      return;
+    event.preventDefault();
+    const options = [...parentTocMenu.querySelectorAll("button")];
+    options[(options.indexOf(document.activeElement) + options.length + (event.key === "ArrowDown" ? 1 : -1)) % options.length]?.focus();
+  });
+  chapterList.addEventListener("click", scheduleChapterControlsRefresh);
+  chapterList.addEventListener(
+    "click",
+    (event) => {
+      if (event.target.closest(".toc-toggle")) return;
+      const chapter = event.target.closest(".chapter[data-i]");
+      if (!chapter) return;
+      const bounds = chapter.getBoundingClientRect();
+      if (bounds.right - event.clientX > 38) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const index = Number(chapter.dataset.i);
+      if (tocExcluded.has(index)) tocExcluded.delete(index);
+      else tocExcluded.add(index);
+      bookProject.dirty = true;
+      bookProject.revision++;
+      refreshChapterControls();
+    },
+    true
+  );
+  new MutationObserver(() => {
+    if (ignoreInternalChapterMutation) {
+      ignoreInternalChapterMutation = false;
+      return;
+    }
+    scheduleChapterControlsRefresh();
+  }).observe(chapterList, { childList: true, subtree: true });
+  let draggedChapter = null;
+  const clearDropIndicator = () => chapterList.querySelectorAll(".drop-before,.drop-after,.drop-child").forEach(
+    (chapter) => chapter.classList.remove("drop-before", "drop-after", "drop-child")
+  );
+  chapterList.addEventListener("dragstart", (event) => {
+    const handle = event.target.closest(".drag-handle");
+    const chapter = handle?.closest(".chapter[data-i]");
+    if (!chapter) return;
+    draggedChapter = chapter;
+    chapter.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", chapter.dataset.i);
+  });
+  chapterList.addEventListener("dragover", (event) => {
+    const target = event.target.closest(".chapter[data-i]");
+    if (!draggedChapter || !target || target === draggedChapter) return;
+    event.preventDefault();
+    clearDropIndicator();
+    const bounds = target.getBoundingClientRect();
+    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * 0.35);
+    target.classList.add(
+      childDrop ? "drop-child" : event.clientY < bounds.top + bounds.height / 2 ? "drop-before" : "drop-after"
+    );
+    event.dataTransfer.dropEffect = "move";
+  });
+  chapterList.addEventListener("drop", (event) => {
+    const target = event.target.closest(".chapter[data-i]");
+    if (!draggedChapter || !target || target === draggedChapter) return;
+    event.preventDefault();
+    const draggedIndex = Number(draggedChapter.dataset.i);
+    const targetIndex = Number(target.dataset.i);
+    const bounds = target.getBoundingClientRect();
+    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * 0.35);
+    let nextParent = childDrop ? parentTocMap.get(targetIndex) ?? targetIndex : parentTocMap.get(targetIndex) ?? null;
+    if (nextParent === draggedIndex || isDescendantOf(nextParent, draggedIndex))
+      nextParent = null;
+    if (nextParent === null) parentTocMap.delete(draggedIndex);
+    else parentTocMap.set(draggedIndex, nextParent);
+    const before = !childDrop && event.clientY < bounds.top + bounds.height / 2;
+    chapterList.insertBefore(
+      draggedChapter,
+      before ? target : target.nextSibling
+    );
+    collapsedTocRoots.delete(draggedIndex);
+    bookProject.dirty = true;
+    bookProject.revision++;
+    arrangeChapterList({ reorder: true });
+    refreshChapterControls();
+  });
+  chapterList.addEventListener("dragend", () => {
+    draggedChapter?.classList.remove("is-dragging");
+    draggedChapter = null;
+    clearDropIndicator();
+  });
+  refreshChapterControls();
+  return {
+    chapterLabel,
+    refreshChapterControls,
+    scheduleChapterControlsRefresh
+  };
+}
+
+// cloud-draft-io.js
+function createCloudDraftIo(ctx) {
+  const {
+    cloudReady,
+    persistenceOwnerId,
+    deletionKey,
+    projectClientId,
+    assetHash,
+    previewAssets,
+    unresolvedAssets,
+    revokePreviewAssetUrl,
+    clearPreviewAssets,
+    renderAssetShelf,
+    renderAssetRecovery,
+    ensureEditLease,
+    renewEditLease
+  } = ctx;
+  const mapLimited = async (items, worker) => {
+    const results = new Array(items.length);
+    let next = 0;
+    await Promise.all(Array.from({ length: Math.min(4, items.length) }, async () => {
+      while (next < items.length) {
+        const index = next++;
+        results[index] = await worker(items[index]);
+      }
+    }));
+    return results;
+  };
+  const readCloudProject = async (ownerId, projectId) => {
+    const { data: record, error } = await client.from("epub_drafts").select("payload,project_id,revision,updated_at").eq("owner_id", ownerId).eq("project_id", projectId).maybeSingle();
+    if (error) throw error;
+    if (!record?.payload) throw new Error("\uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
+    return {
+      ...record.payload,
+      projectId: record.project_id,
+      serverRevision: record.revision,
+      lastServerSavedAt: record.updated_at
+    };
+  };
+  const listCloudProjects = async (ownerId) => {
+    const client2 = await cloudReady;
+    const rows = [];
+    for (let offset2 = 0; ; offset2 += 500) {
+      const { data, error } = await client2.from("epub_drafts").select("project_id,title,revision,updated_at").eq("owner_id", ownerId).order("updated_at", { ascending: false }).range(offset2, offset2 + 499);
+      if (error) throw error;
+      rows.push(...data);
+      if (data.length < 500) break;
+    }
+    const deletions = [];
+    for (let offset2 = 0; ; offset2 += 500) {
+      const { data, error } = await client2.from("epub_project_deletions").select("project_id,revision").eq("owner_id", ownerId).order("project_id").range(offset2, offset2 + 499);
+      if (error) throw error;
+      deletions.push(...data);
+      if (data.length < 500) break;
+    }
+    return { rows, deletions };
+  };
+  const loadDraftAssets = async (draft, isCurrent = () => true) => {
+    const loaded = /* @__PURE__ */ new Map();
+    const missing = /* @__PURE__ */ new Map();
+    const ownerId = persistenceOwnerId();
+    const results = await mapLimited(draft.assets || [], async (asset) => {
+      let blob = null;
+      {
+        const client2 = await cloudReady;
+        if (client2 && ctx.supabaseUser?.id === ownerId && isCurrent()) {
+          try {
+            for (const storagePath of await savedAssetPaths(
+              ownerId,
+              draft,
+              asset
+            )) {
+              if (!isCurrent()) break;
+              const { data, error } = await client2.storage.from("epub-assets").download(storagePath, {
+                cacheNonce: asset.hash || String(Date.now())
+              });
+              if (!error && data && (!asset.hash || await assetHash(data) === asset.hash)) {
+                blob = data;
+                break;
+              }
+            }
+          } catch {
+          }
+        }
+      }
+      if (blob)
+        return [asset.name, {
+          type: asset.type,
+          blob,
+          url: URL.createObjectURL(blob),
+          originalPath: asset.originalPath || "",
+          isCover: Boolean(asset.isCover),
+          storagePath: asset.storagePath,
+          hash: asset.hash || await assetHash(blob),
+          serverStoredHash: asset.serverStoredHash
+        }];
+      return [asset.name, null, { ...asset }];
+    });
+    results.forEach(([name, asset, unresolved]) => {
+      if (asset) loaded.set(name, asset);
+      else missing.set(name, unresolved);
+    });
+    if (!isCurrent()) {
+      loaded.forEach(revokePreviewAssetUrl);
+      return null;
+    }
+    return { loaded, missing };
+  };
+  const loadImportedSourceFiles = async (draft, isCurrent = () => true, loadedAssets = previewAssets) => {
+    const source = draft.importedSource;
+    if (!source) return null;
+    if (Array.isArray(source.files))
+      return {
+        ...source,
+        files: new Map(
+          source.files.map(([path, bytes]) => [path, new Uint8Array(bytes)])
+        )
+      };
+    const files = /* @__PURE__ */ new Map();
+    const missing = [];
+    const results = await mapLimited(source.resources || [], async (resource) => {
+      let blob = null;
+      if (ctx.supabaseUser?.id === persistenceOwnerId() && resource.storagePath && isCurrent()) {
+        const client2 = await cloudReady;
+        try {
+          const { data, error } = await client2.storage.from("epub-assets").download(resource.storagePath, {
+            cacheNonce: resource.hash || String(Date.now())
+          });
+          if (!error && data && (!resource.hash || await assetHash(data) === resource.hash)) blob = data;
+        } catch {
+        }
+      }
+      return blob ? [resource.path, new Uint8Array(await blob.arrayBuffer())] : [resource.path, null];
+    });
+    results.forEach(([path, bytes]) => {
+      if (bytes) files.set(path, bytes);
+      else missing.push(path);
+    });
+    for (const asset of loadedAssets.values())
+      if (asset.originalPath && asset.blob)
+        files.set(
+          asset.originalPath,
+          new Uint8Array(await asset.blob.arrayBuffer())
+        );
+    if (!isCurrent()) return null;
+    if (missing.length)
+      console.warn(
+        "\uAC00\uC838\uC628 EPUB \uC6D0\uBCF8 \uB9AC\uC18C\uC2A4 \uC77C\uBD80\uB97C \uBCF5\uC6D0\uD558\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.",
+        missing
+      );
+    return { ...source, files, sourceMissing: missing };
+  };
+  const saveCloudDraft = async (draft, assets, ownerId) => {
+    if (ctx.deletedProjectIds.has(deletionKey(ownerId, draft.projectId)))
+      throw new Error(
+        "\uC11C\uBC84\uC5D0\uC11C \uC0AD\uC81C\uB41C \uD504\uB85C\uC81D\uD2B8\uC785\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB97C \uB0B4\uBCF4\uB0B4\uC138\uC694."
+      );
+    if (!isAccessVerified())
+      throw new Error("\uC811\uADFC \uAD8C\uD55C\uC744 \uB2E4\uC2DC \uD655\uC778\uD55C \uB4A4 \uC11C\uBC84 \uB3D9\uAE30\uD654\uB97C \uC2DC\uB3C4\uD558\uC138\uC694.");
+    const client2 = await cloudReady;
+    if (!client2 || !ctx.supabaseUser || ctx.supabaseUser.id !== ownerId)
+      throw new Error(
+        "\uD604\uC7AC \uD68C\uC6D0\uC758 \uC11C\uBC84 \uC5F0\uACB0\uC744 \uD655\uC778\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+      );
+    if (!ctx.editLease || ctx.editLease.projectId !== draft.projectId || ctx.editLease.expiresAt <= Date.now())
+      throw new Error(
+        "\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+      );
+    const cloudAssets = [
+      ...draft.assets || [],
+      ...draft.importedSource?.resources || []
+    ];
+    const toUpload = cloudAssets.filter((asset) => {
+      asset.storagePath ||= immutableAssetPath(
+        ownerId,
+        draft.projectId,
+        asset.hash
+      );
+      return asset.serverStoredHash !== asset.hash;
+    });
+    let next = 0;
+    const uploadOne = async () => {
+      while (next < toUpload.length) {
+        const asset = toUpload[next++];
+        if (!isAccessVerified() || persistenceOwnerId() !== ownerId)
+          throw new Error("\uC811\uADFC \uAD8C\uD55C \uD655\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.");
+        const stored = assets.get(asset.name);
+        if (!stored?.blob)
+          throw new Error(
+            `${asset.sourceResource ? "\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4" : "\uC774\uBBF8\uC9C0"} \u201C${asset.originalPath || asset.name}\u201D\uC758 \uC6D0\uBCF8 \uD30C\uC77C\uC744 \uCC3E\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.`
+          );
+        const { error: error2 } = await client2.storage.from("epub-assets").upload(asset.storagePath, stored.blob, {
+          contentType: asset.type || "application/octet-stream",
+          upsert: false
+        });
+        if (error2) {
+          const existing = await client2.storage.from("epub-assets").download(asset.storagePath, { cacheNonce: asset.hash });
+          if (existing.error || !existing.data || await assetHash(existing.data) !== asset.hash)
+            throw new Error(
+              `${asset.sourceResource ? "\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4" : "\uC774\uBBF8\uC9C0"} \uC5C5\uB85C\uB4DC \uC2E4\uD328: ${error2.message}`
+            );
+        }
+      }
+    };
+    await Promise.all(
+      Array.from({ length: Math.min(3, toUpload.length) }, uploadOne)
+    );
+    if (!isAccessVerified() || persistenceOwnerId() !== ownerId || ctx.deletedProjectIds.has(deletionKey(ownerId, draft.projectId)))
+      throw new Error("\uC811\uADFC \uAD8C\uD55C \uB610\uB294 \uD504\uB85C\uC81D\uD2B8 \uC0AD\uC81C \uC0C1\uD0DC\uB97C \uB2E4\uC2DC \uD655\uC778\uD558\uC138\uC694.");
+    cloudAssets.forEach((asset) => {
+      asset.serverStoredHash = asset.hash;
+    });
+    const { data, error } = await client2.rpc("overwrite_epub_project", {
+      p_project_id: draft.projectId,
+      p_payload: draft,
+      p_client_id: projectClientId,
+      p_generation: ctx.editLease.generation
+    });
+    if (error?.code === "PGRST202")
+      throw new Error(
+        "\uC218\uB3D9 \uC800\uC7A5\uC6A9 \uC11C\uBC84 migration\uC774 \uC544\uC9C1 \uC801\uC6A9\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB97C \uC720\uC9C0\uD558\uC138\uC694."
+      );
+    if (error?.code === "PT423") {
+      void renewEditLease();
+      throw new Error(
+        "\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+      );
+    }
+    if (error) throw new Error(`\uC11C\uBC84 \uC800\uC7A5 \uC2E4\uD328: ${error.message}`);
+    if (!Number.isSafeInteger(data?.revision))
+      throw new Error(
+        "\uC11C\uBC84 \uC800\uC7A5 \uC751\uB2F5\uC774 \uC62C\uBC14\uB974\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+      );
+    cloudAssets.forEach((asset) => {
+      asset.serverStoredHash = asset.hash;
+      const local = assets.get(asset.name);
+      if (local) local.serverStoredHash = asset.hash;
+      if (!asset.sourceResource && previewAssets.get(asset.name)?.blob === local?.blob)
+        previewAssets.get(asset.name).serverStoredHash = asset.hash;
+    });
+    if (ctx.importedEpub && draft.importedSource?.resources)
+      ctx.importedEpub.resourceManifest = structuredClone(
+        draft.importedSource.resources
+      );
+    draft.serverRevision = data.revision;
+    draft.lastServerSavedAt = data.saved_at || (/* @__PURE__ */ new Date()).toISOString();
+    return true;
+  };
+  const deleteCloudDraft = async (draft) => {
+    if (!draft.serverRevision) return;
+    if (!isAccessVerified())
+      throw new Error("\uC811\uADFC \uAD8C\uD55C\uC744 \uB2E4\uC2DC \uD655\uC778\uD55C \uB4A4 \uC0AD\uC81C\uD558\uC138\uC694.");
+    if (ctx.editLeaseSupported === true && !await ensureEditLease())
+      throw new Error("\uD3B8\uC9D1 \uAD8C\uD55C\uC744 \uD655\uC778\uD558\uC9C0 \uBABB\uD574 \uC0AD\uC81C\uD558\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.");
+    const args = {
+      p_project_id: draft.projectId,
+      p_expected_revision: draft.serverRevision
+    };
+    if (ctx.editLeaseSupported === true)
+      Object.assign(args, {
+        p_client_id: projectClientId,
+        p_generation: ctx.editLease?.generation
+      });
+    const { error } = await client.rpc("delete_epub_project", args);
+    if (error?.code === "PT423") {
+      void renewEditLease();
+      throw new Error(
+        "\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC0AD\uC81C\uD558\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4."
+      );
+    }
+    if (error) throw error;
+  };
+  return {
+    loadDraftAssets,
+    loadImportedSourceFiles,
+    saveCloudDraft,
+    deleteCloudDraft,
+    readCloudProject,
+    listCloudProjects
+  };
+}
+
+// epub-file-io.js
+var import_esm6 = __toESM(require_jszip_min(), 1);
+function createEpubFileIo({
+  attributeValue,
+  defaultChapterFileName,
+  tocExcluded,
+  parentTocMap
+}) {
+  const epubText = (value) => new TextEncoder().encode(value);
+  const epubEscape = (value) => String(value).replace(
+    /[&<>"']/g,
+    (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&apos;"
+    })[character]
+  );
+  const createEpubZip = async (files) => {
+    const archive = new import_esm6.default();
+    const mimetype = files.find((file) => file.name === "mimetype");
+    if (mimetype)
+      archive.file("mimetype", mimetype.data, { compression: "STORE" });
+    files.filter((file) => file.name !== "mimetype").forEach((file) => {
+      archive.file(file.name, file.data, {
+        compression: "DEFLATE",
+        compressionOptions: { level: 6 }
+      });
+    });
+    return archive.generateAsync({
+      type: "blob",
+      mimeType: "application/epub+zip",
+      compression: "DEFLATE",
+      streamFiles: false
+    });
+  };
+  const normaliseImportedFootnoteLinks = (body, chapterPath, footnotePath) => String(body).replace(/<a\b([^>]*)>/gi, (all, attributes) => {
+    const href = attributeValue(attributes, "href");
+    const id2 = href.split("#")[1] || "";
+    const targetPath = href ? zipPath(
+      chapterPath.slice(0, chapterPath.lastIndexOf("/") + 1),
+      href.split("#")[0]
+    ) : "";
+    if (!id2 || targetPath !== footnotePath) return all;
+    const withoutTarget = attributes.replace(
+      /\s+target\s*=\s*(["']).*?\1/gi,
+      ""
+    );
+    if (/(?:^|\s)noteref(?:\s|$)/i.test(
+      attributeValue(withoutTarget, "epub:type")
+    ))
+      return `<a${withoutTarget}>`;
+    return `<a${withoutTarget} epub:type="noteref">`;
+  });
+  const importedMetadata = (imported, draft) => {
+    const identifier = imported.identifier || `urn:uuid:${crypto.randomUUID()}`;
+    return `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">${epubEscape(identifier)}</dc:identifier><dc:title>${epubEscape(draft.title || "\uC0C8 \uC804\uC790\uCC45")}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ""}<dc:language>${epubEscape(draft.language || "ko")}</dc:language>${imported.metadataExtras || ""}<meta property="dcterms:modified">${(/* @__PURE__ */ new Date()).toISOString().replace(/\.\d{3}Z$/, "Z")}</meta></metadata>`;
+  };
+  const makeEpubNav = (chapters, filenames = chapters.map((_3, index) => defaultChapterFileName(index)), structure = { tocExcluded, parentTocMap }) => {
+    const included = chapters.filter(
+      (_3, index) => !structure.tocExcluded.has(index)
+    );
+    const visible = new Set(
+      included.map((_3, index) => chapters.indexOf(included[index]))
+    );
+    const parentFor = (index) => {
+      const seen = /* @__PURE__ */ new Set([index]);
+      let parent = structure.parentTocMap.get(index);
+      while (parent !== void 0 && !seen.has(parent)) {
+        if (visible.has(parent)) return parent;
+        seen.add(parent);
+        parent = structure.parentTocMap.get(parent);
+      }
+      return null;
+    };
+    const items = included.map((chapter) => ({
+      chapter,
+      index: chapters.indexOf(chapter)
+    }));
+    const render = (parent) => items.filter((item) => parentFor(item.index) === parent).map((item) => {
+      const children = render(item.index);
+      const link = `<a href="text/${epubEscape(filenames[item.index])}">${epubEscape(item.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>`;
+      return `<li>${link}${children ? `<ol>${children}</ol>` : ""}</li>`;
+    }).join("");
+    const landmarks = (structure.landmarks || []).map(
+      (item) => `<li><a epub:type="${epubEscape(item.type)}" href="${epubEscape(item.href)}">${epubEscape(item.title)}</a></li>`
+    ).join("");
+    return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>\uBAA9\uCC28</title></head><body><nav epub:type="toc"><h1>\uBAA9\uCC28</h1><ol>${render(null)}</ol></nav>${landmarks ? `<nav epub:type="landmarks" hidden="hidden"><h2>\uC548\uB0B4</h2><ol>${landmarks}</ol></nav>` : ""}</body></html>`;
+  };
+  const replaceXhtmlBody = (source, body) => /<body\b[^>]*>[\s\S]*?<\/body\s*>/i.test(source) ? source.replace(
+    /(<body\b[^>]*>)[\s\S]*?(<\/body\s*>)/i,
+    (_3, opening, closing) => opening + body + closing
+  ) : source;
+  const replaceXhtmlTitle = (source, title) => /<title\b[^>]*>[\s\S]*?<\/title\s*>/i.test(source) ? source.replace(
+    /(<title\b[^>]*>)[\s\S]*?(<\/title\s*>)/i,
+    (_3, opening, closing) => opening + epubEscape(title) + closing
+  ) : source;
+  const relativeEpubPath = (fromFile, toFile) => {
+    const from = fromFile.split("/").slice(0, -1);
+    const to2 = toFile.split("/");
+    while (from.length && to2.length && from[0] === to2[0]) {
+      from.shift();
+      to2.shift();
+    }
+    return `${"../".repeat(from.length)}${to2.join("/")}` || toFile.split("/").pop();
+  };
+  const zipText = (bytes) => new TextDecoder("utf-8").decode(bytes).replace(/^\uFEFF/, "");
+  const zipPath = (basePath, href) => {
+    try {
+      return decodeURIComponent(
+        new URL(href, `https://epub.local/${basePath}`).pathname.slice(1)
+      );
+    } catch {
+      return href.replace(/^\.\//, "");
+    }
+  };
+  const unzipEpub = async (file) => {
+    let archive;
+    try {
+      archive = await import_esm6.default.loadAsync(file);
+    } catch {
+      throw new Error("\uC720\uD6A8\uD55C EPUB(ZIP) \uD30C\uC77C\uC774 \uC544\uB2D9\uB2C8\uB2E4.");
+    }
+    const files = /* @__PURE__ */ new Map();
+    await Promise.all(
+      Object.entries(archive.files).filter(([, entry]) => !entry.dir).map(
+        async ([name, entry]) => files.set(name, await entry.async("uint8array"))
+      )
+    );
+    return files;
+  };
+  const xmlDocument = (source, label) => {
+    const documentNode = new DOMParser().parseFromString(
+      source,
+      "application/xml"
+    );
+    if (documentNode.querySelector("parsererror"))
+      throw new Error(`${label} \uD615\uC2DD\uC774 \uC62C\uBC14\uB974\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.`);
+    return documentNode;
+  };
+  const elementText = (documentNode, name) => documentNode.getElementsByTagNameNS("*", name)[0]?.textContent?.trim() || "";
+  const xhtmlBody = (source) => /<body\b[^>]*>([\s\S]*?)<\/body\s*>/i.exec(source)?.[1] ?? source;
+  const xhtmlTitle = (source) => /<title\b[^>]*>([\s\S]*?)<\/title\s*>/i.exec(source)?.[1].replace(/<[^>]+>/g, "").trim() || "";
+  const tocEntriesFromNcx = (source, basePath) => {
+    const documentNode = xmlDocument(source, "toc.ncx");
+    const entries2 = /* @__PURE__ */ new Map();
+    const visit = (node, level, parentPath = null) => Array.from(node.children).filter((child) => child.localName === "navPoint").map((point) => {
+      const href = point.getElementsByTagNameNS("*", "content")[0]?.getAttribute("src") || "";
+      const path = zipPath(basePath, href.split("#")[0]);
+      const title = point.getElementsByTagNameNS("*", "text")[0]?.textContent?.trim() || "";
+      if (path && !entries2.has(path))
+        entries2.set(path, { title, level, parentPath });
+      return {
+        path,
+        fragment: href.includes("#") ? `#${href.split("#").slice(1).join("#")}` : "",
+        title,
+        children: visit(point, level + 1, path || parentPath)
+      };
+    });
+    entries2.tree = visit(
+      documentNode.getElementsByTagNameNS("*", "navMap")[0] || documentNode,
+      1
+    );
+    return entries2;
+  };
+  const tocEntriesFromNav = (source, basePath) => {
+    const documentNode = new DOMParser().parseFromString(source, "text/html");
+    const toc = Array.from(documentNode.querySelectorAll("nav")).find(
+      (node) => /(^|\s)toc(\s|$)/i.test(
+        node.getAttribute("epub:type") || node.getAttribute("type") || ""
+      )
+    ) || documentNode.querySelector("nav");
+    const entries2 = /* @__PURE__ */ new Map();
+    const visit = (list, level, parentPath = null) => Array.from(list?.children || []).filter((node) => node.tagName === "LI").map((item) => {
+      const link = item.querySelector(":scope > a");
+      const href = link?.getAttribute("href") || "";
+      const path = href ? zipPath(basePath, href.split("#")[0]) : "";
+      const title = link?.textContent.trim() || "";
+      if (path && !entries2.has(path))
+        entries2.set(path, { title, level, parentPath });
+      return {
+        path,
+        fragment: href.includes("#") ? `#${href.split("#").slice(1).join("#")}` : "",
+        title,
+        children: visit(
+          Array.from(item.children).find((node) => node.tagName === "OL"),
+          level + 1,
+          path || parentPath
+        )
+      };
+    });
+    entries2.tree = visit(toc?.querySelector("ol"), 1);
+    return entries2;
+  };
+  return {
+    epubText,
+    epubEscape,
+    createEpubZip,
+    normaliseImportedFootnoteLinks,
+    importedMetadata,
+    makeEpubNav,
+    replaceXhtmlBody,
+    replaceXhtmlTitle,
+    relativeEpubPath,
+    zipText,
+    zipPath,
+    unzipEpub,
+    xmlDocument,
+    elementText,
+    xhtmlBody,
+    xhtmlTitle,
+    tocEntriesFromNcx,
+    tocEntriesFromNav
+  };
+}
+
+// epub-export.js
+function createEpubExporter(ctx) {
+  const {
+    collectDraft,
+    previewAssets,
+    validateAllChapters,
+    setStatus,
+    prepareFootnotes,
+    normaliseXhtml,
+    defaultChapterFileName,
+    epubText,
+    epubEscape,
+    createEpubZip,
+    normaliseImportedFootnoteLinks,
+    replaceXhtmlBody,
+    replaceXhtmlTitle,
+    relativeEpubPath,
+    importedMetadata,
+    zipText,
+    makeEpubNav
+  } = ctx;
+  const exportImportedEpub3 = async (draft) => {
+    const imported = ctx.importedEpub;
+    if (!imported) return false;
+    const output = new Map(imported.files);
+    const addedMeta = [];
+    const resolvedMeta = new Map(
+      draft.chapters.map((chapter) => {
+        let meta = imported.chapterMeta.find(
+          (item) => item.path === chapter.originalPath
+        );
+        if (!meta) {
+          const path = `${imported.packageBase}text/${chapter.fileName}`;
+          if (output.has(path) && path !== imported.footnotePath)
+            throw new Error(`\uC0C8 \uC7A5 \uACBD\uB85C\uAC00 \uAE30\uC874 \uB9AC\uC18C\uC2A4\uC640 \uACB9\uCE69\uB2C8\uB2E4: ${path}`);
+          meta = {
+            path,
+            idref: chapter.id,
+            body: "",
+            tocTitle: chapter.title,
+            source: `<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>${epubEscape(chapter.title)}</title></head><body></body></html>`
+          };
+          addedMeta.push(meta);
+        }
+        return [chapter.id, meta];
+      })
+    );
+    let replacementCoverType = "";
+    if (imported.coverReplaced && imported.coverImagePath && draft.coverSource) {
+      const blob = await fetch(draft.coverSource).then(
+        (response) => response.blob()
+      );
+      output.set(
+        imported.coverImagePath,
+        new Uint8Array(await blob.arrayBuffer())
+      );
+      replacementCoverType = blob.type || "";
+    }
+    const metaForChapter = (chapter) => resolvedMeta.get(chapter.id);
+    draft.chapters.forEach((chapter, index) => {
+      const meta = metaForChapter(chapter, index);
+      const exportBody = normaliseImportedFootnoteLinks(
+        chapter.body.replace(
+          /\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi,
+          ""
+        ),
+        meta.path,
+        imported.footnotePath
+      );
+      let source = chapter.body === meta.body ? meta.source : replaceXhtmlBody(meta.source, exportBody);
+      if (chapter.title && chapter.title !== meta.tocTitle)
+        source = replaceXhtmlTitle(source, chapter.title);
+      output.set(meta.path, epubText(source));
+    });
+    if (imported.stylesheetPath && output.has(imported.stylesheetPath))
+      output.set(imported.stylesheetPath, epubText(draft.css));
+    const footnotePath = imported.footnotePath || `${imported.packageBase}text/footnote.xhtml`;
+    const generatedFootnoteId = "sitescout-footnotes";
+    if (draft.footnotes?.length) {
+      const asides = draft.footnotes.map((note) => {
+        const sourceIndex = draft.chapters.findIndex(
+          (chapter) => chapter.id === note.sourceChapterId
+        );
+        const source = metaForChapter(
+          draft.chapters[Math.max(0, sourceIndex)],
+          Math.max(0, sourceIndex)
+        );
+        const href = relativeEpubPath(footnotePath, source.path);
+        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(href)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
+      }).join("");
+      if (output.has(footnotePath)) {
+        const original = zipText(output.get(footnotePath));
+        const addition = `<section id="${generatedFootnoteId}" epub:type="footnotes">${asides}</section>`;
+        output.set(
+          footnotePath,
+          epubText(
+            /<\/body\s*>/i.test(original) ? original.replace(/<\/body\s*>/i, `${addition}</body>`) : `${original}${addition}`
+          )
+        );
+      } else {
+        output.set(
+          footnotePath,
+          epubText(
+            `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(draft.language || "ko")}"><head><title>\uAC01\uC8FC</title></head><body><section id="${generatedFootnoteId}" epub:type="footnotes"><h1>\uAC01\uC8FC</h1>${asides}</section></body></html>`
+          )
+        );
+      }
+    }
+    const draftTocExcluded = new Set(draft.tocExcluded);
+    const draftParentTocMap = new Map(draft.parentToc);
+    const navItems = draft.chapters.map((chapter, index) => ({
+      meta: metaForChapter(chapter, index),
+      index,
+      chapter
+    })).filter(({ index }) => !draftTocExcluded.has(index));
+    const renderNav = (parent) => navItems.filter(
+      ({ index }) => (draftParentTocMap.get(index) ?? null) === parent
+    ).map(({ meta, index, chapter }) => {
+      const children = renderNav(index);
+      const href = relativeEpubPath(imported.navPath, meta.path);
+      return `<li><a href="${epubEscape(href)}">${epubEscape(chapter.title || meta.tocTitle || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>${children ? `<ol>${children}</ol>` : ""}</li>`;
+    }).join("");
+    let navMarkup = renderNav(null);
+    let currentTocTree = null;
+    if (imported.tocTree?.length) {
+      const originalChapterPaths = new Set(
+        imported.chapterMeta.map((meta) => meta.path)
+      );
+      const currentPaths = new Set(
+        draft.chapters.map((chapter) => chapter.originalPath)
+      );
+      const includedPaths = new Set(
+        navItems.map((item) => item.chapter.originalPath)
+      );
+      const coveredPaths = /* @__PURE__ */ new Set();
+      const copyTree = (nodes) => nodes.map((node) => ({ ...node, children: copyTree(node.children || []) }));
+      currentTocTree = copyTree(imported.tocTree);
+      const originalTocSignature = JSON.stringify(currentTocTree);
+      const primaryByPath = /* @__PURE__ */ new Map();
+      const parentByNode = /* @__PURE__ */ new Map();
+      const indexTree = (nodes, parent = null) => nodes.forEach((node) => {
+        if (node.path && !primaryByPath.has(node.path)) primaryByPath.set(node.path, node);
+        parentByNode.set(node, parent);
+        indexTree(node.children, node);
+      });
+      indexTree(currentTocTree);
+      navItems.forEach(({ chapter, meta }) => {
+        const node = primaryByPath.get(chapter.originalPath);
+        if (node && chapter.title && chapter.title !== meta.tocTitle) node.title = chapter.title;
+      });
+      navItems.forEach(({ index, chapter, meta }) => {
+        if (primaryByPath.has(chapter.originalPath)) return;
+        const node = { path: meta.path, fragment: "", title: chapter.title || meta.tocTitle || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5", children: [] };
+        currentTocTree.push(node);
+        primaryByPath.set(chapter.originalPath, node);
+        parentByNode.set(node, null);
+      });
+      navItems.forEach(({ index, chapter }) => {
+        const node = primaryByPath.get(chapter.originalPath);
+        const parentChapter = draft.chapters[draftParentTocMap.get(index)];
+        const originalParentPath = imported.chapterMeta.find((meta) => meta.path === chapter.originalPath)?.tocParentPath || null;
+        if ((parentChapter?.originalPath || null) === originalParentPath) return;
+        const nextParent = parentChapter ? primaryByPath.get(parentChapter.originalPath) || null : null;
+        if (!node || node === nextParent || parentByNode.get(node) === nextParent) return;
+        let ancestor = nextParent;
+        while (ancestor) {
+          if (ancestor === node) return;
+          ancestor = parentByNode.get(ancestor);
+        }
+        const oldParent = parentByNode.get(node);
+        const siblings = oldParent ? oldParent.children : currentTocTree;
+        siblings.splice(siblings.indexOf(node), 1);
+        (nextParent ? nextParent.children : currentTocTree).push(node);
+        parentByNode.set(node, nextParent);
+      });
+      const includeNode = (node) => {
+        if (originalChapterPaths.has(node.path) && !currentPaths.has(node.path) && !imported.coverPagePaths.includes(node.path)) return false;
+        if (imported.coverDeleted && imported.coverPagePaths.includes(node.path)) return false;
+        if (currentPaths.has(node.path) && !includedPaths.has(node.path)) return false;
+        return true;
+      };
+      const renderTree = (nodes) => nodes.map((node) => {
+        if (!includeNode(node)) return "";
+        const chapter = navItems.find(
+          (item) => item.chapter.originalPath === node.path || item.meta.path === node.path
+        );
+        const path = chapter?.meta.path || node.path;
+        if (chapter) coveredPaths.add(chapter.meta.path);
+        const href = `${relativeEpubPath(imported.navPath, path)}${node.fragment || ""}`;
+        const children = renderTree(node.children || []);
+        return `<li>${path ? `<a href="${epubEscape(href)}">${epubEscape(node.title || chapter?.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>` : `<span>${epubEscape(node.title)}</span>`}${children ? `<ol>${children}</ol>` : ""}</li>`;
+      }).join("");
+      navMarkup = renderTree(currentTocTree) + navItems.filter((item) => !coveredPaths.has(item.meta.path)).map(
+        (item) => `<li><a href="${epubEscape(relativeEpubPath(imported.navPath, item.meta.path))}">${epubEscape(item.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a></li>`
+      ).join("");
+      const ncxItem = imported.manifest.find((item) => item.type === "application/x-dtbncx+xml" && output.has(item.href));
+      const originallyIncluded = new Set(imported.chapterMeta.filter((meta) => meta.includeInToc).map((meta) => meta.path));
+      const inclusionChanged = originallyIncluded.size !== includedPaths.size || [...originallyIncluded].some((path) => !includedPaths.has(path));
+      if (ncxItem && (originalTocSignature !== JSON.stringify(currentTocTree) || inclusionChanged || imported.coverDeleted)) {
+        const documentNode = new DOMParser().parseFromString(zipText(output.get(ncxItem.href)), "application/xml");
+        const navMap = documentNode.getElementsByTagNameNS("*", "navMap")[0];
+        if (!navMap || documentNode.getElementsByTagName("parsererror").length) throw new Error("\uC6D0\uBCF8 NCX \uBAA9\uCC28\uB97C \uC77D\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
+        const originalIds = new Map(Array.from(navMap.getElementsByTagNameNS("*", "navPoint")).map((point) => [
+          point.getElementsByTagNameNS("*", "content")[0]?.getAttribute("src"),
+          point.getAttribute("id")
+        ]));
+        Array.from(navMap.children).filter((child) => child.localName === "navPoint").forEach((child) => child.remove());
+        const namespace = navMap.namespaceURI || "http://www.daisy.org/z3986/2005/ncx/";
+        let playOrder = 0;
+        let generatedId = 0;
+        const usedIds = /* @__PURE__ */ new Set();
+        const appendNcx = (nodes, parent) => nodes.forEach((node) => {
+          if (!includeNode(node)) return;
+          if (!node.path) {
+            appendNcx(node.children || [], parent);
+            return;
+          }
+          const point = documentNode.createElementNS(namespace, "navPoint");
+          const href = `${relativeEpubPath(ncxItem.href, node.path)}${node.fragment || ""}`;
+          const oldId = originalIds.get(href);
+          let id2 = oldId && !usedIds.has(oldId) ? oldId : `sitescout-nav-${++generatedId}`;
+          while (usedIds.has(id2)) id2 = `sitescout-nav-${++generatedId}`;
+          usedIds.add(id2);
+          point.setAttribute("id", id2);
+          playOrder++;
+          point.setAttribute("playOrder", String(playOrder));
+          const label = documentNode.createElementNS(namespace, "navLabel");
+          const text2 = documentNode.createElementNS(namespace, "text");
+          text2.textContent = node.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5";
+          label.append(text2);
+          point.append(label);
+          const content = documentNode.createElementNS(namespace, "content");
+          content.setAttribute("src", href);
+          point.append(content);
+          parent.append(point);
+          appendNcx(node.children || [], point);
+        });
+        appendNcx(currentTocTree, navMap);
+        output.set(ncxItem.href, epubText(new XMLSerializer().serializeToString(documentNode)));
+      }
+    }
+    output.set(
+      imported.navPath,
+      epubText(
+        `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>\uBAA9\uCC28</title></head><body><nav epub:type="toc"><h1>\uBAA9\uCC28</h1><ol>${navMarkup}</ol></nav></body></html>`
+      )
+    );
+    const retainedPaths = new Set(
+      draft.chapters.map((chapter) => metaForChapter(chapter).path)
+    );
+    const deletedPaths = new Set(
+      imported.chapterMeta.filter((meta) => !retainedPaths.has(meta.path)).map((meta) => meta.path)
+    );
+    if (imported.coverDeleted)
+      imported.coverPagePaths.forEach((path) => deletedPaths.add(path));
+    deletedPaths.forEach((path) => output.delete(path));
+    const manifest = imported.manifest.filter(
+      (item) => !deletedPaths.has(item.href) && !item.properties.split(/\s+/).includes("nav")
+    ).map((item) => {
+      const properties = new Set(
+        item.properties.split(/\s+/).filter(Boolean)
+      );
+      if (item.href === imported.coverImagePath && !imported.coverDeleted)
+        properties.add("cover-image");
+      if (imported.coverDeleted) properties.delete("cover-image");
+      const mediaType = item.href === imported.coverImagePath && replacementCoverType ? replacementCoverType : item.type;
+      return `<item id="${epubEscape(item.id)}" href="${epubEscape(item.rawHref)}" media-type="${epubEscape(mediaType)}"${properties.size ? ` properties="${epubEscape(Array.from(properties).join(" "))}"` : ""}/>`;
+    });
+    addedMeta.forEach(
+      (meta) => manifest.push(
+        `<item id="${epubEscape(meta.idref)}" href="${epubEscape(relativeEpubPath(imported.packagePath, meta.path))}" media-type="application/xhtml+xml"/>`
+      )
+    );
+    const hasFootnoteManifest = imported.manifest.some(
+      (item) => item.href === footnotePath
+    );
+    if (draft.footnotes?.length && !hasFootnoteManifest)
+      manifest.push(
+        `<item id="footnotes" href="${epubEscape(relativeEpubPath(imported.packagePath, footnotePath))}" media-type="application/xhtml+xml"/>`
+      );
+    const navHref = relativeEpubPath(imported.packagePath, imported.navPath);
+    manifest.push(
+      `<item id="nav" href="${epubEscape(navHref)}" media-type="application/xhtml+xml" properties="nav"/>`
+    );
+    const orderedRefs = draft.chapters.map(
+      (chapter) => imported.spineRefs.find(
+        (ref) => ref.idref === metaForChapter(chapter).idref
+      ) || { idref: metaForChapter(chapter).idref }
+    );
+    const chapterRefIds = new Set(
+      imported.chapterMeta.map((meta) => meta.idref)
+    );
+    let chapterRefIndex = 0;
+    const spineRefs = imported.spineRefs.filter(
+      (ref) => !deletedPaths.has(
+        imported.manifest.find((item) => item.id === ref.idref)?.href
+      ) || chapterRefIds.has(ref.idref)
+    ).flatMap((ref) => {
+      const next = chapterRefIds.has(ref.idref) ? orderedRefs[chapterRefIndex++] : ref;
+      return next ? [{ ...next }] : [];
+    });
+    spineRefs.push(...orderedRefs.slice(chapterRefIndex));
+    if (draft.footnotes?.length && !spineRefs.some(
+      (ref) => ref.idref === (imported.footnoteManifestId || "footnotes")
+    ))
+      spineRefs.push({ idref: "footnotes", linear: "no" });
+    const spine = spineRefs.map(
+      (ref) => `<itemref idref="${epubEscape(ref.idref)}"${ref.linear ? ` linear="${epubEscape(ref.linear)}"` : ""}/>`
+    ).join("");
+    const title = draft.title || "\uC0C8 \uC804\uC790\uCC45";
+    const language = draft.language || "ko";
+    output.set(
+      imported.packagePath,
+      epubText(
+        `<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}">${importedMetadata(imported, draft)}<manifest>${manifest.join("")}</manifest><spine>${spine}</spine></package>`
+      )
+    );
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(
+      await createEpubZip(
+        Array.from(output, ([name, data]) => ({ name, data }))
+      )
+    );
+    link.download = `${title.replace(/[\\/:*?"<>|]/g, "-")}.epub`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
+    setStatus(
+      `[${title}] EPUB 3.0 \uD30C\uC77C\uC744 \uB2E4\uC6B4\uB85C\uB4DC\uD588\uC2B5\uB2C8\uB2E4. \uC6D0\uBCF8 spine\xB7\uACBD\uB85C\xB7\uBAA9\uCC28\uB97C \uBCF4\uC874\uD588\uC2B5\uB2C8\uB2E4.`
+    );
+    return true;
+  };
+  const exportAssetAwareEpub = async () => {
+    const draft = collectDraft();
+    const missing = draft.assets.filter(
+      (asset) => !previewAssets.get(asset.name)?.blob
+    );
+    if (missing.length) {
+      setStatus(
+        `\uC774\uBBF8\uC9C0 ${missing.length}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD574 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uC774\uBBF8\uC9C0 \uB2E4\uC2DC \uBD88\uB7EC\uC624\uAE30\uB97C \uC0AC\uC6A9\uD558\uC138\uC694.`,
+        "error"
+      );
+      return false;
+    }
+    const xhtmlErrors = validateAllChapters(draft);
+    if (xhtmlErrors.length) {
+      setStatus(
+        `XHTML \uC624\uB958 ${xhtmlErrors.length}\uAC74\uC774 \uC788\uC5B4 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uC624\uB958\uB97C \uC218\uC815\uD55C \uB4A4 \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694.`,
+        "error"
+      );
+      return false;
+    }
+    const availableImages = new Set(
+      draft.assets.map((asset) => imageAssetPath(asset.name, asset))
+    );
+    const missingReferences = [];
+    for (const chapter of draft.chapters) {
+      const base = chapter.originalPath || `EPUB/text/${chapter.fileName}`;
+      const bodyDocument = new DOMParser().parseFromString(
+        `<root xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">${chapter.body}</root>`,
+        "application/xml"
+      );
+      for (const image of [
+        ...bodyDocument.getElementsByTagName("img"),
+        ...bodyDocument.getElementsByTagNameNS(
+          "http://www.w3.org/2000/svg",
+          "image"
+        )
+      ]) {
+        const source = image.getAttribute("src") || image.getAttribute("href") || image.getAttribute("xlink:href");
+        const path = source?.startsWith("images/") ? `EPUB/Image/${source.slice(7).split(/[?#]/)[0]}` : resolveImagePath(source, base);
+        if (path && !availableImages.has(path)) missingReferences.push(path);
+      }
+    }
+    for (const item of ctx.importedEpub?.manifest || []) {
+      if (item.type.startsWith("image/") && !ctx.importedEpub.files.has(item.href) && !availableImages.has(item.href))
+        missingReferences.push(item.href);
+    }
+    if (missingReferences.length) {
+      setStatus(
+        `\uCC38\uC870\uB41C \uC774\uBBF8\uC9C0 ${[...new Set(missingReferences)].join(", ")}\uC744(\uB97C) \uCC3E\uC9C0 \uBABB\uD574 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.`,
+        "error"
+      );
+      return false;
+    }
+    const footnoteResult = prepareFootnotes(draft);
+    if (footnoteResult.errors.length) {
+      setStatus(
+        `\uAC01\uC8FC \uC624\uB958 ${footnoteResult.errors.length}\uAC74\uC774 \uC788\uC5B4 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uAC01\uC8FC \uB9C1\uD06C\uC640 \uB0B4\uC6A9\uC744 \uD655\uC778\uD558\uC138\uC694.`,
+        "error"
+      );
+      return false;
+    }
+    draft.footnotes = footnoteResult.notes.map((note) => ({ ...note }));
+    draft.auxiliaryChapters = draft.chapters.filter(
+      (chapter) => chapter.generated && ["cover", "footnotes"].includes(chapter.type)
+    );
+    const kept = draft.chapters.map((chapter, index) => ({ chapter, index })).filter(({ chapter }) => !draft.auxiliaryChapters.includes(chapter));
+    const remap = new Map(kept.map(({ index }, next) => [index, next]));
+    draft.tocExcluded = draft.tocExcluded.filter((index) => remap.has(index)).map((index) => remap.get(index));
+    draft.parentToc = draft.parentToc.filter(([child, parent]) => remap.has(child) && remap.has(parent)).map(([child, parent]) => [remap.get(child), remap.get(parent)]);
+    draft.chapters = kept.map(({ chapter }) => chapter);
+    draft.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+    if (await exportImportedEpub3(draft)) return;
+    const title = draft.title || "\uC0C8 \uC804\uC790\uCC45";
+    const language = draft.language || "ko";
+    const files = [
+      { name: "mimetype", data: epubText("application/epub+zip") },
+      {
+        name: "META-INF/container.xml",
+        data: epubText(
+          '<?xml version="1.0" encoding="UTF-8"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml"/></rootfiles></container>'
+        )
+      },
+      { name: "EPUB/styles/book.css", data: epubText(draft.css) }
+    ];
+    const manifest = [
+      '<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>',
+      '<item id="css" href="styles/book.css" media-type="text/css"/>'
+    ];
+    const spine = [];
+    const usedFilenames = /* @__PURE__ */ new Set();
+    const filenames = draft.chapters.map((chapter, index) => {
+      const requested = String(chapter.fileName || defaultChapterFileName(index)).trim().replace(/^.*[\\/]/, "").replace(/[<>:"|?*]/g, "-") || defaultChapterFileName(index);
+      const hasXhtmlExtension = /\.xhtml?$/i.test(requested);
+      const extension = hasXhtmlExtension ? "" : ".xhtml";
+      const base = hasXhtmlExtension ? requested : requested || `chapter-${index + 1}`;
+      let filename = `${base}${extension}`;
+      let suffix = 2;
+      while (usedFilenames.has(filename.toLowerCase())) {
+        filename = `${base}-${suffix}${extension}`;
+        suffix += 1;
+      }
+      usedFilenames.add(filename.toLowerCase());
+      return filename;
+    });
+    if (draft.coverSource) {
+      const coverBlob = await fetch(draft.coverSource).then(
+        (response) => response.blob()
+      );
+      const coverExtension = coverBlob.type === "image/png" ? "png" : "jpg";
+      const coverName = `cover.${coverExtension}`;
+      files.push({
+        name: `EPUB/Image/${coverName}`,
+        data: new Uint8Array(await coverBlob.arrayBuffer())
+      });
+      files.push({
+        name: "EPUB/text/cover.xhtml",
+        data: epubText(
+          `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><title>\uD45C\uC9C0</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><img src="../Image/${coverName}" alt="\uD45C\uC9C0"/></body></html>`
+        )
+      });
+      manifest.push(
+        `<item id="cover-image" href="Image/${coverName}" media-type="${coverBlob.type}" properties="cover-image"/>`,
+        '<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>'
+      );
+      spine.push('<itemref idref="cover-page" linear="no"/>');
+    } else if (draft.auxiliaryChapters.some((chapter) => chapter.type === "cover")) {
+      files.push({
+        name: "EPUB/text/cover.xhtml",
+        data: epubText(
+          '<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title>\uD45C\uC9C0</title></head><body></body></html>'
+        )
+      });
+      manifest.push(
+        '<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>'
+      );
+      spine.push('<itemref idref="cover-page"/>');
+    }
+    for (let index = 0; index < draft.chapters.length; index += 1) {
+      const chapter = draft.chapters[index];
+      const filename = filenames[index];
+      const body = normaliseXhtml(chapter.body).replace(/\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi, "").replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-f]+;)/gi, "&amp;").replace(/src=(['"])images\//g, "src=$1../Image/");
+      files.push({
+        name: `EPUB/text/${filename}`,
+        data: epubText(
+          `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>${epubEscape(chapter.title || title)}</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body>${body}</body></html>`
+        )
+      });
+      manifest.push(
+        `<item id="chapter-${index + 1}" href="text/${filename}" media-type="application/xhtml+xml"/>`
+      );
+      spine.push(`<itemref idref="chapter-${index + 1}"/>`);
+    }
+    if (draft.footnotes.length || draft.auxiliaryChapters.some((chapter) => chapter.type === "footnotes")) {
+      const footnoteBody = draft.footnotes.map((note) => {
+        const sourceIndex = draft.chapters.findIndex(
+          (chapter) => chapter.id === note.sourceChapterId
+        );
+        const sourceFile = filenames[Math.max(0, sourceIndex)] || filenames[0];
+        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(sourceFile)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
+      }).join("");
+      files.push({
+        name: "EPUB/text/footnote.xhtml",
+        data: epubText(
+          `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>\uAC01\uC8FC</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><section epub:type="footnotes"><h1>\uAC01\uC8FC</h1>${footnoteBody}</section></body></html>`
+        )
+      });
+      manifest.push(
+        '<item id="footnotes" href="text/footnote.xhtml" media-type="application/xhtml+xml"/>'
+      );
+      spine.push('<itemref idref="footnotes" linear="no"/>');
+    }
+    for (let index = 0; index < draft.assets.length; index += 1) {
+      const asset = draft.assets[index];
+      const stored = previewAssets.get(asset.name);
+      if (!stored?.blob) continue;
+      files.push({
+        name: `EPUB/Image/${asset.name}`,
+        data: new Uint8Array(await stored.blob.arrayBuffer())
+      });
+      manifest.push(
+        `<item id="image-${index + 1}" href="Image/${epubEscape(asset.name)}" media-type="${epubEscape(asset.type || "image/png")}"/>`
+      );
+    }
+    const landmarks = [
+      {
+        name: "EPUB/text/cover.xhtml",
+        type: "cover",
+        href: "text/cover.xhtml",
+        title: "\uD45C\uC9C0"
+      },
+      {
+        name: "EPUB/text/footnote.xhtml",
+        type: "endnotes",
+        href: "text/footnote.xhtml",
+        title: "\uAC01\uC8FC"
+      }
+    ].filter((item) => files.some((file) => file.name === item.name));
+    files.push({
+      name: "EPUB/nav.xhtml",
+      data: epubText(
+        makeEpubNav(draft.chapters, filenames, {
+          tocExcluded: new Set(draft.tocExcluded),
+          parentTocMap: new Map(draft.parentToc),
+          landmarks
+        })
+      )
+    });
+    files.push({
+      name: "EPUB/package.opf",
+      data: epubText(
+        `<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">urn:uuid:${crypto.randomUUID()}</dc:identifier><dc:title>${epubEscape(title)}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ""}<dc:language>${epubEscape(language)}</dc:language><meta property="dcterms:modified">${(/* @__PURE__ */ new Date()).toISOString().replace(/\.\d{3}Z$/, "Z")}</meta></metadata><manifest>${manifest.join("")}</manifest><spine>${spine.join("")}</spine></package>`
+      )
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(await createEpubZip(files));
+    link.download = `${title.replace(/[\\/:*?"<>|]/g, "-")}.epub`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
+    setStatus(
+      `[${title}] EPUB 3.0 \uD30C\uC77C\uC744 \uB2E4\uC6B4\uB85C\uB4DC\uD588\uC2B5\uB2C8\uB2E4. \uB2E4\uC6B4\uB85C\uB4DC \uD3F4\uB354\uB97C \uD655\uC778\uD558\uC138\uC694.`
+    );
+  };
+  return { exportAssetAwareEpub };
+}
+
+// epub-import.js
+async function parseEpubFile(file, {
+  unzipEpub,
+  xmlDocument,
+  zipText,
+  zipPath,
+  elementText,
+  xhtmlBody,
+  xhtmlTitle,
+  tocEntriesFromNav,
+  tocEntriesFromNcx,
+  createChapterId,
+  defaultChapterFileName
+}) {
+  const files = await unzipEpub(file);
+  const container = xmlDocument(
+    zipText(files.get("META-INF/container.xml") || new Uint8Array()),
+    "container.xml"
+  );
+  const packagePath = container.getElementsByTagNameNS("*", "rootfile")[0]?.getAttribute("full-path");
+  if (!packagePath || !files.has(packagePath))
+    throw new Error("EPUB \uD328\uD0A4\uC9C0(OPF)\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
+  const packageDocument = xmlDocument(
+    zipText(files.get(packagePath)),
+    "EPUB \uD328\uD0A4\uC9C0"
+  );
+  const packageBase = packagePath.slice(0, packagePath.lastIndexOf("/") + 1);
+  const metadataNode = packageDocument.getElementsByTagNameNS(
+    "*",
+    "metadata"
+  )[0];
+  const originalIdentifier = elementText(packageDocument, "identifier");
+  const metadataExtras = Array.from(metadataNode?.children || []).filter(
+    (node) => !["identifier", "title", "creator", "language"].includes(
+      node.localName
+    ) && !(node.localName === "meta" && node.getAttribute("property") === "dcterms:modified")
+  ).map((node) => new XMLSerializer().serializeToString(node)).join("");
+  const manifest = new Map(
+    Array.from(packageDocument.getElementsByTagNameNS("*", "item")).map(
+      (item) => [
+        item.getAttribute("id"),
+        {
+          id: item.getAttribute("id"),
+          href: zipPath(packageBase, item.getAttribute("href") || ""),
+          rawHref: item.getAttribute("href") || "",
+          type: item.getAttribute("media-type") || "",
+          properties: item.getAttribute("properties") || ""
+        }
+      ]
+    )
+  );
+  const spineRefs = Array.from(
+    packageDocument.getElementsByTagNameNS("*", "itemref")
+  ).map((item) => ({
+    idref: item.getAttribute("idref"),
+    linear: item.getAttribute("linear") || ""
+  }));
+  const metadataCoverId = Array.from(
+    packageDocument.getElementsByTagNameNS("*", "meta")
+  ).find((item) => item.getAttribute("name") === "cover")?.getAttribute("content");
+  const guideCoverRef = Array.from(packageDocument.getElementsByTagNameNS("*", "reference")).find((item) => item.getAttribute("type") === "cover")?.getAttribute("href") || "";
+  const guideCoverPath = guideCoverRef ? zipPath(packageBase, guideCoverRef.split("#")[0]) : "";
+  let coverImage = Array.from(manifest.values()).find(
+    (item) => item.properties.split(/\s+/).includes("cover-image")
+  ) || manifest.get(metadataCoverId);
+  const coverPagePaths = /* @__PURE__ */ new Set();
+  if (guideCoverPath) {
+    const guideItem = Array.from(manifest.values()).find(
+      (item) => item.href === guideCoverPath
+    );
+    if (guideItem?.type.includes("xhtml")) coverPagePaths.add(guideCoverPath);
+    else if (guideItem?.type.startsWith("image/")) coverImage ||= guideItem;
+  }
+  const imageFromCoverPage = (path) => {
+    const source = zipText(files.get(path) || new Uint8Array());
+    const match = /(?:src|href|xlink:href)\s*=\s*(["'])(.*?)\1/i.exec(source);
+    return match ? Array.from(manifest.values()).find(
+      (item) => item.href === zipPath(
+        path.slice(0, path.lastIndexOf("/") + 1),
+        match[2].split("#")[0]
+      )
+    ) : null;
+  };
+  if (!coverImage && guideCoverPath)
+    coverImage = imageFromCoverPage(guideCoverPath);
+  const spineXhtmlItems = spineRefs.map((ref) => manifest.get(ref.idref)).filter((item) => item?.type.includes("xhtml"));
+  const inferredCoverPage = spineXhtmlItems.find((item) => {
+    const referencedImage = imageFromCoverPage(item.href);
+    if (!referencedImage) return false;
+    const plainText = xhtmlBody(
+      zipText(files.get(item.href) || new Uint8Array())
+    ).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    return plainText.length < 80 && (/cover|front/i.test(item.rawHref) || /cover|front/i.test(referencedImage.rawHref) || item === spineXhtmlItems[0]);
+  });
+  if (!coverImage && inferredCoverPage)
+    coverImage = imageFromCoverPage(inferredCoverPage.href);
+  if (!coverPagePaths.size) {
+    const coverPage = inferredCoverPage || coverImage && spineXhtmlItems.find(
+      (item) => imageFromCoverPage(item.href)?.href === coverImage.href
+    );
+    if (coverPage) coverPagePaths.add(coverPage.href);
+  }
+  const spine = spineRefs.map((ref) => ({ ...ref, item: manifest.get(ref.idref) })).filter(
+    (ref) => ref.item?.type.includes("xhtml") && !coverPagePaths.has(ref.item.href)
+  );
+  const chapterSources = spine;
+  if (!chapterSources.length)
+    throw new Error("\uBD88\uB7EC\uC62C XHTML \uBCF8\uBB38\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
+  const navItem = Array.from(manifest.values()).find(
+    (item) => item.properties.split(/\s+/).includes("nav")
+  );
+  const ncxItem = Array.from(manifest.values()).find(
+    (item) => item.type === "application/x-dtbncx+xml"
+  );
+  const tocEntries = navItem && files.has(navItem.href) ? tocEntriesFromNav(
+    zipText(files.get(navItem.href)),
+    navItem.href.slice(0, navItem.href.lastIndexOf("/") + 1)
+  ) : ncxItem && files.has(ncxItem.href) ? tocEntriesFromNcx(
+    zipText(files.get(ncxItem.href)),
+    ncxItem.href.slice(0, ncxItem.href.lastIndexOf("/") + 1)
+  ) : /* @__PURE__ */ new Map();
+  const chapterMeta = chapterSources.map(({ item, idref, linear }, index) => {
+    const source = zipText(files.get(item.href) || new Uint8Array());
+    const toc = tocEntries.get(item.href);
+    return {
+      index,
+      idref,
+      linear,
+      path: item.href,
+      rawHref: item.rawHref,
+      source,
+      body: xhtmlBody(source),
+      tocTitle: toc?.title || xhtmlTitle(source) || `\uC81C${index + 1}\uC7A5`,
+      tocLevel: toc?.level || 1,
+      tocParentPath: toc?.parentPath || null,
+      includeInToc: Boolean(toc)
+    };
+  });
+  const chapters = chapterMeta.map((meta) => ({
+    id: createChapterId(),
+    originalPath: meta.path,
+    title: meta.tocTitle,
+    level: meta.tocLevel,
+    body: meta.body,
+    fileName: meta.path.split("/").pop() || defaultChapterFileName(meta.index)
+  }));
+  const title = elementText(packageDocument, "title") || file.name.replace(/\.epub$/i, "");
+  const author = elementText(packageDocument, "creator");
+  const language = elementText(packageDocument, "language") || "ko";
+  return {
+    files,
+    packagePath,
+    packageBase,
+    originalIdentifier,
+    metadataExtras,
+    manifest,
+    spineRefs,
+    coverPagePaths,
+    coverImage,
+    chapterMeta,
+    chapters,
+    navItem,
+    tocEntries,
+    title,
+    author,
+    language
+  };
+}
+
+// ui.js?v=20261008-startup
 async function initializeApp() {
   const initialAccess = await appAccess;
   if (!initialAccess) return;
-  document.head.append(uiStyle);
   const $2 = (selector) => {
     if (typeof selector === "string" && /^[A-Za-z][\w-]*$/.test(selector)) {
       return document.getElementById(selector) || document.querySelector(selector);
@@ -56487,18 +58409,8 @@ async function initializeApp() {
   const chapterHeader = chapterCard.querySelector(".head");
   let chapterControls = chapterList.parentElement;
   const preview = $2("#preview");
-  let previewIframe = null;
-  const previewContentRoot = () => previewIframe?.isConnected ? previewIframe.contentDocument?.body || preview : preview;
-  const previewScrollRoot = () => previewIframe?.isConnected ? previewIframe.contentDocument?.scrollingElement || previewContentRoot() : preview;
-  const previewCard = preview.closest(".preview-card");
-  const previewHeader = previewCard.querySelector(".head");
-  const previewStage = document.createElement("div");
-  previewStage.className = "preview-stage";
-  const previewDeviceShell = document.createElement("div");
-  previewDeviceShell.className = "preview-device-shell";
-  preview.before(previewStage);
-  previewStage.append(previewDeviceShell);
-  previewDeviceShell.append(preview);
+  const previewUi = mountPreviewDevice(preview);
+  const { previewCard, previewContentRoot } = previewUi;
   const grid = chapterCard.parentElement;
   const editorCard = chapterCard.nextElementSibling;
   const resizeHandles = ["chapters", "preview"].map((panel) => {
@@ -56550,64 +58462,6 @@ async function initializeApp() {
     handle.addEventListener("pointercancel", finish);
   }));
   new ResizeObserver(positionResizeHandles).observe(grid);
-  const devicePresets = {
-    "iphone-16": { label: "iPhone 16", width: 393, height: 852 },
-    "iphone-16-plus": { label: "iPhone 16 Plus", width: 430, height: 932 },
-    "iphone-16-pro": { label: "iPhone 16 Pro", width: 402, height: 874 },
-    "iphone-16-pro-max": { label: "iPhone 16 Pro Max", width: 440, height: 956 },
-    "iphone-17": { label: "iPhone 17", width: 393, height: 852 },
-    "iphone-17-air": { label: "iPhone 17 Air", width: 430, height: 932 },
-    "iphone-17-pro": { label: "iPhone 17 Pro", width: 402, height: 874 },
-    "iphone-17-pro-max": { label: "iPhone 17 Pro Max", width: 440, height: 956 },
-    "iphone-18": { label: "iPhone 18", width: 393, height: 852 },
-    "iphone-18-pro": { label: "iPhone 18 Pro", width: 402, height: 874 },
-    "iphone-18-pro-max": { label: "iPhone 18 Pro Max", width: 440, height: 956 },
-    "ipad-mini": { label: "iPad mini", width: 744, height: 1133 },
-    "ipad": { label: "iPad", width: 820, height: 1180 },
-    "ipad-air": { label: "iPad Air", width: 820, height: 1180 },
-    "ipad-pro-11": { label: "iPad Pro 11\u2033", width: 834, height: 1194 },
-    "ipad-pro-13": { label: "iPad Pro 13\u2033", width: 1032, height: 1376 }
-  };
-  previewHeader.innerHTML = `<span>\uBBF8\uB9AC\uBCF4\uAE30</span><div class="device-controls"><select id="phonePreview" aria-label="\uC544\uC774\uD3F0 \uBBF8\uB9AC\uBCF4\uAE30"><option value="">\uC544\uC774\uD3F0</option><option value="iphone-16">iPhone 16</option><option value="iphone-16-plus">16 Plus</option><option value="iphone-16-pro">16 Pro</option><option value="iphone-16-pro-max">16 Pro Max</option><option value="iphone-17">iPhone 17</option><option value="iphone-17-air">17 Air</option><option value="iphone-17-pro">17 Pro</option><option value="iphone-17-pro-max">17 Pro Max</option><option value="iphone-18">iPhone 18</option><option value="iphone-18-pro">18 Pro</option><option value="iphone-18-pro-max">18 Pro Max</option></select><select id="tabletPreview" aria-label="\uD0DC\uBE14\uB9BF \uBBF8\uB9AC\uBCF4\uAE30"><option value="">Tablet</option><option value="ipad-mini">iPad mini</option><option value="ipad">iPad</option><option value="ipad-air">iPad Air</option><option value="ipad-pro-11">iPad Pro 11\u2033</option><option value="ipad-pro-13">iPad Pro 13\u2033</option></select></div>`;
-  const phonePreview = $2("#phonePreview");
-  const tabletPreview = $2("#tabletPreview");
-  let selectedDevice = "";
-  const applyDevicePreview = () => {
-    const device = devicePresets[selectedDevice];
-    if (!device) {
-      preview.dataset.devicePreview = "false";
-      previewDeviceShell.dataset.devicePreview = "false";
-      preview.style.removeProperty("width");
-      preview.style.removeProperty("height");
-      preview.style.removeProperty("aspect-ratio");
-      preview.style.removeProperty("transform");
-      previewDeviceShell.style.removeProperty("width");
-      previewDeviceShell.style.removeProperty("height");
-      return;
-    }
-    const availableWidth = Math.max(1, previewStage.clientWidth);
-    const availableHeight = Math.max(1, previewStage.clientHeight);
-    const scale = Math.max(0.1, Math.min(1, availableWidth / (device.width + 16), availableHeight / (device.height + 16)));
-    preview.dataset.devicePreview = "true";
-    previewDeviceShell.dataset.devicePreview = "true";
-    preview.style.setProperty("width", `${device.width}px`, "important");
-    preview.style.setProperty("height", `${device.height}px`, "important");
-    preview.style.setProperty("transform", `scale(${scale})`);
-    previewDeviceShell.style.width = `${Math.round((device.width + 16) * scale)}px`;
-    previewDeviceShell.style.height = `${Math.round((device.height + 16) * scale)}px`;
-  };
-  phonePreview.addEventListener("change", () => {
-    selectedDevice = phonePreview.value;
-    if (selectedDevice) tabletPreview.value = "";
-    applyDevicePreview();
-  });
-  tabletPreview.addEventListener("change", () => {
-    selectedDevice = tabletPreview.value;
-    if (selectedDevice) phonePreview.value = "";
-    applyDevicePreview();
-  });
-  new ResizeObserver(applyDevicePreview).observe(previewCard);
-  new ResizeObserver(applyDevicePreview).observe(previewStage);
   root.dataset.theme = localStorage.getItem("epub-theme") || "dark";
   side.querySelector(".tip").insertAdjacentHTML("beforebegin", `
     <div class="theme-settings">
@@ -56624,7 +58478,7 @@ async function initializeApp() {
   accountArea.innerHTML = `<button type="button" class="account-button">\uB85C\uADF8\uC778</button><div class="account-panel" hidden>
     <h3>Sitescout \uB85C\uADF8\uC778</h3>
     <form class="login-form"><label>\uC544\uC774\uB514<input name="username" autocomplete="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>\uBE44\uBC00\uBC88\uD638<input name="password" type="password" autocomplete="current-password" required minlength="6" /></label><div class="account-actions"><button type="submit" class="primary">\uB85C\uADF8\uC778</button><button type="button" class="secondary account-close">\uB2EB\uAE30</button></div></form>
-    <p class="account-message" aria-live="polite"></p><div class="admin-panel" hidden><h3>\uC0AC\uC6A9\uC790 \uC544\uC774\uB514 \uBC1C\uAE09</h3><form class="admin-form"><label>\uC0C8 \uC544\uC774\uB514<input name="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>\uC784\uC2DC \uBE44\uBC00\uBC88\uD638<input name="password" type="password" required minlength="6" /></label><button type="submit" class="secondary" style="width:100%;margin-top:10px">\uC544\uC774\uB514 \uBC1C\uAE09</button></form></div>
+    <p class="account-message" aria-live="polite"></p><div class="admin-panel" hidden><h3>\uC0AC\uC6A9\uC790 \uC544\uC774\uB514 \uBC1C\uAE09</h3><form class="admin-form"><label>\uC0C8 \uC544\uC774\uB514<input name="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>\uC784\uC2DC \uBE44\uBC00\uBC88\uD638<input name="password" type="password" required minlength="6" /></label><button type="submit" class="secondary">\uC544\uC774\uB514 \uBC1C\uAE09</button></form></div>
   </div>`;
   top.insertBefore(accountArea, exportButton);
   bookView.className = "book-inline";
@@ -57147,320 +59001,21 @@ async function initializeApp() {
   ["#ctitle", "#clevel", "#body"].forEach((selector) => $2(selector).addEventListener("input", snapshotCurrentChapter));
   sigilFileName.addEventListener("input", snapshotCurrentChapter);
   addChapter.addEventListener("click", snapshotCurrentChapter);
-  let arrangingChapters = false;
-  let ignoreInternalChapterMutation = false;
-  let chapterControlsRefreshQueued = false;
-  const chapterLabel = (chapter) => Array.from(chapter.childNodes).filter((node) => node.nodeType === Node.TEXT_NODE).map((node) => node.textContent.trim()).join(" ").trim() || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5";
-  const isDescendantOf = (index, ancestor) => {
-    const seen = /* @__PURE__ */ new Set();
-    let parent = parentTocMap.get(index);
-    while (parent !== void 0 && !seen.has(parent)) {
-      if (parent === ancestor) return true;
-      seen.add(parent);
-      parent = parentTocMap.get(parent);
-    }
-    return false;
-  };
-  const arrangeChapterList = ({ reorder = false } = {}) => {
-    if (arrangingChapters) return;
-    const chapters = Array.from(chapterList.querySelectorAll(".chapter[data-i]"));
-    if (chapters.length) ignoreInternalChapterMutation = true;
-    const available = new Set(chapters.map((chapter) => Number(chapter.dataset.i)));
-    parentTocMap.forEach((parent, child) => {
-      if (!available.has(parent) || parent === child || isDescendantOf(parent, child)) parentTocMap.delete(child);
-    });
-    const ordered = [];
-    const visit = (parent, depth) => {
-      let number = 0;
-      chapters.filter((chapter) => (parentTocMap.get(Number(chapter.dataset.i)) ?? null) === parent).forEach((chapter) => {
-        number += 1;
-        chapter.querySelector(".num").textContent = String(number);
-        chapter.style.setProperty("padding-left", `${10 + depth * 18}px`, "important");
-        chapter.style.setProperty("--toc-depth", depth);
-        ordered.push(chapter);
-        visit(Number(chapter.dataset.i), depth + 1);
-      });
-    };
-    visit(null, 0);
-    if (ordered.length !== chapters.length) return;
-    if (reorder && !ordered.every((chapter, index) => chapter === chapters[index])) {
-      arrangingChapters = true;
-      ignoreInternalChapterMutation = true;
-      ordered.forEach((chapter) => chapterList.append(chapter));
-      arrangingChapters = false;
-    }
-    const rootHasChildren = /* @__PURE__ */ new Set();
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      const parent = parentTocMap.get(index) ?? null;
-      if (parent !== null && (parentTocMap.get(parent) ?? null) === null) rootHasChildren.add(parent);
-    });
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      const parent = parentTocMap.get(index) ?? null;
-      let ancestor = parent;
-      let isCollapsedDescendant = false;
-      const seen = /* @__PURE__ */ new Set([index]);
-      while (ancestor !== null && ancestor !== void 0 && !seen.has(ancestor)) {
-        if (collapsedTocRoots.has(ancestor)) {
-          isCollapsedDescendant = true;
-          break;
-        }
-        seen.add(ancestor);
-        ancestor = parentTocMap.get(ancestor) ?? null;
-      }
-      chapter.hidden = isCollapsedDescendant;
-      chapter.querySelector(".toc-toggle")?.remove();
-      chapter.querySelector(".drag-handle")?.remove();
-      const handle = document.createElement("span");
-      handle.className = "drag-handle";
-      handle.draggable = true;
-      handle.title = "\uB04C\uC5B4\uC11C \uC21C\uC11C \uB610\uB294 \uBAA9\uCC28 \uACC4\uCE35 \uBCC0\uACBD";
-      handle.setAttribute("aria-label", handle.title);
-      handle.textContent = "\u2261";
-      chapter.prepend(handle);
-      if (parent === null && rootHasChildren.has(index)) {
-        const toggle = document.createElement("button");
-        toggle.type = "button";
-        toggle.className = "toc-toggle";
-        const collapsed = collapsedTocRoots.has(index);
-        toggle.textContent = collapsed ? "\u25B8" : "\u25BE";
-        toggle.title = collapsed ? "\uD558\uC704 \uBAA9\uCC28 \uD3BC\uCE58\uAE30" : "\uD558\uC704 \uBAA9\uCC28 \uC811\uAE30";
-        toggle.setAttribute("aria-label", toggle.title);
-        toggle.setAttribute("aria-expanded", String(!collapsed));
-        toggle.addEventListener("pointerdown", (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-        });
-        toggle.addEventListener("click", (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          if (collapsedTocRoots.has(index)) collapsedTocRoots.delete(index);
-          else collapsedTocRoots.add(index);
-          arrangeChapterList();
-        });
-        chapter.append(toggle);
-      }
-    });
-  };
-  let stopParentTocPosition = null;
-  const closeParentTocMenu = () => {
-    stopParentTocPosition?.();
-    stopParentTocPosition = null;
-    parentTocMenu.hidden = true;
-    parentTocButton.setAttribute("aria-expanded", "false");
-  };
-  const renderParentTocPicker = () => {
-    const selected = parentToc.selectedOptions[0];
-    parentTocButton.textContent = selected?.textContent || "\uCD5C\uC0C1\uC704 \uBAA9\uCC28";
-    parentTocMenu.replaceChildren();
-    Array.from(parentToc.options).forEach((option) => {
-      const item = document.createElement("button");
-      item.type = "button";
-      item.className = "parent-toc-option";
-      item.setAttribute("role", "option");
-      item.setAttribute("aria-selected", String(option.selected));
-      item.textContent = option.textContent;
-      const choose = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        parentToc.value = option.value;
-        closeParentTocMenu();
-        parentToc.dispatchEvent(new Event("change", { bubbles: true }));
-        parentTocButton.focus({ preventScroll: true });
-      };
-      item.addEventListener("pointerdown", choose);
-      item.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") choose(event);
-      });
-      parentTocMenu.append(item);
-    });
-  };
-  const refreshChapterControls = () => {
-    arrangeChapterList();
-    const activeIndex = activeChapterIndex();
-    const chapters = Array.from(chapterList.querySelectorAll(".chapter[data-i]"));
-    parentToc.replaceChildren(new Option("\uCD5C\uC0C1\uC704 \uBAA9\uCC28", ""));
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      if (index !== activeIndex && !tocExcluded.has(index) && !isDescendantOf(index, activeIndex)) parentToc.add(new Option(chapterLabel(chapter), String(index)));
-      const visible = !tocExcluded.has(index);
-      chapter.classList.toggle("is-toc-hidden", !visible);
-    });
-    parentToc.value = parentTocMap.get(activeIndex) ?? "";
-    renderParentTocPicker();
-  };
-  const scheduleChapterControlsRefresh = () => {
-    if (chapterControlsRefreshQueued) return;
-    chapterControlsRefreshQueued = true;
-    requestAnimationFrame(() => {
-      chapterControlsRefreshQueued = false;
-      refreshChapterControls();
-    });
-  };
-  const chapterShortcutTargetIsEditable = (target) => Boolean(target?.closest?.(
-    "input,textarea,select,[contenteditable],.monaco-editor,.ProseMirror"
-  ));
-  const moveSelectedChapterHierarchy = (direction) => {
-    if (isCoverSelected() || !bookProject.selectedChapterId) return;
-    const selected = selectedChapterElement();
-    if (!selected) return;
-    saveCurrentChapter();
-    const selectedIndex = Number(selected.dataset.i);
-    const chapters = Array.from(chapterList.querySelectorAll(".chapter[data-i]"));
-    if (direction === "outdent") {
-      if (!parentTocMap.has(selectedIndex)) return;
-      parentTocMap.delete(selectedIndex);
-    } else {
-      const chapterById = new Map(chapters.map((chapter) => [chapter.dataset.chapterId, chapter]));
-      const parentById = new Map(chapters.flatMap((chapter) => {
-        const parentIndex2 = parentTocMap.get(Number(chapter.dataset.i));
-        const parent2 = chapters.find((item) => Number(item.dataset.i) === parentIndex2);
-        return parent2 ? [[chapter.dataset.chapterId, parent2.dataset.chapterId]] : [];
-      }));
-      const parentId = nearestPreviousTopLevelId(chapters.map((chapter) => chapter.dataset.chapterId), parentById, selected.dataset.chapterId);
-      const parent = parentId ? chapterById.get(parentId) : null;
-      if (!parent) return;
-      const parentIndex = Number(parent.dataset.i);
-      if (parentIndex === selectedIndex || parentTocMap.get(selectedIndex) === parentIndex) return;
-      parentTocMap.set(selectedIndex, parentIndex);
-      const descendants = chapters.filter((chapter) => {
-        const index = Number(chapter.dataset.i);
-        return chapter !== selected && !isDescendantOf(index, selectedIndex) && (index === parentIndex || isDescendantOf(index, parentIndex));
-      });
-      const lastInSubtree = descendants.at(-1) || parent;
-      chapterList.insertBefore(selected, lastInSubtree.nextSibling);
-      collapsedTocRoots.delete(parentIndex);
-    }
-    bookProject.dirty = true;
-    bookProject.revision++;
-    arrangeChapterList({ reorder: true });
-    refreshChapterControls();
-  };
-  document.addEventListener("keydown", (event) => {
-    if (!event.shiftKey || event.altKey || event.ctrlKey || event.metaKey || chapterShortcutTargetIsEditable(event.target)) return;
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      moveSelectedChapterHierarchy("indent");
-    } else if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      moveSelectedChapterHierarchy("outdent");
-    }
+  const { chapterLabel, refreshChapterControls, scheduleChapterControlsRefresh } = mountChapterToc({
+    chapterList,
+    parentToc,
+    parentTocMap,
+    collapsedTocRoots,
+    tocExcluded,
+    parentTocButton,
+    parentTocMenu,
+    parentTocPicker,
+    bookProject,
+    activeChapterIndex,
+    selectedChapterElement,
+    saveCurrentChapter,
+    isCoverSelected
   });
-  parentToc.addEventListener("change", () => {
-    const index = activeChapterIndex();
-    if (parentToc.value) parentTocMap.set(index, Number(parentToc.value));
-    else parentTocMap.delete(index);
-    bookProject.dirty = true;
-    bookProject.revision++;
-    arrangeChapterList({ reorder: true });
-    scheduleChapterControlsRefresh();
-  });
-  parentTocButton.addEventListener("click", () => {
-    const opening = parentTocMenu.hidden;
-    closeParentTocMenu();
-    if (opening) {
-      parentTocMenu.hidden = false;
-      parentTocMenu.style.width = `${parentTocButton.getBoundingClientRect().width}px`;
-      parentTocMenu.style.visibility = "hidden";
-      stopParentTocPosition = autoUpdate(parentTocButton, parentTocMenu, () => {
-        computePosition(parentTocButton, parentTocMenu, {
-          strategy: "fixed",
-          placement: "bottom-start",
-          middleware: [offset(5), flip(), shift({ padding: 8 })]
-        }).then(({ x: x3, y: y3 }) => {
-          if (parentTocMenu.hidden) return;
-          const opening2 = parentTocMenu.style.visibility === "hidden";
-          Object.assign(parentTocMenu.style, { left: `${x3}px`, top: `${y3}px`, width: `${parentTocButton.getBoundingClientRect().width}px`, visibility: "visible" });
-          if (opening2) parentTocMenu.querySelector('[aria-selected="true"]')?.focus({ preventScroll: true });
-        });
-      });
-      parentTocButton.setAttribute("aria-expanded", "true");
-    }
-  });
-  document.addEventListener("pointerdown", (event) => {
-    if (!parentTocPicker.contains(event.target) && !parentTocMenu.contains(event.target)) closeParentTocMenu();
-  }, true);
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !parentTocMenu.hidden) {
-      closeParentTocMenu();
-      parentTocButton.focus();
-    }
-    if (parentTocMenu.hidden || !["ArrowDown", "ArrowUp"].includes(event.key) || !parentTocMenu.contains(event.target)) return;
-    event.preventDefault();
-    const options = [...parentTocMenu.querySelectorAll("button")];
-    options[(options.indexOf(document.activeElement) + options.length + (event.key === "ArrowDown" ? 1 : -1)) % options.length]?.focus();
-  });
-  chapterList.addEventListener("click", scheduleChapterControlsRefresh);
-  chapterList.addEventListener("click", (event) => {
-    if (event.target.closest(".toc-toggle")) return;
-    const chapter = event.target.closest(".chapter[data-i]");
-    if (!chapter) return;
-    const bounds = chapter.getBoundingClientRect();
-    if (bounds.right - event.clientX > 38) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const index = Number(chapter.dataset.i);
-    if (tocExcluded.has(index)) tocExcluded.delete(index);
-    else tocExcluded.add(index);
-    bookProject.dirty = true;
-    bookProject.revision++;
-    refreshChapterControls();
-  }, true);
-  new MutationObserver(() => {
-    if (ignoreInternalChapterMutation) {
-      ignoreInternalChapterMutation = false;
-      return;
-    }
-    scheduleChapterControlsRefresh();
-  }).observe(chapterList, { childList: true, subtree: true });
-  let draggedChapter = null;
-  const clearDropIndicator = () => chapterList.querySelectorAll(".drop-before,.drop-after,.drop-child").forEach((chapter) => chapter.classList.remove("drop-before", "drop-after", "drop-child"));
-  chapterList.addEventListener("dragstart", (event) => {
-    const handle = event.target.closest(".drag-handle");
-    const chapter = handle?.closest(".chapter[data-i]");
-    if (!chapter) return;
-    draggedChapter = chapter;
-    chapter.classList.add("is-dragging");
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", chapter.dataset.i);
-  });
-  chapterList.addEventListener("dragover", (event) => {
-    const target = event.target.closest(".chapter[data-i]");
-    if (!draggedChapter || !target || target === draggedChapter) return;
-    event.preventDefault();
-    clearDropIndicator();
-    const bounds = target.getBoundingClientRect();
-    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * 0.35);
-    target.classList.add(childDrop ? "drop-child" : event.clientY < bounds.top + bounds.height / 2 ? "drop-before" : "drop-after");
-    event.dataTransfer.dropEffect = "move";
-  });
-  chapterList.addEventListener("drop", (event) => {
-    const target = event.target.closest(".chapter[data-i]");
-    if (!draggedChapter || !target || target === draggedChapter) return;
-    event.preventDefault();
-    const draggedIndex = Number(draggedChapter.dataset.i);
-    const targetIndex = Number(target.dataset.i);
-    const bounds = target.getBoundingClientRect();
-    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * 0.35);
-    let nextParent = childDrop ? parentTocMap.get(targetIndex) ?? targetIndex : parentTocMap.get(targetIndex) ?? null;
-    if (nextParent === draggedIndex || isDescendantOf(nextParent, draggedIndex)) nextParent = null;
-    if (nextParent === null) parentTocMap.delete(draggedIndex);
-    else parentTocMap.set(draggedIndex, nextParent);
-    const before = !childDrop && event.clientY < bounds.top + bounds.height / 2;
-    chapterList.insertBefore(draggedChapter, before ? target : target.nextSibling);
-    collapsedTocRoots.delete(draggedIndex);
-    bookProject.dirty = true;
-    bookProject.revision++;
-    arrangeChapterList({ reorder: true });
-    refreshChapterControls();
-  });
-  chapterList.addEventListener("dragend", () => {
-    draggedChapter?.classList.remove("is-dragging");
-    draggedChapter = null;
-    clearDropIndicator();
-  });
-  refreshChapterControls();
   const useAssetAwareExporter = true;
   exportButton.addEventListener("click", () => {
     if (useAssetAwareExporter) return;
@@ -57827,9 +59382,6 @@ async function initializeApp() {
       suppressTiptapUpdate = false;
     }
   };
-  const visualSelectionStyle = document.createElement("style");
-  visualSelectionStyle.textContent = "::highlight(epub-visual-selection){background:var(--focus-fill);color:inherit;}";
-  document.head.append(visualSelectionStyle);
   let lastVisualRange = null;
   const refreshVisualSelectionHighlight = () => {
     const registry = window.CSS?.highlights;
@@ -58372,82 +59924,43 @@ ${locations.join("\n")}
     const client2 = await cloudReady;
     await client2?.rpc("release_epub_project_edit_lock", { p_project_id: lease.projectId, p_client_id: projectClientId, p_generation: lease.generation });
   };
-  const loadDraftAssets = async (draft, isCurrent = () => true) => {
-    const loaded = /* @__PURE__ */ new Map();
-    const missing = /* @__PURE__ */ new Map();
-    const ownerId = persistenceOwnerId();
-    for (const asset of draft.assets || []) {
-      let blob = null;
-      {
-        const client2 = await cloudReady;
-        if (client2 && supabaseUser) {
-          try {
-            for (const storagePath of await savedAssetPaths(ownerId, draft, asset)) {
-              const { data, error } = await client2.storage.from("epub-assets").download(
-                storagePath,
-                { cacheNonce: asset.hash || String(Date.now()) }
-              );
-              if (!error && data && (!asset.hash || await assetHash(data) === asset.hash)) {
-                blob = data;
-                break;
-              }
-            }
-          } catch {
-          }
-        }
-      }
-      if (blob) loaded.set(asset.name, {
-        type: asset.type,
-        blob,
-        url: URL.createObjectURL(blob),
-        originalPath: asset.originalPath || "",
-        isCover: Boolean(asset.isCover),
-        storagePath: asset.storagePath,
-        hash: asset.hash || await assetHash(blob),
-        serverStoredHash: asset.serverStoredHash
-      });
-      else missing.set(asset.name, { ...asset });
+  const {
+    loadDraftAssets,
+    loadImportedSourceFiles,
+    saveCloudDraft,
+    deleteCloudDraft,
+    readCloudProject,
+    listCloudProjects
+  } = createCloudDraftIo({
+    cloudReady,
+    persistenceOwnerId,
+    deletionKey,
+    projectClientId,
+    assetHash,
+    previewAssets,
+    unresolvedAssets,
+    revokePreviewAssetUrl,
+    clearPreviewAssets,
+    renderAssetShelf,
+    renderAssetRecovery,
+    ensureEditLease: (...args) => ensureEditLease(...args),
+    renewEditLease: (...args) => renewEditLease(...args),
+    get supabaseUser() {
+      return supabaseUser;
+    },
+    get editLease() {
+      return editLease;
+    },
+    get editLeaseSupported() {
+      return editLeaseSupported;
+    },
+    get importedEpub() {
+      return importedEpub;
+    },
+    get deletedProjectIds() {
+      return deletedProjectIds;
     }
-    if (!isCurrent()) {
-      loaded.forEach(revokePreviewAssetUrl);
-      return false;
-    }
-    clearPreviewAssets();
-    loaded.forEach((asset, name) => previewAssets.set(name, asset));
-    missing.forEach((asset, name) => unresolvedAssets.set(name, asset));
-    renderAssetShelf();
-    renderAssetRecovery();
-    return true;
-  };
-  const loadImportedSourceFiles = async (draft, isCurrent = () => true) => {
-    const source = draft.importedSource;
-    if (!source) return null;
-    if (Array.isArray(source.files)) return {
-      ...source,
-      files: new Map(source.files.map(([path, bytes]) => [path, new Uint8Array(bytes)]))
-    };
-    const files = /* @__PURE__ */ new Map();
-    const missing = [];
-    for (const resource of source.resources || []) {
-      let blob = null;
-      if (supabaseUser && resource.storagePath) {
-        const client2 = await cloudReady;
-        const { data, error } = await client2.storage.from("epub-assets").download(resource.storagePath, { cacheNonce: resource.hash || String(Date.now()) });
-        if (!error && data && (!resource.hash || await assetHash(data) === resource.hash)) {
-          blob = data;
-        }
-      }
-      if (!blob) {
-        missing.push(resource.path);
-        continue;
-      }
-      files.set(resource.path, new Uint8Array(await blob.arrayBuffer()));
-    }
-    for (const asset of previewAssets.values()) if (asset.originalPath && asset.blob) files.set(asset.originalPath, new Uint8Array(await asset.blob.arrayBuffer()));
-    if (!isCurrent()) return null;
-    if (missing.length) console.warn("\uAC00\uC838\uC628 EPUB \uC6D0\uBCF8 \uB9AC\uC18C\uC2A4 \uC77C\uBD80\uB97C \uBCF5\uC6D0\uD558\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.", missing);
-    return { ...source, files, sourceMissing: missing };
-  };
+  });
   assetRetryButton.addEventListener("click", async () => {
     const ownerId = persistenceOwnerId();
     const title = openedDraftTitle;
@@ -58496,7 +60009,7 @@ ${locations.join("\n")}
         element2.setAttribute("aria-readonly", String(locked));
       });
     }
-    visualEditor.contentEditable = locked ? "false" : "true";
+    visualEditor.removeAttribute("contenteditable");
     tiptapEditor?.setEditable(!locked && !visualReadOnlyNotice.textContent);
     window.epubMonacoEditor?.updateOptions({ readOnly: locked });
     if (!locked) updateToolbarState();
@@ -58560,80 +60073,6 @@ ${locations.join("\n")}
     leaseRenewTimer = null;
     setProjectEditingAccess(false, "\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
     showLeaseNotice?.("\uAD8C\uD55C\uC774 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uAC70\uB098 \uB9CC\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB97C \uB0B4\uBCF4\uB0B4\uAC70\uB098 \uAD8C\uD55C\uC744 \uB2E4\uC2DC \uAC00\uC838\uC624\uC138\uC694.");
-  };
-  const saveCloudDraft = async (draft, assets, ownerId) => {
-    if (deletedProjectIds.has(deletionKey(ownerId, draft.projectId))) throw new Error("\uC11C\uBC84\uC5D0\uC11C \uC0AD\uC81C\uB41C \uD504\uB85C\uC81D\uD2B8\uC785\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB97C \uB0B4\uBCF4\uB0B4\uC138\uC694.");
-    if (!isAccessVerified()) throw new Error("\uC811\uADFC \uAD8C\uD55C\uC744 \uB2E4\uC2DC \uD655\uC778\uD55C \uB4A4 \uC11C\uBC84 \uB3D9\uAE30\uD654\uB97C \uC2DC\uB3C4\uD558\uC138\uC694.");
-    const client2 = await cloudReady;
-    if (!client2 || !supabaseUser || supabaseUser.id !== ownerId)
-      throw new Error("\uD604\uC7AC \uD68C\uC6D0\uC758 \uC11C\uBC84 \uC5F0\uACB0\uC744 \uD655\uC778\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
-    if (!editLease || editLease.projectId !== draft.projectId || editLease.expiresAt <= Date.now())
-      throw new Error("\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
-    const cloudAssets = [...draft.assets || [], ...draft.importedSource?.resources || []];
-    const toUpload = cloudAssets.filter((asset) => {
-      asset.storagePath ||= immutableAssetPath(ownerId, draft.projectId, asset.hash);
-      return asset.serverStoredHash !== asset.hash;
-    });
-    let next = 0;
-    const uploadOne = async () => {
-      while (next < toUpload.length) {
-        const asset = toUpload[next++];
-        if (!isAccessVerified() || persistenceOwnerId() !== ownerId) throw new Error("\uC811\uADFC \uAD8C\uD55C \uD655\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.");
-        const stored = assets.get(asset.name);
-        if (!stored?.blob) throw new Error(`${asset.sourceResource ? "\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4" : "\uC774\uBBF8\uC9C0"} \u201C${asset.originalPath || asset.name}\u201D\uC758 \uC6D0\uBCF8 \uD30C\uC77C\uC744 \uCC3E\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.`);
-        const { error: error2 } = await client2.storage.from("epub-assets").upload(
-          asset.storagePath,
-          stored.blob,
-          { contentType: asset.type || "application/octet-stream", upsert: false }
-        );
-        if (error2) {
-          const existing = await client2.storage.from("epub-assets").download(asset.storagePath, { cacheNonce: asset.hash });
-          if (existing.error || !existing.data || await assetHash(existing.data) !== asset.hash) throw new Error(`${asset.sourceResource ? "\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4" : "\uC774\uBBF8\uC9C0"} \uC5C5\uB85C\uB4DC \uC2E4\uD328: ${error2.message}`);
-        }
-      }
-    };
-    await Promise.all(Array.from({ length: Math.min(3, toUpload.length) }, uploadOne));
-    if (!isAccessVerified() || persistenceOwnerId() !== ownerId || deletedProjectIds.has(deletionKey(ownerId, draft.projectId))) throw new Error("\uC811\uADFC \uAD8C\uD55C \uB610\uB294 \uD504\uB85C\uC81D\uD2B8 \uC0AD\uC81C \uC0C1\uD0DC\uB97C \uB2E4\uC2DC \uD655\uC778\uD558\uC138\uC694.");
-    cloudAssets.forEach((asset) => {
-      asset.serverStoredHash = asset.hash;
-    });
-    const { data, error } = await client2.rpc("overwrite_epub_project", {
-      p_project_id: draft.projectId,
-      p_payload: draft,
-      p_client_id: projectClientId,
-      p_generation: editLease.generation
-    });
-    if (error?.code === "PGRST202") throw new Error("\uC218\uB3D9 \uC800\uC7A5\uC6A9 \uC11C\uBC84 migration\uC774 \uC544\uC9C1 \uC801\uC6A9\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB97C \uC720\uC9C0\uD558\uC138\uC694.");
-    if (error?.code === "PT423") {
-      void renewEditLease();
-      throw new Error("\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
-    }
-    if (error) throw new Error(`\uC11C\uBC84 \uC800\uC7A5 \uC2E4\uD328: ${error.message}`);
-    if (!Number.isSafeInteger(data?.revision)) throw new Error("\uC11C\uBC84 \uC800\uC7A5 \uC751\uB2F5\uC774 \uC62C\uBC14\uB974\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
-    cloudAssets.forEach((asset) => {
-      asset.serverStoredHash = asset.hash;
-      const local = assets.get(asset.name);
-      if (local) local.serverStoredHash = asset.hash;
-      if (!asset.sourceResource && previewAssets.get(asset.name)?.blob === local?.blob)
-        previewAssets.get(asset.name).serverStoredHash = asset.hash;
-    });
-    if (importedEpub && draft.importedSource?.resources) importedEpub.resourceManifest = structuredClone(draft.importedSource.resources);
-    draft.serverRevision = data.revision;
-    draft.lastServerSavedAt = data.saved_at || (/* @__PURE__ */ new Date()).toISOString();
-    return true;
-  };
-  const deleteCloudDraft = async (draft) => {
-    if (!draft.serverRevision) return;
-    if (!isAccessVerified()) throw new Error("\uC811\uADFC \uAD8C\uD55C\uC744 \uB2E4\uC2DC \uD655\uC778\uD55C \uB4A4 \uC0AD\uC81C\uD558\uC138\uC694.");
-    if (editLeaseSupported === true && !await ensureEditLease()) throw new Error("\uD3B8\uC9D1 \uAD8C\uD55C\uC744 \uD655\uC778\uD558\uC9C0 \uBABB\uD574 \uC0AD\uC81C\uD558\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.");
-    const args = { p_project_id: draft.projectId, p_expected_revision: draft.serverRevision };
-    if (editLeaseSupported === true) Object.assign(args, { p_client_id: projectClientId, p_generation: editLease?.generation });
-    const { error } = await client.rpc("delete_epub_project", args);
-    if (error?.code === "PT423") {
-      void renewEditLease();
-      throw new Error("\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uC0AD\uC81C\uD558\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.");
-    }
-    if (error) throw error;
   };
   const draftButton = document.createElement("button");
   draftButton.type = "button";
@@ -58772,12 +60211,6 @@ ${locations.join("\n")}
 \uBD88\uD544\uC694\uD55C \uBB38\uC7A5 \uC7AC\uC791\uC131\uC774\uB098 \uD45C\uD604 \uAC1C\uC120\uC740 \uD558\uC9C0 \uB9C8\uC138\uC694.
 
 \uAD50\uC815\uB41C \uBCF8\uBB38\uB9CC \uBC18\uD658\uD558\uC138\uC694.`;
-  const geminiSettingsStyle = document.createElement("style");
-  geminiSettingsStyle.textContent = `
-    .gemini-settings-dialog{width:min(680px,calc(100vw - 32px));max-height:min(78vh,760px);padding:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 24px 72px #000a}.gemini-settings-dialog::backdrop{background:#0009}.gemini-dialog-head,.gemini-dialog-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.gemini-dialog-footer{border-top:1px solid var(--line);border-bottom:0}.gemini-dialog-head h2{margin:0;font-size:14px}.gemini-dialog-tabs{display:flex;gap:4px;padding:10px 16px 0}.gemini-dialog-tabs button{border:0;border-bottom:2px solid var(--accent);padding:6px 2px;background:transparent;color:var(--text);font:700 12px inherit}.gemini-settings-form{display:grid;gap:12px;padding:14px 16px}.gemini-settings-form label{display:grid;gap:6px;color:var(--sub);font-size:12px}.gemini-settings-form input,.gemini-settings-form textarea{width:100%;box-sizing:border-box}.gemini-settings-form textarea{min-height:180px;resize:vertical;line-height:1.55}.gemini-dialog-head button,.gemini-dialog-footer button,.gemini-settings-form button{min-height:30px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:var(--surface-2);color:var(--text);font:600 12px inherit;cursor:pointer}.gemini-dialog-head button:hover,.gemini-dialog-footer button:hover,.gemini-settings-form button:hover{border-color:var(--accent);color:var(--accent)}
-  `;
-  document.head.append(geminiSettingsStyle);
-  geminiSettingsStyle.textContent += ".gemini-settings-dialog{position:fixed;inset:0;margin:auto;box-sizing:border-box;overflow:hidden}.gemini-settings-dialog[open]{display:flex;flex-direction:column}.gemini-settings-dialog .gemini-settings-form{min-height:0;overflow:auto}.gemini-settings-dialog .gemini-dialog-head,.gemini-settings-dialog .gemini-dialog-tabs{flex:none}";
   const geminiSettingsDialog = document.createElement("dialog");
   geminiSettingsDialog.className = "gemini-settings-dialog";
   geminiSettingsDialog.innerHTML = `<div class="gemini-dialog-head"><div><h2>\uC124\uC815</h2><p class="settings-description">\uC791\uC5C5 \uD658\uACBD\uACFC \uC5F0\uACB0\uB41C \uC11C\uBE44\uC2A4\uB97C \uAD00\uB9AC\uD558\uC138\uC694.</p></div><button type="button" data-close>\uB2EB\uAE30</button></div><div class="gemini-dialog-tabs"><button type="button" aria-current="page">API \uC124\uC815</button></div><form class="gemini-settings-form"><label>Gemini API Key<input name="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza\u2026" /></label><label>\uAE30\uBCF8 \uD504\uB86C\uD504\uD2B8<textarea name="prompt" spellcheck="false"></textarea></label><div><button type="button" data-restore>\uAE30\uBCF8\uAC12 \uBCF5\uC6D0</button></div><div class="gemini-dialog-footer"><span>\uD0A4\uB294 \uD604\uC7AC \uD0ED\uC758 \uBA54\uBAA8\uB9AC\uC5D0\uB9CC \uBCF4\uAD00\uB429\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\xB7\uB85C\uADF8\uC544\uC6C3 \uD6C4 \uB2E4\uC2DC \uC785\uB825\uD558\uC138\uC694.</span><button type="submit" class="primary">\uC800\uC7A5</button></div></form>`;
@@ -59182,6 +60615,16 @@ ${locations.join("\n")}
     synchronizeFootnotes();
     const activeSourceIndex = activeChapterIndex();
     const orderedIndexes = Array.from(chapterList.querySelectorAll(".chapter[data-i]")).map((chapter) => Number(chapter.dataset.i));
+    const chapterLevel = (index) => {
+      let level = 1, parent = parentTocMap.get(index);
+      const seen = /* @__PURE__ */ new Set([index]);
+      while (parent !== void 0 && !seen.has(parent)) {
+        seen.add(parent);
+        level++;
+        parent = parentTocMap.get(parent);
+      }
+      return level;
+    };
     const chapters = orderedIndexes.map((index) => {
       const snapshot = chapterAt(index);
       if (!snapshot) throw new Error(`\uC81C${index + 1}\uC7A5\uC758 \uC800\uC7A5 \uB370\uC774\uD130\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.`);
@@ -59189,7 +60632,7 @@ ${locations.join("\n")}
         ...snapshot,
         id: snapshot.id || chapterList.querySelector(`.chapter[data-i="${index}"]`)?.dataset.chapterId || createChapterId(),
         title: snapshot.title,
-        level: (parentTocMap.get(index) ?? null) === null ? 1 : 2,
+        level: chapterLevel(index),
         body: snapshot.body,
         // File names are maintained independently for each chapter index.
         // Do not reuse a potentially stale editor snapshot here.
@@ -59347,315 +60790,87 @@ ${locations.join("\n")}
       closeChapterSearch();
     }
   }, true);
-  const epubText = (value) => new TextEncoder().encode(value);
-  const epubEscape = (value) => String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]);
-  const createEpubZip = async (files) => {
-    const archive = new import_esm4.default();
-    const mimetype = files.find((file) => file.name === "mimetype");
-    if (mimetype) archive.file("mimetype", mimetype.data, { compression: "STORE" });
-    files.filter((file) => file.name !== "mimetype").forEach((file) => {
-      archive.file(file.name, file.data, { compression: "DEFLATE", compressionOptions: { level: 6 } });
-    });
-    return archive.generateAsync({ type: "blob", mimeType: "application/epub+zip", compression: "DEFLATE", streamFiles: false });
-  };
-  const normaliseImportedFootnoteLinks = (body, chapterPath2, footnotePath) => String(body).replace(/<a\b([^>]*)>/gi, (all, attributes) => {
-    const href = attributeValue(attributes, "href");
-    const id2 = href.split("#")[1] || "";
-    const targetPath = href ? zipPath(chapterPath2.slice(0, chapterPath2.lastIndexOf("/") + 1), href.split("#")[0]) : "";
-    if (!id2 || targetPath !== footnotePath) return all;
-    const withoutTarget = attributes.replace(/\s+target\s*=\s*(["']).*?\1/gi, "");
-    if (/(?:^|\s)noteref(?:\s|$)/i.test(attributeValue(withoutTarget, "epub:type"))) return `<a${withoutTarget}>`;
-    return `<a${withoutTarget} epub:type="noteref">`;
+  const {
+    epubText,
+    epubEscape,
+    createEpubZip,
+    normaliseImportedFootnoteLinks,
+    importedMetadata,
+    makeEpubNav,
+    replaceXhtmlBody,
+    replaceXhtmlTitle,
+    relativeEpubPath,
+    zipText,
+    zipPath,
+    unzipEpub,
+    xmlDocument,
+    elementText,
+    xhtmlBody,
+    xhtmlTitle,
+    tocEntriesFromNcx,
+    tocEntriesFromNav
+  } = createEpubFileIo({
+    attributeValue,
+    defaultChapterFileName,
+    tocExcluded,
+    parentTocMap
   });
-  const importedMetadata = (imported, draft) => {
-    const identifier = imported.identifier || `urn:uuid:${crypto.randomUUID()}`;
-    return `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">${epubEscape(identifier)}</dc:identifier><dc:title>${epubEscape(draft.title || "\uC0C8 \uC804\uC790\uCC45")}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ""}<dc:language>${epubEscape(draft.language || "ko")}</dc:language>${imported.metadataExtras || ""}<meta property="dcterms:modified">${(/* @__PURE__ */ new Date()).toISOString().replace(/\.\d{3}Z$/, "Z")}</meta></metadata>`;
-  };
-  const makeEpubNav = (chapters, filenames = chapters.map((_3, index) => defaultChapterFileName(index)), structure = { tocExcluded, parentTocMap }) => {
-    const included = chapters.filter((_3, index) => !structure.tocExcluded.has(index));
-    const visible = new Set(included.map((_3, index) => chapters.indexOf(included[index])));
-    const parentFor = (index) => {
-      const seen = /* @__PURE__ */ new Set([index]);
-      let parent = structure.parentTocMap.get(index);
-      while (parent !== void 0 && !seen.has(parent)) {
-        if (visible.has(parent)) return parent;
-        seen.add(parent);
-        parent = structure.parentTocMap.get(parent);
-      }
-      return null;
-    };
-    const items = included.map((chapter) => ({ chapter, index: chapters.indexOf(chapter) }));
-    const render = (parent) => items.filter((item) => parentFor(item.index) === parent).map((item) => {
-      const children = render(item.index);
-      const link = `<a href="text/${epubEscape(filenames[item.index])}">${epubEscape(item.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>`;
-      return `<li>${link}${children ? `<ol>${children}</ol>` : ""}</li>`;
-    }).join("");
-    const landmarks = (structure.landmarks || []).map((item) => `<li><a epub:type="${epubEscape(item.type)}" href="${epubEscape(item.href)}">${epubEscape(item.title)}</a></li>`).join("");
-    return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>\uBAA9\uCC28</title></head><body><nav epub:type="toc"><h1>\uBAA9\uCC28</h1><ol>${render(null)}</ol></nav>${landmarks ? `<nav epub:type="landmarks" hidden="hidden"><h2>\uC548\uB0B4</h2><ol>${landmarks}</ol></nav>` : ""}</body></html>`;
-  };
-  const replaceXhtmlBody = (source, body) => /<body\b[^>]*>[\s\S]*?<\/body\s*>/i.test(source) ? source.replace(/(<body\b[^>]*>)[\s\S]*?(<\/body\s*>)/i, (_3, opening, closing) => opening + body + closing) : source;
-  const replaceXhtmlTitle = (source, title) => /<title\b[^>]*>[\s\S]*?<\/title\s*>/i.test(source) ? source.replace(/(<title\b[^>]*>)[\s\S]*?(<\/title\s*>)/i, (_3, opening, closing) => opening + epubEscape(title) + closing) : source;
-  const relativeEpubPath = (fromFile, toFile) => {
-    const from = fromFile.split("/").slice(0, -1);
-    const to2 = toFile.split("/");
-    while (from.length && to2.length && from[0] === to2[0]) {
-      from.shift();
-      to2.shift();
+  const { exportAssetAwareEpub } = createEpubExporter({
+    collectDraft,
+    previewAssets,
+    setStatus,
+    prepareFootnotes,
+    defaultChapterFileName,
+    epubText,
+    epubEscape,
+    createEpubZip,
+    normaliseImportedFootnoteLinks,
+    replaceXhtmlBody,
+    replaceXhtmlTitle,
+    relativeEpubPath,
+    importedMetadata,
+    zipText,
+    makeEpubNav,
+    validateAllChapters: (...args) => validateAllChapters(...args),
+    normaliseXhtml: (...args) => normaliseXhtml(...args),
+    get importedEpub() {
+      return importedEpub;
     }
-    return `${"../".repeat(from.length)}${to2.join("/")}` || toFile.split("/").pop();
-  };
-  const exportImportedEpub3 = async (draft) => {
-    const imported = importedEpub;
-    if (!imported) return false;
-    const output = new Map(imported.files);
-    const addedMeta = [];
-    const resolvedMeta = new Map(draft.chapters.map((chapter) => {
-      let meta = imported.chapterMeta.find((item) => item.path === chapter.originalPath);
-      if (!meta) {
-        const path = `${imported.packageBase}text/${chapter.fileName}`;
-        if (output.has(path) && path !== imported.footnotePath) throw new Error(`\uC0C8 \uC7A5 \uACBD\uB85C\uAC00 \uAE30\uC874 \uB9AC\uC18C\uC2A4\uC640 \uACB9\uCE69\uB2C8\uB2E4: ${path}`);
-        meta = { path, idref: chapter.id, body: "", tocTitle: chapter.title, source: `<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>${epubEscape(chapter.title)}</title></head><body></body></html>` };
-        addedMeta.push(meta);
-      }
-      return [chapter.id, meta];
-    }));
-    let replacementCoverType = "";
-    if (imported.coverReplaced && imported.coverImagePath && draft.coverSource) {
-      const blob = await fetch(draft.coverSource).then((response) => response.blob());
-      output.set(imported.coverImagePath, new Uint8Array(await blob.arrayBuffer()));
-      replacementCoverType = blob.type || "";
-    }
-    const metaForChapter = (chapter) => resolvedMeta.get(chapter.id);
-    draft.chapters.forEach((chapter, index) => {
-      const meta = metaForChapter(chapter, index);
-      const exportBody = normaliseImportedFootnoteLinks(
-        chapter.body.replace(/\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi, ""),
-        meta.path,
-        imported.footnotePath
-      );
-      let source = chapter.body === meta.body ? meta.source : replaceXhtmlBody(meta.source, exportBody);
-      if (chapter.title && chapter.title !== meta.tocTitle) source = replaceXhtmlTitle(source, chapter.title);
-      output.set(meta.path, epubText(source));
-    });
-    if (imported.stylesheetPath && output.has(imported.stylesheetPath)) output.set(imported.stylesheetPath, epubText(draft.css));
-    const footnotePath = imported.footnotePath || `${imported.packageBase}text/footnote.xhtml`;
-    const generatedFootnoteId = "sitescout-footnotes";
-    if (draft.footnotes?.length) {
-      const asides = draft.footnotes.map((note) => {
-        const sourceIndex = draft.chapters.findIndex((chapter) => chapter.id === note.sourceChapterId);
-        const source = metaForChapter(draft.chapters[Math.max(0, sourceIndex)], Math.max(0, sourceIndex));
-        const href = relativeEpubPath(footnotePath, source.path);
-        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(href)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
-      }).join("");
-      if (output.has(footnotePath)) {
-        const original = zipText(output.get(footnotePath));
-        const addition = `<section id="${generatedFootnoteId}" epub:type="footnotes">${asides}</section>`;
-        output.set(footnotePath, epubText(/<\/body\s*>/i.test(original) ? original.replace(/<\/body\s*>/i, `${addition}</body>`) : `${original}${addition}`));
-      } else {
-        output.set(footnotePath, epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(draft.language || "ko")}"><head><title>\uAC01\uC8FC</title></head><body><section id="${generatedFootnoteId}" epub:type="footnotes"><h1>\uAC01\uC8FC</h1>${asides}</section></body></html>`));
-      }
-    }
-    const draftTocExcluded = new Set(draft.tocExcluded);
-    const draftParentTocMap = new Map(draft.parentToc);
-    const navItems = draft.chapters.map((chapter, index) => ({ meta: metaForChapter(chapter, index), index, chapter })).filter(({ index }) => !draftTocExcluded.has(index));
-    const renderNav = (parent) => navItems.filter(({ index }) => (draftParentTocMap.get(index) ?? null) === parent).map(({ meta, index, chapter }) => {
-      const children = renderNav(index);
-      const href = relativeEpubPath(imported.navPath, meta.path);
-      return `<li><a href="${epubEscape(href)}">${epubEscape(chapter.title || meta.tocTitle || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>${children ? `<ol>${children}</ol>` : ""}</li>`;
-    }).join("");
-    let navMarkup = renderNav(null);
-    if (imported.tocTree?.length) {
-      const originalChapterPaths = new Set(imported.chapterMeta.map((meta) => meta.path));
-      const currentPaths = new Set(draft.chapters.map((chapter) => chapter.originalPath));
-      const includedPaths = new Set(navItems.map((item) => item.chapter.originalPath));
-      const coveredPaths = /* @__PURE__ */ new Set();
-      const renderTree = (nodes) => nodes.map((node) => {
-        if (originalChapterPaths.has(node.path) && !currentPaths.has(node.path) && !imported.coverPagePaths.includes(node.path)) return "";
-        if (imported.coverDeleted && imported.coverPagePaths.includes(node.path)) return "";
-        if (currentPaths.has(node.path) && !includedPaths.has(node.path)) return "";
-        const chapter = navItems.find((item) => item.chapter.originalPath === node.path);
-        const path = chapter?.meta.path || node.path;
-        if (chapter) coveredPaths.add(node.path);
-        const href = `${relativeEpubPath(imported.navPath, path)}${node.fragment || ""}`;
-        const children = renderTree(node.children || []);
-        return `<li>${path ? `<a href="${epubEscape(href)}">${epubEscape(node.title || chapter?.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a>` : `<span>${epubEscape(node.title)}</span>`}${children ? `<ol>${children}</ol>` : ""}</li>`;
-      }).join("");
-      navMarkup = renderTree(imported.tocTree) + navItems.filter((item) => !coveredPaths.has(item.chapter.originalPath)).map((item) => `<li><a href="${epubEscape(relativeEpubPath(imported.navPath, item.meta.path))}">${epubEscape(item.chapter.title || "\uC81C\uBAA9 \uC5C6\uB294 \uC7A5")}</a></li>`).join("");
-    }
-    output.set(imported.navPath, epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>\uBAA9\uCC28</title></head><body><nav epub:type="toc"><h1>\uBAA9\uCC28</h1><ol>${navMarkup}</ol></nav></body></html>`));
-    const retainedPaths = new Set(draft.chapters.map((chapter) => metaForChapter(chapter).path));
-    const deletedPaths = new Set(imported.chapterMeta.filter((meta) => !retainedPaths.has(meta.path)).map((meta) => meta.path));
-    if (imported.coverDeleted) imported.coverPagePaths.forEach((path) => deletedPaths.add(path));
-    deletedPaths.forEach((path) => output.delete(path));
-    const manifest = imported.manifest.filter((item) => !deletedPaths.has(item.href) && !item.properties.split(/\s+/).includes("nav")).map((item) => {
-      const properties = new Set(item.properties.split(/\s+/).filter(Boolean));
-      if (item.href === imported.coverImagePath && !imported.coverDeleted) properties.add("cover-image");
-      if (imported.coverDeleted) properties.delete("cover-image");
-      const mediaType = item.href === imported.coverImagePath && replacementCoverType ? replacementCoverType : item.type;
-      return `<item id="${epubEscape(item.id)}" href="${epubEscape(item.rawHref)}" media-type="${epubEscape(mediaType)}"${properties.size ? ` properties="${epubEscape(Array.from(properties).join(" "))}"` : ""}/>`;
-    });
-    addedMeta.forEach((meta) => manifest.push(`<item id="${epubEscape(meta.idref)}" href="${epubEscape(relativeEpubPath(imported.packagePath, meta.path))}" media-type="application/xhtml+xml"/>`));
-    const hasFootnoteManifest = imported.manifest.some((item) => item.href === footnotePath);
-    if (draft.footnotes?.length && !hasFootnoteManifest) manifest.push(`<item id="footnotes" href="${epubEscape(relativeEpubPath(imported.packagePath, footnotePath))}" media-type="application/xhtml+xml"/>`);
-    const navHref = relativeEpubPath(imported.packagePath, imported.navPath);
-    manifest.push(`<item id="nav" href="${epubEscape(navHref)}" media-type="application/xhtml+xml" properties="nav"/>`);
-    const orderedRefs = draft.chapters.map((chapter) => imported.spineRefs.find((ref) => ref.idref === metaForChapter(chapter).idref) || { idref: metaForChapter(chapter).idref });
-    const chapterRefIds = new Set(imported.chapterMeta.map((meta) => meta.idref));
-    let chapterRefIndex = 0;
-    const spineRefs = imported.spineRefs.filter((ref) => !deletedPaths.has(imported.manifest.find((item) => item.id === ref.idref)?.href) || chapterRefIds.has(ref.idref)).flatMap((ref) => {
-      const next = chapterRefIds.has(ref.idref) ? orderedRefs[chapterRefIndex++] : ref;
-      return next ? [{ ...next }] : [];
-    });
-    spineRefs.push(...orderedRefs.slice(chapterRefIndex));
-    if (draft.footnotes?.length && !spineRefs.some((ref) => ref.idref === (imported.footnoteManifestId || "footnotes"))) spineRefs.push({ idref: "footnotes", linear: "no" });
-    const spine = spineRefs.map((ref) => `<itemref idref="${epubEscape(ref.idref)}"${ref.linear ? ` linear="${epubEscape(ref.linear)}"` : ""}/>`).join("");
-    const title = draft.title || "\uC0C8 \uC804\uC790\uCC45";
-    const language = draft.language || "ko";
-    output.set(imported.packagePath, epubText(`<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}">${importedMetadata(imported, draft)}<manifest>${manifest.join("")}</manifest><spine>${spine}</spine></package>`));
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(await createEpubZip(Array.from(output, ([name, data]) => ({ name, data }))));
-    link.download = `${title.replace(/[\\/:*?"<>|]/g, "-")}.epub`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-    setStatus(`[${title}] EPUB 3.0 \uD30C\uC77C\uC744 \uB2E4\uC6B4\uB85C\uB4DC\uD588\uC2B5\uB2C8\uB2E4. \uC6D0\uBCF8 spine\xB7\uACBD\uB85C\xB7\uBAA9\uCC28\uB97C \uBCF4\uC874\uD588\uC2B5\uB2C8\uB2E4.`);
-    return true;
-  };
-  const exportAssetAwareEpub = async () => {
-    const draft = collectDraft();
-    const missing = draft.assets.filter((asset) => !previewAssets.get(asset.name)?.blob);
-    if (missing.length) {
-      setStatus(`\uC774\uBBF8\uC9C0 ${missing.length}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD574 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uC774\uBBF8\uC9C0 \uB2E4\uC2DC \uBD88\uB7EC\uC624\uAE30\uB97C \uC0AC\uC6A9\uD558\uC138\uC694.`, "error");
-      return false;
-    }
-    const xhtmlErrors = validateAllChapters(draft);
-    if (xhtmlErrors.length) {
-      setStatus(`XHTML \uC624\uB958 ${xhtmlErrors.length}\uAC74\uC774 \uC788\uC5B4 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uC624\uB958\uB97C \uC218\uC815\uD55C \uB4A4 \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694.`, "error");
-      return false;
-    }
-    const availableImages = new Set(draft.assets.map((asset) => imageAssetPath(asset.name, asset)));
-    const missingReferences = [];
-    for (const chapter of draft.chapters) {
-      const base = chapter.originalPath || `EPUB/text/${chapter.fileName}`;
-      const bodyDocument = new DOMParser().parseFromString(`<root xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">${chapter.body}</root>`, "application/xml");
-      for (const image of [...bodyDocument.getElementsByTagName("img"), ...bodyDocument.getElementsByTagNameNS("http://www.w3.org/2000/svg", "image")]) {
-        const source = image.getAttribute("src") || image.getAttribute("href") || image.getAttribute("xlink:href");
-        const path = source?.startsWith("images/") ? `EPUB/Image/${source.slice(7).split(/[?#]/)[0]}` : resolveImagePath(source, base);
-        if (path && !availableImages.has(path)) missingReferences.push(path);
-      }
-    }
-    for (const item of importedEpub?.manifest || []) {
-      if (item.type.startsWith("image/") && !importedEpub.files.has(item.href) && !availableImages.has(item.href)) missingReferences.push(item.href);
-    }
-    if (missingReferences.length) {
-      setStatus(`\uCC38\uC870\uB41C \uC774\uBBF8\uC9C0 ${[...new Set(missingReferences)].join(", ")}\uC744(\uB97C) \uCC3E\uC9C0 \uBABB\uD574 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.`, "error");
-      return false;
-    }
-    const footnoteResult = prepareFootnotes(draft);
-    if (footnoteResult.errors.length) {
-      setStatus(`\uAC01\uC8FC \uC624\uB958 ${footnoteResult.errors.length}\uAC74\uC774 \uC788\uC5B4 EPUB\uC744 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uAC01\uC8FC \uB9C1\uD06C\uC640 \uB0B4\uC6A9\uC744 \uD655\uC778\uD558\uC138\uC694.`, "error");
-      return false;
-    }
-    draft.footnotes = footnoteResult.notes.map((note) => ({ ...note }));
-    draft.auxiliaryChapters = draft.chapters.filter((chapter) => chapter.generated && ["cover", "footnotes"].includes(chapter.type));
-    const kept = draft.chapters.map((chapter, index) => ({ chapter, index })).filter(({ chapter }) => !draft.auxiliaryChapters.includes(chapter));
-    const remap = new Map(kept.map(({ index }, next) => [index, next]));
-    draft.tocExcluded = draft.tocExcluded.filter((index) => remap.has(index)).map((index) => remap.get(index));
-    draft.parentToc = draft.parentToc.filter(([child, parent]) => remap.has(child) && remap.has(parent)).map(([child, parent]) => [remap.get(child), remap.get(parent)]);
-    draft.chapters = kept.map(({ chapter }) => chapter);
-    draft.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
-    if (await exportImportedEpub3(draft)) return;
-    const title = draft.title || "\uC0C8 \uC804\uC790\uCC45";
-    const language = draft.language || "ko";
-    const files = [
-      { name: "mimetype", data: epubText("application/epub+zip") },
-      { name: "META-INF/container.xml", data: epubText('<?xml version="1.0" encoding="UTF-8"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml"/></rootfiles></container>') },
-      { name: "EPUB/styles/book.css", data: epubText(draft.css) }
-    ];
-    const manifest = ['<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>', '<item id="css" href="styles/book.css" media-type="text/css"/>'];
-    const spine = [];
-    const usedFilenames = /* @__PURE__ */ new Set();
-    const filenames = draft.chapters.map((chapter, index) => {
-      const requested = String(chapter.fileName || defaultChapterFileName(index)).trim().replace(/^.*[\\/]/, "").replace(/[<>:"|?*]/g, "-") || defaultChapterFileName(index);
-      const hasXhtmlExtension = /\.xhtml?$/i.test(requested);
-      const extension = hasXhtmlExtension ? "" : ".xhtml";
-      const base = hasXhtmlExtension ? requested : requested || `chapter-${index + 1}`;
-      let filename = `${base}${extension}`;
-      let suffix = 2;
-      while (usedFilenames.has(filename.toLowerCase())) {
-        filename = `${base}-${suffix}${extension}`;
-        suffix += 1;
-      }
-      usedFilenames.add(filename.toLowerCase());
-      return filename;
-    });
-    if (draft.coverSource) {
-      const coverBlob = await fetch(draft.coverSource).then((response) => response.blob());
-      const coverExtension = coverBlob.type === "image/png" ? "png" : "jpg";
-      const coverName = `cover.${coverExtension}`;
-      files.push({ name: `EPUB/Image/${coverName}`, data: new Uint8Array(await coverBlob.arrayBuffer()) });
-      files.push({ name: "EPUB/text/cover.xhtml", data: epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><title>\uD45C\uC9C0</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><img src="../Image/${coverName}" alt="\uD45C\uC9C0"/></body></html>`) });
-      manifest.push(`<item id="cover-image" href="Image/${coverName}" media-type="${coverBlob.type}" properties="cover-image"/>`, '<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="cover-page" linear="no"/>');
-    } else if (draft.auxiliaryChapters.some((chapter) => chapter.type === "cover")) {
-      files.push({ name: "EPUB/text/cover.xhtml", data: epubText('<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title>\uD45C\uC9C0</title></head><body></body></html>') });
-      manifest.push('<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="cover-page"/>');
-    }
-    for (let index = 0; index < draft.chapters.length; index += 1) {
-      const chapter = draft.chapters[index];
-      const filename = filenames[index];
-      const body = normaliseXhtml(chapter.body).replace(/\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi, "").replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-f]+;)/gi, "&amp;").replace(/src=(['"])images\//g, "src=$1../Image/");
-      files.push({ name: `EPUB/text/${filename}`, data: epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>${epubEscape(chapter.title || title)}</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body>${body}</body></html>`) });
-      manifest.push(`<item id="chapter-${index + 1}" href="text/${filename}" media-type="application/xhtml+xml"/>`);
-      spine.push(`<itemref idref="chapter-${index + 1}"/>`);
-    }
-    if (draft.footnotes.length || draft.auxiliaryChapters.some((chapter) => chapter.type === "footnotes")) {
-      const footnoteBody = draft.footnotes.map((note) => {
-        const sourceIndex = draft.chapters.findIndex((chapter) => chapter.id === note.sourceChapterId);
-        const sourceFile = filenames[Math.max(0, sourceIndex)] || filenames[0];
-        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(sourceFile)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
-      }).join("");
-      files.push({ name: "EPUB/text/footnote.xhtml", data: epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>\uAC01\uC8FC</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><section epub:type="footnotes"><h1>\uAC01\uC8FC</h1>${footnoteBody}</section></body></html>`) });
-      manifest.push('<item id="footnotes" href="text/footnote.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="footnotes" linear="no"/>');
-    }
-    for (let index = 0; index < draft.assets.length; index += 1) {
-      const asset = draft.assets[index];
-      const stored = previewAssets.get(asset.name);
-      if (!stored?.blob) continue;
-      files.push({ name: `EPUB/Image/${asset.name}`, data: new Uint8Array(await stored.blob.arrayBuffer()) });
-      manifest.push(`<item id="image-${index + 1}" href="Image/${epubEscape(asset.name)}" media-type="${epubEscape(asset.type || "image/png")}"/>`);
-    }
-    const landmarks = [
-      { name: "EPUB/text/cover.xhtml", type: "cover", href: "text/cover.xhtml", title: "\uD45C\uC9C0" },
-      { name: "EPUB/text/footnote.xhtml", type: "endnotes", href: "text/footnote.xhtml", title: "\uAC01\uC8FC" }
-    ].filter((item) => files.some((file) => file.name === item.name));
-    files.push({ name: "EPUB/nav.xhtml", data: epubText(makeEpubNav(draft.chapters, filenames, { tocExcluded: new Set(draft.tocExcluded), parentTocMap: new Map(draft.parentToc), landmarks })) });
-    files.push({ name: "EPUB/package.opf", data: epubText(`<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">urn:uuid:${crypto.randomUUID()}</dc:identifier><dc:title>${epubEscape(title)}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ""}<dc:language>${epubEscape(language)}</dc:language><meta property="dcterms:modified">${(/* @__PURE__ */ new Date()).toISOString().replace(/\.\d{3}Z$/, "Z")}</meta></metadata><manifest>${manifest.join("")}</manifest><spine>${spine.join("")}</spine></package>`) });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(await createEpubZip(files));
-    link.download = `${title.replace(/[\\/:*?"<>|]/g, "-")}.epub`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-    setStatus(`[${title}] EPUB 3.0 \uD30C\uC77C\uC744 \uB2E4\uC6B4\uB85C\uB4DC\uD588\uC2B5\uB2C8\uB2E4. \uB2E4\uC6B4\uB85C\uB4DC \uD3F4\uB354\uB97C \uD655\uC778\uD558\uC138\uC694.`);
-  };
+  });
   exportButton.addEventListener("click", (event) => {
     if (!useAssetAwareExporter) return;
     event.preventDefault();
     event.stopImmediatePropagation();
     exportAssetAwareEpub().catch((error) => setStatus(error.message || "EPUB \uD30C\uC77C\uC744 \uB9CC\uB4E4\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.", "error"));
   }, true);
-  const loadDraft = async (draft) => {
+  const loadDraft = async (draft, request = projectOpenGeneration) => {
     if (!Array.isArray(draft?.chapters)) return false;
     if (editLease?.projectId && editLease.projectId !== draft.projectId) void releaseEditLease();
     const epoch = restoreEpoch;
     const revision = bookProject.revision;
     const ownerId = persistenceOwnerId();
     if (!draft.projectId) throw new Error("\uC11C\uBC84 \uC6D0\uACE0 ID\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.");
-    if (epoch !== restoreEpoch || revision !== bookProject.revision || ownerId !== persistenceOwnerId()) return false;
-    if (!await loadDraftAssets(draft, () => epoch === restoreEpoch && revision === bookProject.revision)) return false;
-    importedEpub = await loadImportedSourceFiles(draft, () => epoch === restoreEpoch && revision === bookProject.revision);
-    if (epoch !== restoreEpoch || revision !== bookProject.revision || ownerId !== persistenceOwnerId()) return false;
+    const isCurrent = () => request === projectOpenGeneration && epoch === restoreEpoch && revision === bookProject.revision && ownerId === persistenceOwnerId();
+    if (!isCurrent()) return false;
+    const stagedAssets = await loadDraftAssets(draft, isCurrent);
+    if (!stagedAssets) return false;
+    let stagedSource;
+    try {
+      stagedSource = await loadImportedSourceFiles(draft, isCurrent, stagedAssets.loaded);
+    } catch (error) {
+      stagedAssets.loaded.forEach(revokePreviewAssetUrl);
+      throw error;
+    }
+    if (!isCurrent()) {
+      stagedAssets.loaded.forEach(revokePreviewAssetUrl);
+      return false;
+    }
+    clearPreviewAssets();
+    stagedAssets.loaded.forEach((asset, name) => previewAssets.set(name, asset));
+    stagedAssets.missing.forEach((asset, name) => unresolvedAssets.set(name, asset));
+    importedEpub = stagedSource;
+    renderAssetShelf();
+    renderAssetRecovery();
     footnotes.clear();
     setProjectEditingAccess(false);
     (draft.footnotes || []).forEach((note) => {
@@ -59697,132 +60912,39 @@ ${locations.join("\n")}
     setStatus(unresolvedAssets.size || importedEpub?.sourceMissing?.length ? `\u201C${draft.title}\u201D\uC744(\uB97C) \uC5F4\uC5C8\uC9C0\uB9CC ${unresolvedAssets.size ? `\uC774\uBBF8\uC9C0 ${unresolvedAssets.size}\uAC1C` : `\uC6D0\uBCF8 \uB9AC\uC18C\uC2A4 ${importedEpub.sourceMissing.length}\uAC1C`}\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uC11C\uBC84 \uC6D0\uBCF8\uC740 \uBCC0\uACBD\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.` : `\u201C${draft.title}\u201D \uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uBD88\uB7EC\uC654\uC2B5\uB2C8\uB2E4.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? "error" : "ok");
     return true;
   };
-  const zipText = (bytes) => new TextDecoder("utf-8").decode(bytes).replace(/^\uFEFF/, "");
-  const zipPath = (basePath, href) => {
-    try {
-      return decodeURIComponent(new URL(href, `https://epub.local/${basePath}`).pathname.slice(1));
-    } catch {
-      return href.replace(/^\.\//, "");
-    }
-  };
-  const unzipEpub = async (file) => {
-    let archive;
-    try {
-      archive = await import_esm4.default.loadAsync(file);
-    } catch {
-      throw new Error("\uC720\uD6A8\uD55C EPUB(ZIP) \uD30C\uC77C\uC774 \uC544\uB2D9\uB2C8\uB2E4.");
-    }
-    const files = /* @__PURE__ */ new Map();
-    await Promise.all(Object.entries(archive.files).filter(([, entry]) => !entry.dir).map(async ([name, entry]) => files.set(name, await entry.async("uint8array"))));
-    return files;
-  };
-  const xmlDocument = (source, label) => {
-    const documentNode = new DOMParser().parseFromString(source, "application/xml");
-    if (documentNode.querySelector("parsererror")) throw new Error(`${label} \uD615\uC2DD\uC774 \uC62C\uBC14\uB974\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.`);
-    return documentNode;
-  };
-  const elementText = (documentNode, name) => documentNode.getElementsByTagNameNS("*", name)[0]?.textContent?.trim() || "";
-  const xhtmlBody = (source) => /<body\b[^>]*>([\s\S]*?)<\/body\s*>/i.exec(source)?.[1] ?? source;
-  const xhtmlTitle = (source) => /<title\b[^>]*>([\s\S]*?)<\/title\s*>/i.exec(source)?.[1].replace(/<[^>]+>/g, "").trim() || "";
-  const tocEntriesFromNcx = (source, basePath) => {
-    const documentNode = xmlDocument(source, "toc.ncx");
-    const entries2 = /* @__PURE__ */ new Map();
-    const visit = (node, level, parentPath = null) => Array.from(node.children).filter((child) => child.localName === "navPoint").map((point) => {
-      const href = point.getElementsByTagNameNS("*", "content")[0]?.getAttribute("src") || "";
-      const path = zipPath(basePath, href.split("#")[0]);
-      const title = point.getElementsByTagNameNS("*", "text")[0]?.textContent?.trim() || "";
-      if (path && !entries2.has(path)) entries2.set(path, { title, level, parentPath });
-      return {
-        path,
-        fragment: href.includes("#") ? `#${href.split("#").slice(1).join("#")}` : "",
-        title,
-        children: visit(point, level + 1, path || parentPath)
-      };
-    });
-    entries2.tree = visit(documentNode.getElementsByTagNameNS("*", "navMap")[0] || documentNode, 1);
-    return entries2;
-  };
-  const tocEntriesFromNav = (source, basePath) => {
-    const documentNode = new DOMParser().parseFromString(source, "text/html");
-    const toc = Array.from(documentNode.querySelectorAll("nav")).find((node) => /(^|\s)toc(\s|$)/i.test(node.getAttribute("epub:type") || node.getAttribute("type") || "")) || documentNode.querySelector("nav");
-    const entries2 = /* @__PURE__ */ new Map();
-    const visit = (list, level, parentPath = null) => Array.from(list?.children || []).filter((node) => node.tagName === "LI").map((item) => {
-      const link = item.querySelector(":scope > a");
-      const href = link?.getAttribute("href") || "";
-      const path = href ? zipPath(basePath, href.split("#")[0]) : "";
-      const title = link?.textContent.trim() || "";
-      if (path && !entries2.has(path)) entries2.set(path, { title, level, parentPath });
-      return {
-        path,
-        fragment: href.includes("#") ? `#${href.split("#").slice(1).join("#")}` : "",
-        title,
-        children: visit(Array.from(item.children).find((node) => node.tagName === "OL"), level + 1, path || parentPath)
-      };
-    });
-    entries2.tree = visit(toc?.querySelector("ol"), 1);
-    return entries2;
-  };
   const importEpub = async (file) => {
     const instanceId = bookProject.instanceId;
     const revision = bookProject.revision;
-    const files = await unzipEpub(file);
-    const container = xmlDocument(zipText(files.get("META-INF/container.xml") || new Uint8Array()), "container.xml");
-    const packagePath = container.getElementsByTagNameNS("*", "rootfile")[0]?.getAttribute("full-path");
-    if (!packagePath || !files.has(packagePath)) throw new Error("EPUB \uD328\uD0A4\uC9C0(OPF)\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
-    const packageDocument = xmlDocument(zipText(files.get(packagePath)), "EPUB \uD328\uD0A4\uC9C0");
-    const packageBase = packagePath.slice(0, packagePath.lastIndexOf("/") + 1);
-    const metadataNode = packageDocument.getElementsByTagNameNS("*", "metadata")[0];
-    const originalIdentifier = elementText(packageDocument, "identifier");
-    const metadataExtras = Array.from(metadataNode?.children || []).filter((node) => !["identifier", "title", "creator", "language"].includes(node.localName) && !(node.localName === "meta" && node.getAttribute("property") === "dcterms:modified")).map((node) => new XMLSerializer().serializeToString(node)).join("");
-    const manifest = new Map(Array.from(packageDocument.getElementsByTagNameNS("*", "item")).map((item) => [item.getAttribute("id"), {
-      id: item.getAttribute("id"),
-      href: zipPath(packageBase, item.getAttribute("href") || ""),
-      rawHref: item.getAttribute("href") || "",
-      type: item.getAttribute("media-type") || "",
-      properties: item.getAttribute("properties") || ""
-    }]));
-    const spineRefs = Array.from(packageDocument.getElementsByTagNameNS("*", "itemref")).map((item) => ({ idref: item.getAttribute("idref"), linear: item.getAttribute("linear") || "" }));
-    const metadataCoverId = Array.from(packageDocument.getElementsByTagNameNS("*", "meta")).find((item) => item.getAttribute("name") === "cover")?.getAttribute("content");
-    const guideCoverRef = Array.from(packageDocument.getElementsByTagNameNS("*", "reference")).find((item) => item.getAttribute("type") === "cover")?.getAttribute("href") || "";
-    const guideCoverPath = guideCoverRef ? zipPath(packageBase, guideCoverRef.split("#")[0]) : "";
-    let coverImage = Array.from(manifest.values()).find((item) => item.properties.split(/\s+/).includes("cover-image")) || manifest.get(metadataCoverId);
-    const coverPagePaths = /* @__PURE__ */ new Set();
-    if (guideCoverPath) {
-      const guideItem = Array.from(manifest.values()).find((item) => item.href === guideCoverPath);
-      if (guideItem?.type.includes("xhtml")) coverPagePaths.add(guideCoverPath);
-      else if (guideItem?.type.startsWith("image/")) coverImage ||= guideItem;
-    }
-    const imageFromCoverPage = (path) => {
-      const source = zipText(files.get(path) || new Uint8Array());
-      const match = /(?:src|href|xlink:href)\s*=\s*(["'])(.*?)\1/i.exec(source);
-      return match ? Array.from(manifest.values()).find((item) => item.href === zipPath(path.slice(0, path.lastIndexOf("/") + 1), match[2].split("#")[0])) : null;
-    };
-    if (!coverImage && guideCoverPath) coverImage = imageFromCoverPage(guideCoverPath);
-    const spineXhtmlItems = spineRefs.map((ref) => manifest.get(ref.idref)).filter((item) => item?.type.includes("xhtml"));
-    const inferredCoverPage = spineXhtmlItems.find((item) => {
-      const referencedImage = imageFromCoverPage(item.href);
-      if (!referencedImage) return false;
-      const plainText = xhtmlBody(zipText(files.get(item.href) || new Uint8Array())).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-      return plainText.length < 80 && (/cover|front/i.test(item.rawHref) || /cover|front/i.test(referencedImage.rawHref) || item === spineXhtmlItems[0]);
+    const {
+      files,
+      packagePath,
+      packageBase,
+      originalIdentifier,
+      metadataExtras,
+      manifest,
+      spineRefs,
+      coverPagePaths,
+      coverImage,
+      chapterMeta,
+      chapters,
+      navItem,
+      tocEntries,
+      title,
+      author,
+      language
+    } = await parseEpubFile(file, {
+      unzipEpub,
+      xmlDocument,
+      zipText,
+      zipPath,
+      elementText,
+      xhtmlBody,
+      xhtmlTitle,
+      tocEntriesFromNav,
+      tocEntriesFromNcx,
+      createChapterId,
+      defaultChapterFileName
     });
-    if (!coverImage && inferredCoverPage) coverImage = imageFromCoverPage(inferredCoverPage.href);
-    if (!coverPagePaths.size) {
-      const coverPage = inferredCoverPage || coverImage && spineXhtmlItems.find((item) => imageFromCoverPage(item.href)?.href === coverImage.href);
-      if (coverPage) coverPagePaths.add(coverPage.href);
-    }
-    const spine = spineRefs.map((ref) => ({ ...ref, item: manifest.get(ref.idref) })).filter((ref) => ref.item?.type.includes("xhtml") && !coverPagePaths.has(ref.item.href));
-    const chapterSources = spine;
-    if (!chapterSources.length) throw new Error("\uBD88\uB7EC\uC62C XHTML \uBCF8\uBB38\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
-    const navItem = Array.from(manifest.values()).find((item) => item.properties.split(/\s+/).includes("nav"));
-    const ncxItem = Array.from(manifest.values()).find((item) => item.type === "application/x-dtbncx+xml");
-    const tocEntries = navItem && files.has(navItem.href) ? tocEntriesFromNav(zipText(files.get(navItem.href)), navItem.href.slice(0, navItem.href.lastIndexOf("/") + 1)) : ncxItem && files.has(ncxItem.href) ? tocEntriesFromNcx(zipText(files.get(ncxItem.href)), ncxItem.href.slice(0, ncxItem.href.lastIndexOf("/") + 1)) : /* @__PURE__ */ new Map();
-    const chapterMeta = chapterSources.map(({ item, idref, linear }, index) => {
-      const source = zipText(files.get(item.href) || new Uint8Array());
-      const toc = tocEntries.get(item.href);
-      return { index, idref, linear, path: item.href, rawHref: item.rawHref, source, body: xhtmlBody(source), tocTitle: toc?.title || xhtmlTitle(source) || `\uC81C${index + 1}\uC7A5`, tocLevel: toc?.level || 1, tocParentPath: toc?.parentPath || null, includeInToc: Boolean(toc) };
-    });
-    const chapters = chapterMeta.map((meta) => ({ id: createChapterId(), originalPath: meta.path, title: meta.tocTitle, level: meta.tocLevel, body: meta.body, fileName: meta.path.split("/").pop() || defaultChapterFileName(meta.index) }));
-    const title = elementText(packageDocument, "title") || file.name.replace(/\.epub$/i, "");
     if (bookProject.instanceId !== instanceId || bookProject.revision !== revision) throw new Error("\uBD88\uB7EC\uC624\uB294 \uB3D9\uC548 \uD604\uC7AC \uC6D0\uACE0\uAC00 \uBCC0\uACBD\uB418\uC5C8\uC2B5\uB2C8\uB2E4. EPUB\uC744 \uB2E4\uC2DC \uC120\uD0DD\uD558\uC138\uC694.");
     restoreEpoch++;
     void releaseEditLease();
@@ -59831,8 +60953,8 @@ ${locations.join("\n")}
     footnotes.clear();
     replaceProjectChapters(chapters, chapters[0]?.id);
     $2("#title").value = title;
-    $2("#author").value = elementText(packageDocument, "creator");
-    $2("#language").value = elementText(packageDocument, "language") || "ko";
+    $2("#author").value = author;
+    $2("#language").value = language;
     const stylesheet = Array.from(manifest.values()).find((item) => item.type === "text/css" && files.has(item.href));
     hydrateCssValue(stylesheet ? zipText(files.get(stylesheet.href)) : "");
     Object.assign(bookProject, stylesFromCss($2("#css").value));
@@ -59965,11 +61087,9 @@ ${locations.join("\n")}
     const ownerId = persistenceOwnerId();
     try {
       if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
-      const { data: record, error } = await client.from("epub_drafts").select("payload,project_id,revision,updated_at").eq("owner_id", ownerId).eq("project_id", projectId).maybeSingle();
+      const draft = await readCloudProject(ownerId, projectId);
       if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
-      if (error) throw error;
-      if (!record?.payload) throw new Error("\uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
-      await loadDraft({ ...record.payload, projectId: record.project_id, serverRevision: record.revision, lastServerSavedAt: record.updated_at });
+      await loadDraft(draft, request);
     } catch (error) {
       setStatus(`\uD504\uB85C\uC81D\uD2B8 \uC5F4\uAE30 \uC2E4\uD328: ${error.message}`, "error");
     }
@@ -60056,23 +61176,9 @@ ${locations.join("\n")}
     }
     cloudRestoreInFlight = (async () => {
       if (!isAccessVerified() || !supabaseUser) return;
-      const client2 = await cloudReady;
       const ownerId = supabaseUser.id;
       const epoch = restoreEpoch;
-      const rows = [];
-      for (let offset2 = 0; ; offset2 += 500) {
-        const { data, error } = await client2.from("epub_drafts").select("project_id,title,revision,updated_at").eq("owner_id", ownerId).order("updated_at", { ascending: false }).range(offset2, offset2 + 499);
-        if (error) throw error;
-        rows.push(...data);
-        if (data.length < 500) break;
-      }
-      const deletions = [];
-      for (let offset2 = 0; ; offset2 += 500) {
-        const { data, error } = await client2.from("epub_project_deletions").select("project_id,revision").eq("owner_id", ownerId).order("project_id").range(offset2, offset2 + 499);
-        if (error) throw error;
-        deletions.push(...data);
-        if (data.length < 500) break;
-      }
+      const { rows, deletions } = await listCloudProjects(ownerId);
       if (epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
       deletedProjectIds.clear();
       deletions.forEach((row) => deletedProjectIds.add(deletionKey(ownerId, row.project_id)));
@@ -60210,55 +61316,31 @@ ${locations.join("\n")}
     }
   });
   renderDrafts();
-  const refreshPreview = () => {
-    cancelAnimationFrame(previewFrame);
-    if (isCoverSelected()) {
-      showCoverPreview();
-      return;
-    }
-    snapshotCurrentChapter();
-    const content = document.createElement("template");
-    content.innerHTML = purify_default.sanitize(htmlEditor.value, {
-      USE_PROFILES: { html: true, svg: true, svgFilters: true },
-      ADD_ATTR: ["epub:type", "xml:lang", "data-sitescout-footnote"]
-    });
-    const scrollTop = previewScrollRoot().scrollTop;
-    const chapterId = bookProject.selectedChapterId;
-    const frame = document.createElement("iframe");
-    frame.className = "preview-isolated-frame";
-    frame.title = "\uACA9\uB9AC\uB41C EPUB \uBBF8\uB9AC\uBCF4\uAE30";
-    frame.setAttribute("sandbox", "allow-same-origin");
-    frame.addEventListener("load", () => {
-      if (!frame.isConnected || chapterId !== bookProject.selectedChapterId) return;
-      const doc = frame.contentDocument;
-      if (!doc) return;
-      const colors = getComputedStyle(preview);
-      doc.documentElement.style.color = colors.color;
-      doc.documentElement.style.backgroundColor = colors.backgroundColor;
-      const style = doc.createElement("style");
-      style.textContent = $2("#css").value;
-      doc.head.append(style);
-      doc.body.style.setProperty("font-size", "20px", "important");
-      const scrollbarStyle = doc.createElement("style");
-      scrollbarStyle.textContent = "html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}";
-      doc.head.append(scrollbarStyle);
-      hydrateResourceImages(doc.body, activeChapterIndex());
-      (doc.scrollingElement || doc.body).scrollTop = scrollTop;
-      doc.addEventListener("click", handlePreviewClick);
-    }, { once: true });
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}.preview-focus{background:rgba(240,142,49,.16);outline:2px solid #e88a31}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
-    previewIframe = frame;
-    preview.replaceChildren(frame);
-  };
-  let previewFrame = 0;
-  const schedulePreview = () => {
-    cancelAnimationFrame(previewFrame);
-    const chapterId = bookProject.selectedChapterId;
-    previewFrame = requestAnimationFrame(() => {
-      if (chapterId === bookProject.selectedChapterId) refreshPreview();
-    });
-  };
-  cssEditor.addEventListener("input", schedulePreview);
+  const {
+    refreshPreview,
+    schedulePreview,
+    synchronizeFocus,
+    sourceNodeForElement,
+    previewBlockSelector,
+    previewTextOffset,
+    sourceTextOffset,
+    isFocusSyncing
+  } = mountPreviewSync({
+    previewUi,
+    preview,
+    htmlEditor,
+    cssEditor,
+    visualEditor,
+    bookProject,
+    isCoverSelected,
+    showCoverPreview,
+    snapshotCurrentChapter,
+    hydrateResourceImages,
+    activeChapterIndex,
+    getVisualLoadedChapterId: () => visualLoadedChapterId,
+    getTiptapEditor: () => tiptapEditor,
+    followBookLink: (anchor) => followBookLink(anchor)
+  });
   const syncFromVisual = () => {
     if (!tiptapEditor || !tiptapEditor.isEditable || tiptapEditor.view.composing || suppressTiptapUpdate || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
     if (getVisualHtml() === visualBaseline) return;
@@ -60287,116 +61369,6 @@ ${locations.join("\n")}
     }
     snapshotCurrentChapter();
   }
-  const previewBlockSelector = "p,h1,h2,h3,h4,h5,h6,li,blockquote,td,th,img,hr,br";
-  let focusSyncing = false;
-  const sourceNodeForElement = (element2, rootNode) => {
-    if (!element2 || !rootNode.contains(element2)) return null;
-    const nodes = sourceElements2(htmlEditor.value);
-    if (element2.id) {
-      const match = nodes.find((node) => sourceAttribute(node, "id") === element2.id);
-      if (match) return match;
-    }
-    const tag = element2.tagName?.toLowerCase();
-    const occurrence = Array.from(rootNode.querySelectorAll(tag)).indexOf(element2);
-    return nodes.filter((node) => node.tag === tag)[occurrence] || null;
-  };
-  const renderedElementForSource = (node, rootNode) => {
-    if (!node) return null;
-    const id2 = sourceAttribute(node, "id");
-    if (id2) {
-      const exact = Array.from(rootNode.querySelectorAll("[id]")).find((element2) => element2.id === id2);
-      if (exact) return exact;
-    }
-    const direct = elementAtPath(rootNode, node.path);
-    if (direct?.tagName.toLowerCase() === node.tag) return direct;
-    const peers = sourceElements2(htmlEditor.value).filter((item) => item.tag === node.tag);
-    const ordinal = peers.findIndex((item) => item.start === node.start);
-    return Array.from(rootNode.querySelectorAll(node.tag))[ordinal] || null;
-  };
-  const scrollWithin = (panel, target) => {
-    if (!target || panel.hidden) return;
-    const bounds = target.getBoundingClientRect();
-    const frame = panel.getBoundingClientRect();
-    if (bounds.top < frame.top || bounds.bottom > frame.bottom) panel.scrollTop += bounds.top - frame.top - panel.clientHeight / 3;
-  };
-  const previewTextOffset = (element2, container, offset2) => {
-    if (!element2 || !container || !element2.contains(container)) return 0;
-    try {
-      const range = element2.ownerDocument.createRange();
-      range.selectNodeContents(element2);
-      range.setEnd(container, offset2);
-      return range.toString().length;
-    } catch {
-      return 0;
-    }
-  };
-  const sourceTextOffset = (node, offset2) => {
-    if (!node || !Number.isInteger(offset2)) return 0;
-    const source = htmlEditor.value.slice(node.start, Math.max(node.start, offset2));
-    const contentStart = source.indexOf(">");
-    if (contentStart < 0) return 0;
-    return new DOMParser().parseFromString(`<body>${source.slice(contentStart + 1)}</body>`, "text/html").body.textContent.length;
-  };
-  const highlightPreviewContext = (element2, caretOffset = 0) => {
-    const rootNode = previewContentRoot();
-    rootNode.querySelectorAll("mark.preview-context").forEach((mark) => mark.replaceWith(...mark.childNodes));
-    if (!element2) return;
-    const walker = document.createTreeWalker(element2, NodeFilter.SHOW_TEXT);
-    const words = [];
-    let node;
-    let base = 0;
-    while (node = walker.nextNode()) {
-      for (const match of node.data.matchAll(/\S+/g)) words.push({ node, start: base + match.index, end: base + match.index + match[0].length, localStart: match.index, localEnd: match.index + match[0].length });
-      base += node.data.length;
-    }
-    const index = words.findIndex((word) => caretOffset >= word.start && caretOffset <= word.end);
-    const selected = (index >= 0 ? [words[Math.max(0, index - 1)], words[index], words[index + 1]] : words.slice(0, 2)).filter(Boolean);
-    for (const word of [...new Set(selected)].sort((left, right) => right.start - left.start)) {
-      const range = rootNode.ownerDocument.createRange();
-      range.setStart(word.node, word.localStart);
-      range.setEnd(word.node, word.localEnd);
-      const mark = rootNode.ownerDocument.createElement("mark");
-      mark.className = "preview-context";
-      try {
-        range.surroundContents(mark);
-      } catch {
-      }
-    }
-  };
-  const synchronizeFocus = (node, origin, caretOffset = 0) => {
-    if (!node || focusSyncing || isCoverSelected()) return;
-    const chapterId = bookProject.selectedChapterId;
-    focusSyncing = true;
-    try {
-      const previewRoot = previewContentRoot();
-      const previewElement = renderedElementForSource(node, previewRoot);
-      if (previewElement) {
-        previewRoot.querySelectorAll(".preview-focus").forEach((element2) => element2.classList.remove("preview-focus"));
-        previewElement.classList.add("preview-focus");
-        highlightPreviewContext(previewElement, caretOffset);
-        if (origin !== "preview") scrollWithin(previewScrollRoot(), previewElement);
-      }
-      const visualRoot = visualEditor.querySelector(".ProseMirror") || visualEditor;
-      const visualElement = renderedElementForSource(node, visualRoot);
-      if (visualElement && origin !== "visual" && visualLoadedChapterId === chapterId) {
-        if (tiptapEditor) {
-          try {
-            tiptapEditor.commands.setTextSelection(tiptapEditor.view.posAtDOM(visualElement, 0));
-          } catch {
-          }
-        }
-        scrollWithin(visualEditor, visualElement);
-      }
-      const editor2 = window.epubMonacoEditor;
-      if (editor2 && origin !== "monaco" && editor2.getValue() === htmlEditor.value) {
-        const position = editor2.getModel().getPositionAt(node.start);
-        editor2.setPosition(position);
-        editor2.revealPositionInCenterIfOutsideViewport(position);
-      }
-    } finally {
-      focusSyncing = false;
-    }
-  };
   const followBookLink = (anchor) => {
     const href = anchor?.getAttribute("href");
     if (!href || /^(?:https?:|mailto:|data:)/i.test(href) || !bookProject.selectedChapter) return false;
@@ -60415,32 +61387,6 @@ ${locations.join("\n")}
     if (node) synchronizeFocus(node, "link");
     return true;
   };
-  const handlePreviewClick = (event) => {
-    const anchor = event.target.closest("a[href]");
-    if (anchor && followBookLink(anchor)) {
-      event.preventDefault();
-      return;
-    }
-    const rootNode = previewContentRoot();
-    const target = event.target.closest(previewBlockSelector + ",a,span,strong,em");
-    synchronizeFocus(sourceNodeForElement(target, rootNode), "preview", previewTextOffset(target, event.target, 0));
-  };
-  preview.addEventListener("click", handlePreviewClick);
-  visualEditor.addEventListener("click", (event) => {
-    const anchor = event.target.closest("a[href]");
-    if (anchor && followBookLink(anchor)) {
-      event.preventDefault();
-      return;
-    }
-    const target = event.target.closest(previewBlockSelector + ",a,span,strong,em");
-    const selection = window.getSelection();
-    synchronizeFocus(sourceNodeForElement(target, visualEditor), "visual", previewTextOffset(target, selection?.anchorNode, selection?.anchorOffset || 0));
-  });
-  visualEditor.addEventListener("keyup", () => {
-    const selection = window.getSelection();
-    const element2 = selection?.anchorNode?.nodeType === 1 ? selection.anchorNode : selection?.anchorNode?.parentElement;
-    synchronizeFocus(sourceNodeForElement(element2, visualEditor), "visual", previewTextOffset(element2, selection?.anchorNode, selection?.anchorOffset || 0));
-  });
   const xhtmlVoidTags = /* @__PURE__ */ new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
   const normaliseXhtml = (source) => {
     const prepared = String(source || "").replace(/<\s+([A-Za-z][\w:-]*)/g, "<$1").replace(/<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\b([^>]*?)>/gi, (_3, tag, attrs) => `<${tag.toLowerCase()}${attrs.replace(/\s*\/\s*$/, "").trim() ? ` ${attrs.replace(/\s*\/\s*$/, "").trim()}` : ""} />`);
@@ -61116,16 +62062,6 @@ ${locations.join("\n")}
       host.id = "xhtml-monaco-editor";
       host.setAttribute("aria-label", "XHTML \uCF54\uB4DC \uD3B8\uC9D1\uAE30");
       codeEditor.append(host);
-      const editorStyle = document.createElement("style");
-      editorStyle.textContent = `
-        .code-editor:has(#xhtml-monaco-editor){display:block;border:1px solid var(--line);background:var(--bg)}
-        /* Monaco \uB0B4\uBD80 textarea\uB294 \uC2E4\uC81C \uD0A4\uBCF4\uB4DC \uC785\uB825\uC744 \uBC1B\uC73C\uBBC0\uB85C, \uAE30\uC874 \uC9C1\uC811 \uC790\uC2DD textarea\uB9CC \uC228\uAE34\uB2E4. */
-        .code-editor:has(#xhtml-monaco-editor) > .line-numbers,.code-editor:has(#xhtml-monaco-editor) > textarea.code{display:none!important}
-        #xhtml-monaco-editor{height:100%;min-height:0;text-align:left}
-        .xhtml-diagnostics{margin-top:8px;padding:8px 10px;border:1px solid #ff8b72aa;border-radius:7px;background:#ff510018;color:#ffb39d;font-size:12px;line-height:1.45}.xhtml-diagnostics[hidden]{display:none}
-        .monaco-editor .xhtml-emmet-suggestion{color:#a78bfa!important}
-      `;
-      document.head.append(editorStyle);
       const tags = ["html", "head", "body", "title", "meta", "link", "style", "script", "div", "section", "article", "header", "footer", "main", "nav", "aside", "p", "span", "strong", "em", "b", "i", "u", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "table", "thead", "tbody", "tr", "th", "td", "a", "img", "figure", "figcaption", "br", "hr"];
       monaco.languages.registerCompletionItemProvider("html", {
         triggerCharacters: ["<", " ", ".", ":"],
@@ -61172,7 +62108,7 @@ ${locations.join("\n")}
       window.epubMonacoEditor = editor2;
       editor2.addAction({ id: "epub.history.redo", label: "\uB2E4\uC2DC \uC2E4\uD589", keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyY, monaco.KeyMod.WinCtrl | monaco.KeyCode.KeyY], precondition: "editorTextFocus", run: () => runHistory(true) });
       editor2.onDidChangeCursorPosition((event) => {
-        if (focusSyncing || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
+        if (isFocusSyncing() || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
         if (editor2.getValue() !== htmlEditor.value) return;
         const offset2 = editor2.getModel().getOffsetAt(event.position);
         const node = elementAtOffset(htmlEditor.value, offset2);
@@ -61412,13 +62348,13 @@ ${locations.join("\n")}
       if (!Editor || !StarterKit || !TextStyle || !OrderedList) throw new Error("Tiptap module unavailable");
       const textStyleProperties = ["font-size", "font-family", "color"];
       const epubSpanAttrs = (element2) => {
-        const style2 = document.createElement("span").style;
-        style2.cssText = element2.getAttribute("style") || "";
-        textStyleProperties.forEach((property) => style2.removeProperty(property));
+        const style = document.createElement("span").style;
+        style.cssText = element2.getAttribute("style") || "";
+        textStyleProperties.forEach((property) => style.removeProperty(property));
         const attrs = {
           class: element2.getAttribute("class"),
           id: element2.getAttribute("id"),
-          style: style2.cssText || null,
+          style: style.cssText || null,
           "data-footnote-content": element2.getAttribute("data-footnote-content")
         };
         return Object.values(attrs).some(Boolean) ? attrs : false;
@@ -61495,9 +62431,9 @@ ${locations.join("\n")}
         name: "projectStyleShortcuts",
         priority: 1e3,
         addKeyboardShortcuts() {
-          return styleShortcutBindings(bookProject, (style2) => {
+          return styleShortcutBindings(bookProject, (style) => {
             if (visualEditor.hidden || isCoverSelected() || !this.editor.isEditable || this.editor.view.composing || visualLoadedChapterId !== bookProject.selectedChapterId) return false;
-            return style2.kind === "tag" ? applyTagStyle(this.editor, style2.tag) : applyCustomStyle(this.editor, style2);
+            return style.kind === "tag" ? applyTagStyle(this.editor, style.tag) : applyCustomStyle(this.editor, style);
           });
         }
       });
@@ -61547,7 +62483,7 @@ ${locations.join("\n")}
           syncFromVisual({ normalise: false });
         },
         onSelectionUpdate: ({ editor: instance }) => {
-          if (focusSyncing || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
+          if (isFocusSyncing() || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
           const { from } = instance.state.selection;
           const dom = instance.view.domAtPos(from).node;
           const element2 = dom.nodeType === Node3.ELEMENT_NODE ? dom : dom.parentElement;
@@ -61583,9 +62519,6 @@ ${locations.join("\n")}
       }, true);
       setVisualHtml(htmlEditor.value);
       visualEditor.removeAttribute("contenteditable");
-      const style = document.createElement("style");
-      style.textContent = ".rich-editor .ProseMirror{min-height:100%;outline:0}.rich-editor .ProseMirror:focus{outline:0}";
-      document.head.append(style);
     } catch (error) {
       console.warn("Tiptap \uC77C\uBC18\uD3B8\uC9D1\uAE30\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.", error);
       visualEditor.setAttribute("aria-disabled", "true");
@@ -61656,10 +62589,6 @@ jszip/dist/jszip.min.js:
   JSZip uses the library pako released under the MIT license :
   https://github.com/nodeca/pako/blob/main/LICENSE
   *)
-
-dompurify/dist/purify.es.mjs:
-  (*! @license DOMPurify 3.4.16 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.16/LICENSE *)
-  (*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE *)
 
 lucide/dist/esm/defaultAttributes.mjs:
 lucide/dist/esm/createElement.mjs:
@@ -63542,4 +64471,8 @@ lucide/dist/esm/lucide.mjs:
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
    *)
+
+dompurify/dist/purify.es.mjs:
+  (*! @license DOMPurify 3.4.16 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.16/LICENSE *)
+  (*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE *)
 */

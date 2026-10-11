@@ -1,0 +1,102 @@
+/* App and Gemini settings dialogs. Loaded after workspace/editor styles. */
+.gemini-settings-dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(78vh, 760px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 72px #000a;
+}
+.gemini-settings-dialog::backdrop {
+  background: #0009;
+}
+.gemini-dialog-head,
+.gemini-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.gemini-dialog-footer {
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+}
+.gemini-dialog-head h2 {
+  margin: 0;
+  font-size: 14px;
+}
+.gemini-dialog-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px 0;
+}
+.gemini-dialog-tabs button {
+  border: 0;
+  border-bottom: 2px solid var(--ring);
+  padding: 6px 2px;
+  background: transparent;
+  color: var(--text);
+  font: 700 12px inherit;
+}
+.gemini-settings-form {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+}
+.gemini-settings-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--sub);
+  font-size: 12px;
+}
+.gemini-settings-form input,
+.gemini-settings-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+.gemini-settings-form textarea {
+  min-height: 180px;
+  resize: vertical;
+  line-height: 1.55;
+}
+.gemini-dialog-head button,
+.gemini-dialog-footer button,
+.gemini-settings-form button {
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 5px 8px;
+  background: var(--surface-2);
+  color: var(--text);
+  font: 600 12px inherit;
+  cursor: pointer;
+}
+.gemini-dialog-head button:hover,
+.gemini-dialog-footer button:hover,
+.gemini-settings-form button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.gemini-settings-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.gemini-settings-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.gemini-settings-dialog .gemini-settings-form {
+  min-height: 0;
+  overflow: auto;
+}
+.gemini-settings-dialog .gemini-dialog-head,
+.gemini-settings-dialog .gemini-dialog-tabs {
+  flex: none;
+}

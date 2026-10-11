@@ -136,6 +136,66 @@ test('같은 문장의 Preview·Tiptap·Monaco 위치 구분 / drag 후 선택 I
   await expect.poll(() => page.evaluate(() => window.epubMonacoEditor.getValue())).toBe(before);
 });
 
+test('editor caret scrolls the iframe viewport and preview click returns to the clicked word', async ({page}) => {
+  await start(page);
+  const paragraphs = Array.from({length:36}, (_,index) => `<p id="line-${index}">Line ${index} Alpha Beta Gamma</p>`).join('');
+  await add(page,'본문',paragraphs);
+  const frame = page.frameLocator('.preview-isolated-frame');
+  await expect(frame.locator('#line-35')).toBeAttached();
+  await page.evaluate(() => {
+    const editor = window.epubMonacoEditor;
+    editor.focus();
+    editor.setPosition({lineNumber:1,column:1});
+    editor.trigger('keyboard','cursorBottom',{});
+  });
+  await expect.poll(() => frame.locator('html').evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+  await frame.locator('#line-35').click({position:await frame.locator('#line-35').evaluate(element => {
+    const walker = element.ownerDocument.createTreeWalker(element,NodeFilter.SHOW_TEXT);
+    let text, offset = 'Line 35 Alpha '.length + 2;
+    while ((text = walker.nextNode())) {
+      if (offset <= text.data.length) break;
+      offset -= text.data.length;
+    }
+    const range = element.ownerDocument.createRange();
+    range.setStart(text, offset);
+    range.setEnd(text, offset + 1);
+    const rect = range.getBoundingClientRect();
+    const parent = element.getBoundingClientRect();
+    return {x:rect.left - parent.left + 1,y:rect.top - parent.top + rect.height / 2};
+  })});
+  await expect.poll(() => page.evaluate(() => {
+    const editor = window.epubMonacoEditor;
+    const model = editor.getModel();
+    return model.getValue().slice(model.getOffsetAt(editor.getPosition()) - 2, model.getOffsetAt(editor.getPosition()) + 3);
+  })).toContain('Beta');
+  await page.locator('[data-mode-toggle]').click();
+  await frame.locator('html').evaluate(node => { node.scrollTop = 0; });
+  await page.locator('.ProseMirror #line-35').click();
+  await page.keyboard.press('End');
+  await expect.poll(() => frame.locator('html').evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+  await frame.locator('#line-35').click({position:await frame.locator('#line-35').evaluate(element => {
+    const walker = element.ownerDocument.createTreeWalker(element,NodeFilter.SHOW_TEXT);
+    let text, offset = 'Line 35 Alpha '.length + 2;
+    while ((text = walker.nextNode())) {
+      if (offset <= text.data.length) break;
+      offset -= text.data.length;
+    }
+    const range = element.ownerDocument.createRange();
+    range.setStart(text,offset); range.setEnd(text,offset + 1);
+    const rect = range.getBoundingClientRect(); const parent = element.getBoundingClientRect();
+    return {x:rect.left - parent.left + 1,y:rect.top - parent.top + rect.height / 2};
+  })});
+  await expect.poll(() => page.evaluate(() => {
+    const selection = getSelection();
+    const element = selection.anchorNode?.nodeType === Node.ELEMENT_NODE ? selection.anchorNode : selection.anchorNode?.parentElement;
+    if (element?.closest('p')?.id !== 'line-35') return -1;
+    const range = document.createRange(); range.selectNodeContents(element.closest('p'));
+    range.setEnd(selection.anchorNode,selection.anchorOffset);
+    return range.toString().length;
+  })).toBeGreaterThan(15);
+  expect(await page.locator('#body').inputValue()).toBe(paragraphs);
+});
+
 test('실제 EPUB 찬사 본문은 해당 장에만 표시 / 전환·reload·새 책에 잔존 없음 / export 보존', async ({page}) => {
   test.setTimeout(180000);
   await start(page);

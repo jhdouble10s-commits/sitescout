@@ -1,89 +1,5 @@
-const uiStyle = document.createElement('style');
-uiStyle.textContent = `
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
-  body { overflow-x:clip; background:var(--bg)!important; color:var(--text)!important; font-family:'Noto Sans KR',system-ui,sans-serif!important; }
-  .app { grid-template-columns:248px minmax(0,1fr); background:var(--bg)!important; transition:grid-template-columns .22s ease; }
-  .side { position:relative; padding:72px 16px 20px!important; background:var(--surface)!important; border-right:1px solid var(--line); }
-  .brand { color:var(--text); padding:0 12px 28px!important; }.brand small,.tip { color:var(--sub)!important; }
-  .tab { background:var(--accent-soft)!important; color:var(--text)!important; border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); }
-  .drafts-panel { display:grid; gap:5px; margin:12px 0 0; padding:0 2px; }.drafts-panel[hidden] { display:none; }.drafts-title { padding:0 10px 4px; color:var(--sub); font-size:11px; font-weight:700; }.draft-item { width:100%; overflow:hidden; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:transparent; color:var(--text); font:600 12px inherit; text-align:left; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; }.draft-item:hover { border-color:var(--accent); color:var(--accent); }
-  .html-validation,.xhtml-diagnostics { display:none!important; }.editor-error-alert { flex:none; min-width:58px; height:32px; border:1px solid #ff8b72aa; border-radius:8px; padding:0 9px; background:#351916; color:#ffb09a; font:700 11px inherit; white-space:nowrap; cursor:pointer; }.editor-error-alert:hover,.editor-error-alert[aria-expanded="true"] { border-color:#ffb09a; background:#4b1e18; }.editor-error-alert[hidden] { display:none; }.chapter-error-popover { position:fixed; z-index:1100; width:min(320px,calc(100vw - 28px)); padding:12px; border:1px solid #ff8b72aa; border-radius:10px; background:var(--surface); color:var(--text); box-shadow:0 16px 42px #0008; }.chapter-error-popover[hidden] { display:none; }.chapter-error-popover__head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; color:#ffb09a; font-size:12px; font-weight:800; }.chapter-error-popover__close { width:24px; height:24px; border:0; border-radius:6px; background:transparent; color:var(--sub); font-size:19px; line-height:1; cursor:pointer; }.chapter-error-popover__close:hover { background:var(--surface-2); color:var(--text); }.chapter-error-popover__list { max-height:180px; margin:0; padding-left:18px; overflow:auto; color:var(--sub); font-size:12px; line-height:1.55; }.fields input[type="checkbox"] { width:18px!important; height:18px; padding:0!important; box-shadow:none!important; }.code-editor { display:grid; grid-template-columns:46px minmax(0,1fr); overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--bg); }.code-editor > .line-numbers { min-height:610px; margin:0; padding:10px 8px; overflow:hidden; border-right:1px solid var(--line); color:var(--sub); font:13px/1.65 Consolas,"Courier New",monospace; text-align:right; user-select:none; white-space:pre; }.code-editor > .code { height:610px!important; min-width:0; border:0!important; border-radius:0!important; box-shadow:none!important; }.status { position:relative; padding-right:42px!important; }.status-close { position:absolute; top:50%; right:10px; width:24px; height:24px; transform:translateY(-50%); border:0; border-radius:6px; background:transparent; color:currentColor; font-size:20px; line-height:20px; cursor:pointer; }.status-close:hover { background:#00000018; }
-  .theme-settings { margin-top:auto; padding:16px 10px; border-top:1px solid var(--line); color:var(--sub); font-size:12px; font-weight:700; }
-  .theme-settings > div:not(.theme-settings__head) { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px; }.theme-settings__head { display:flex; align-items:center; justify-content:space-between; }.theme-settings .api-settings-button { width:26px; height:26px; padding:0; font-size:14px; }.theme-settings button { border:1px solid var(--line); border-radius:7px; padding:7px 4px; background:var(--surface-2); color:var(--text); font:600 11px inherit; cursor:pointer; }.theme-settings button:hover { border-color:var(--accent); color:var(--accent); }
-  main { min-width:0; max-width:1680px!important; padding:24px 32px 42px!important; }.top { min-width:0; display:flex!important; align-items:center; justify-content:flex-end!important; min-height:52px; margin:0 0 18px!important; padding:8px 16px!important; background:var(--surface)!important; border:1px solid var(--line)!important; border-radius:14px!important; box-shadow:none!important; }
-  .primary { padding:8px 12px!important; border-radius:8px!important; background:var(--accent)!important; color:#fff!important; font-size:14px!important; line-height:1.2; box-shadow:none!important; }.primary:hover { transform:none!important; filter:brightness(1.08); }
-  .book-inline { flex:1; margin-right:14px; }.book-inline .settings { max-width:none!important; padding:0!important; background:none!important; border:0!important; box-shadow:none!important; }.book-inline section { display:flex; align-items:center; gap:10px; }.book-inline .field { display:flex; align-items:center; gap:7px; margin:0!important; }.book-inline label { margin:0!important; white-space:nowrap; color:var(--sub)!important; font-size:14px!important; }.book-inline input { width:130px!important; height:34px!important; padding:0 10px!important; }.book-inline .field:first-child input { width:195px!important; }.book-inline .cover { display:contents!important; border:0!important; padding:0!important; }.book-inline #coverInput,.book-inline .cover img { display:none!important; }.book-inline .cover-upload-button { display:inline-flex!important; align-items:center; height:34px; padding:0 10px; border:1px solid var(--accent)!important; border-radius:7px; background:var(--accent-soft); color:var(--accent)!important; font-size:14px!important; font-weight:600; cursor:pointer; }.book-inline .hint { display:none; }
-  .grid { --chapter-width:270px; --preview-width:440px; min-width:0; max-width:100%; position:relative; grid-template-columns:var(--chapter-width) minmax(420px,1fr) var(--preview-width)!important; gap:16px!important; }.panel-resize-handle { position:absolute; top:0; bottom:0; z-index:10; width:14px; transform:translateX(-7px); cursor:col-resize; touch-action:none; }.panel-resize-handle::after { content:''; position:absolute; top:20%; bottom:20%; left:6px; width:2px; border-radius:2px; background:transparent; transition:background .15s; }.panel-resize-handle:hover::after,.panel-resize-handle.is-resizing::after { background:var(--accent); }.card { min-width:0; background:var(--surface)!important; border-color:var(--line)!important; box-shadow:none!important; }.editor,.preview-card { min-width:0; padding:18px!important; }.head { padding:0!important; border:0!important; }.left-tabs { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:8px; border-bottom:1px solid var(--line); }.left-tab { border:0; border-radius:8px; padding:9px 6px; background:transparent; color:var(--sub); font:700 12px inherit; cursor:pointer; }.left-tab.active { background:var(--accent-soft); color:var(--accent); }
-  .chapter-card { display:flex; flex-direction:column; }.left-tabs { grid-template-columns:repeat(3,1fr)!important; }.left-panel-host { position:relative; flex:1; min-height:0; overflow:hidden; }.left-panel { display:none!important; position:absolute; inset:0; overflow:auto; }.left-panel.active { display:block!important; }.left-panel#chaptersPanel.active { display:flex!important; flex-direction:column; overflow:hidden; }.left-panel#chaptersPanel .chapters { flex:1; min-height:0; overflow-y:auto; padding:8px 8px 20px!important; }.chapter { position:relative; overflow:hidden; padding-left:34px!important; padding-right:38px!important; text-overflow:ellipsis; white-space:nowrap; }.toc-toggle { position:absolute; right:29px; top:50%; z-index:2; width:18px; height:18px; transform:translateY(-50%); border:0; padding:0; background:transparent; color:var(--sub); font-size:14px; cursor:pointer; }.toc-toggle:hover { color:var(--accent); }.toc-eye { position:absolute; left:7px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:var(--sub); cursor:pointer; }.toc-eye.is-hidden { opacity:.35; }.add { flex:none; width:calc(100% - 16px)!important; margin:7px 8px 13px!important; background:var(--surface)!important; border-color:var(--accent)!important; color:var(--accent)!important; }.left-panel#cssPanel,.left-panel#assetsPanel { padding:12px!important; }.left-panel#cssPanel section { padding:0!important; }.left-panel#cssPanel .css { height:520px!important; }.left-panel#cssPanel #images { display:none!important; }.left-panel#cssPanel .hint,.asset-hint { color:var(--sub)!important; }.asset-upload { display:flex; align-items:center; justify-content:center; width:100%; margin-bottom:10px; border:1px dashed var(--accent); border-radius:8px; padding:10px; color:var(--accent); font-size:12px; font-weight:700; cursor:pointer; }.asset-hint { color:var(--sub); font-size:12px; }.asset-row { display:flex; align-items:center; gap:6px; margin:5px 0; }.asset-row .draft-item { flex:1; }.asset-insert { width:28px; height:28px; border:1px solid var(--accent); border-radius:7px; background:var(--accent-soft); color:var(--accent); font-size:18px; cursor:pointer; }.draft-row { display:flex; gap:4px; }.draft-row .draft-item { flex:1; }.draft-delete { width:30px; border:1px solid var(--line); border-radius:8px; background:transparent; color:#ff9c75; cursor:pointer; }.cover-chapter { display:flex!important; align-items:center; gap:8px; }.cover-chapter::before { content:'▧'; color:var(--accent); font-size:14px; }
-  .editor-controls { min-width:0; display:flex; align-items:center; gap:10px; margin:0 0 14px; }.editor-mode { display:flex; flex:none; align-items:center; gap:4px; padding:4px; border:1px solid var(--line); border-radius:10px; background:var(--bg); }.editor-mode button { border:0; border-radius:7px; padding:7px 10px; background:transparent; color:var(--sub); font:700 12px inherit; cursor:pointer; white-space:nowrap; }.editor-mode button.active { background:var(--accent-soft); color:var(--accent); }.toolbar-viewport { position:relative; min-width:0; flex:1; overflow:hidden; }.rich-toolbar { display:flex; flex-wrap:nowrap; align-items:center; gap:6px; min-width:0; overflow-x:auto; overflow-y:hidden; justify-content:space-between; padding:5px 4px; margin:0; border:1px solid var(--line); border-radius:10px; background:var(--surface-2); scrollbar-width:none; }.rich-toolbar::-webkit-scrollbar { display:none; }.toolbar-viewport::before,.toolbar-viewport::after { content:''; pointer-events:none; opacity:0; transition:opacity .2s ease; position:absolute; top:1px; bottom:1px; z-index:1; width:64px; }.toolbar-viewport.show-previous::before,.toolbar-viewport.show-next::after { opacity:1; }.toolbar-viewport::before { left:1px; border-radius:9px 0 0 9px; background:linear-gradient(90deg,var(--surface-2) 15%,color-mix(in srgb,var(--surface-2) 85%,transparent) 48%,transparent); }.toolbar-viewport::after { right:1px; border-radius:0 9px 9px 0; background:linear-gradient(270deg,var(--surface-2) 15%,color-mix(in srgb,var(--surface-2) 85%,transparent) 48%,transparent); }.toolbar-previous,.toolbar-next { position:absolute; top:50%; z-index:2; width:29px; height:29px; transform:translateY(-50%); border:0; border-radius:7px; padding:6px; background:transparent; color:var(--text); cursor:pointer; }.toolbar-previous { left:5px; }.toolbar-next { right:5px; }.toolbar-previous:hover,.toolbar-next:hover { background:var(--accent-soft); color:var(--accent); }.toolbar-previous svg,.toolbar-next svg { display:block; }.rich-toolbar button { min-width:30px; border:1px solid var(--line); border-radius:6px; padding:5px 7px; background:var(--bg); color:var(--text); font:700 12px inherit; cursor:pointer; white-space:nowrap; }.rich-toolbar button:hover { border-color:var(--accent); color:var(--accent); }.rich-toolbar input { width:31px!important; height:28px; padding:2px!important; cursor:pointer; }.rich-toolbar select { height:29px; flex:none; border:1px solid var(--line); border-radius:6px; padding:0 6px; background:var(--bg); color:var(--text); font:600 11px inherit; cursor:pointer; }.rich-toolbar .tool-separator { width:1px; height:22px; flex:none; background:var(--line); }.rich-editor { min-height:610px; padding:18px; border:1px solid var(--line); border-radius:10px; background:var(--bg); color:var(--text); line-height:1.8; outline:none; overflow:auto; }.rich-editor:focus { border-color:var(--accent); box-shadow:0 0 0 3px #ff510030; }.rich-editor img { max-width:100%; height:auto; }.rich-editor table { border-collapse:collapse; max-width:100%; }.rich-editor td,.rich-editor th { min-width:72px; border:1px solid var(--sub); padding:6px; }
-  .preview-card .head { display:flex; align-items:center; justify-content:space-between; gap:10px; }.device-controls { display:flex; align-items:center; gap:6px; }.device-controls select { max-width:118px; height:28px; border:1px solid var(--line); border-radius:6px; padding:0 5px; background:var(--bg); color:var(--text); font:600 11px inherit; cursor:pointer; }.preview-card { overflow:hidden; }.preview .cover-preview-page { display:flex; align-items:center; justify-content:center; min-height:100%; }.preview .cover-preview-page img { display:block; max-width:100%; max-height:100%; object-fit:contain; }.preview[data-device-preview="true"] { box-sizing:content-box!important; flex:none; margin:0!important; padding:0!important; border:8px solid #1b1b1e!important; border-radius:22px; box-shadow:0 10px 30px #00000045; transform-origin:top left; transition:transform .16s ease; }
-  .rich-toolbar button.active { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }.rich-toolbar button svg { display:block; width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }.rich-toolbar input[data-font-size] { width:62px!important; height:29px; flex:none; font-size:11px!important; }.rich-toolbar input[data-table-color] { width:29px!important; height:29px; flex:none; }.table-color-control { display:flex; align-items:center; gap:4px; height:29px; flex:none; }.rich-toolbar .tool-label { flex:none; color:var(--sub); font-size:12px; line-height:29px; white-space:nowrap; }
-  .rich-editor { height:clamp(420px,calc(100vh - 310px),900px); min-height:0; }.preview-card { position:sticky; top:24px; align-self:start; max-height:calc(100vh - 48px); display:flex; flex-direction:column; overflow:hidden; }.preview-card .preview { flex:none; }.preview .preview-focus { background:#ff510018; outline:1px solid #ff5100aa; outline-offset:4px; border-radius:4px; transition:background .15s; }.preview mark.preview-context { background:#ff510052; color:inherit; border-radius:2px; padding:0 1px; }
-  h1,h2,label { color:var(--text)!important; } input,textarea { background:var(--bg)!important; border-color:var(--line)!important; color:var(--text)!important; } input:focus,textarea:focus { border-color:var(--accent)!important; box-shadow:0 0 0 3px #ff510030!important; }.secondary { background:var(--surface-2)!important; border-color:var(--line)!important; color:var(--text)!important; }.danger { color:#ff8660!important; }.chapter { color:var(--text)!important; }.chapter:hover { background:var(--surface-2)!important; }.chapter.active { background:var(--accent-soft)!important; color:var(--accent)!important; }.preview { background:var(--bg)!important; border-color:var(--line)!important; color:var(--text)!important; }.preview-card .head { padding:0 0 12px!important; border-bottom:1px solid var(--line)!important; margin-bottom:12px; }.code { height:610px!important; }
-  @media(max-width:1550px) { .grid { grid-template-columns:minmax(210px,var(--chapter-width)) minmax(0,1fr)!important; }.panel-resize-handle { display:none; }.preview-card { grid-column:1/-1; position:static; max-height:none; }.preview-card .preview { margin:auto; }.book-inline { min-width:0; overflow:hidden; } }
-  @media(max-width:1050px) { .grid { grid-template-columns:240px minmax(0,1fr)!important; }.panel-resize-handle { display:none; }.preview-card { grid-column:1/-1; }.book-inline .field:nth-child(3) { display:none; } }
-  @media(max-width:700px) { .app { grid-template-columns:1fr!important; }.side { display:none; } main { padding:14px!important; }.top { align-items:stretch!important; flex-direction:column; }.book-inline { margin:0; }.book-inline section { flex-wrap:wrap; }.book-inline input { width:110px!important; }.primary { align-self:flex-end; }.grid { display:block!important; }.editor,.preview-card { margin-top:16px; }.editor-controls { align-items:stretch; flex-direction:column; }.rich-toolbar { flex-wrap:nowrap; }.left-panel#cssPanel .css { height:260px!important; } }
-  .side nav { position:relative; }.new-book { position:absolute; top:7px; right:7px; z-index:2; width:28px; height:28px; border:1px solid var(--accent); border-radius:7px; background:var(--surface); color:var(--accent); font-size:19px; line-height:20px; cursor:pointer; }.new-book:hover { background:var(--accent-soft); }.chapter { padding-left:10px!important; padding-right:38px!important; }.chapter::after { content:''; position:absolute; right:11px; top:50%; width:16px; height:16px; transform:translateY(-50%); background:var(--accent); -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; }.chapter.is-toc-hidden { color:var(--sub)!important; background:transparent!important; }.chapter.is-toc-hidden::after { background:#777; opacity:1; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z M3 3l18 18'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z M3 3l18 18'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat; }.asset-rename { width:28px; height:28px; border:1px solid var(--line); border-radius:7px; background:var(--surface-2); color:var(--sub); font-size:15px; cursor:pointer; }.asset-rename:hover { border-color:var(--accent); color:var(--accent); }.fields select { height:36px; width:100%; border:1px solid var(--line); border-radius:8px; padding:0 30px 0 10px; background:var(--bg); color:var(--text); font:600 13px inherit; cursor:pointer; appearance:auto; }.fields select:focus { border-color:var(--accent); box-shadow:0 0 0 3px #ff510030; outline:0; }.editor > .toolbar label[for="image"] { display:none!important; }.css-save { width:100%; margin:0 0 10px; padding:8px; font-size:12px; }.status.ok,.status.error { position:fixed!important; top:20px; right:20px; z-index:1000; display:flex!important; align-items:center; min-height:46px; max-width:min(440px,calc(100vw - 40px)); margin:0!important; padding:12px 44px 12px 15px!important; border:1px solid #ffffff38; border-radius:11px; background:#0000001a!important; color:#fff!important; box-shadow:0 14px 36px #00000028; -webkit-backdrop-filter:blur(30px); backdrop-filter:blur(30px); opacity:1; transform:translateY(0); transition:opacity .28s ease,transform .28s ease; }.status.error { border-color:#ff8b72aa; }.status.is-leaving { opacity:0; transform:translateY(-8px); }
-  .fields { grid-template-columns:minmax(0,1fr) minmax(170px,.3fr)!important; align-items:end; }.fields > div:not(.full) { display:flex; min-width:0; flex-direction:column; }.fields > div:not(.full) label { height:16px; margin-bottom:6px!important; font-size:12px!important; line-height:16px!important; }.fields > div:not(.full) input,.fields > div:not(.full) select { height:36px!important; min-height:36px; padding:0 10px!important; }.chapter::after { background:#FF5100!important; }.chapter.is-toc-hidden::after { background:#707078!important; }.chapter.is-toc-hidden { color:#707078!important; }
-  .chapter { padding-right:56px!important; }
-  .preview { -ms-overflow-style:none; scrollbar-width:none; }.preview::-webkit-scrollbar { display:none; width:0; height:0; }.preview[data-device-preview="true"] { overflow:hidden!important; }.preview[data-device-preview="true"] .preview-isolated-frame { -ms-overflow-style:none; scrollbar-width:none; }.preview[data-device-preview="true"] .preview-isolated-frame::-webkit-scrollbar { display:none; width:0; height:0; }
-  .css-preset-control { display:grid; gap:8px; margin:0 0 10px; }.css-preset-row { display:flex; min-width:0; align-items:center; gap:8px; }.css-preset-control label { margin:0!important; white-space:nowrap; font-size:12px!important; }.css-preset-control select,.css-preset-control input { min-width:0; height:34px; border:1px solid var(--line); border-radius:8px; padding:0 9px; background:var(--bg); color:var(--text); }.css-preset-control select,.css-preset-control input { flex:1 1 auto; }.css-preset-save,.css-preset-delete { flex:none; height:30px; border:1px solid var(--accent); border-radius:7px; padding:0 9px; background:var(--accent-soft); color:var(--accent); font:700 12px inherit; cursor:pointer; }.css-preset-delete { border-color:#9b4850; background:#4b2026; color:#ffb7bd; }.left-panel#cssPanel:has(#css-monaco-editor) .css { display:none!important; }#css-monaco-editor { height:520px; border:1px solid var(--line); border-radius:8px; overflow:hidden; }@media(max-width:700px) { #css-monaco-editor { height:260px; } }
-  .drag-handle { display:inline-flex; width:16px; margin-right:5px; color:var(--sub); cursor:grab; user-select:none; }.drag-handle:active { cursor:grabbing; }.chapter.is-dragging { opacity:.45; }.chapter.drop-before { box-shadow:inset 0 2px var(--accent); }.chapter.drop-after { box-shadow:inset 0 -2px var(--accent); }.chapter.drop-child { background:var(--accent-soft)!important; outline:1px dashed var(--accent); }
-  .fields { grid-template-columns:minmax(0,1fr) minmax(125px,.5fr) minmax(125px,.38fr)!important; }.fields > .full { grid-column:1/-1!important; }
-  .code-editor > .code { overflow:auto!important; white-space:pre-wrap!important; overflow-wrap:break-word; }.preview p,.preview h1,.preview h2,.preview h3,.preview h4,.preview h5,.preview li,.preview blockquote,.preview td,.preview th { cursor:text; }.fields { position:relative; }.fields.is-custom-width { grid-template-columns:minmax(220px,min(var(--chapter-title-width),calc(100% - 182px))) minmax(170px,1fr)!important; }.field-resize-handle { position:absolute; top:0; bottom:auto; left:0; z-index:4; width:14px; height:58px; transform:translateX(-7px); cursor:col-resize; touch-action:none; }.field-resize-handle::after { content:''; position:absolute; top:20px; bottom:2px; left:6px; width:2px; border-radius:2px; background:var(--line); transition:background .15s; }.field-resize-handle:hover::after,.field-resize-handle.is-resizing::after { background:var(--accent); }
-  .editor .fields.is-custom-width { grid-template-columns:minmax(120px,min(var(--chapter-title-width),calc(100% - 244px))) minmax(110px,1fr) minmax(110px,.76fr)!important; }
-  @media(min-width:1921px) {
-    main { max-width:none!important; width:100%!important; margin:0!important; padding:clamp(28px,2vw,72px)!important; }
-    .grid { --chapter-width:clamp(270px,16vw,480px); --preview-width:minmax(480px,1fr); grid-template-columns:var(--chapter-width) minmax(620px,1.65fr) var(--preview-width)!important; gap:clamp(16px,1vw,30px)!important; }
-    .top { min-height:52px; padding:8px 16px!important; }
-    .code { height:clamp(610px,48vw,1080px)!important; }.preview { height:clamp(680px,53vw,1180px)!important; }
-    .book-inline input { width:160px!important; padding:0 10px!important; }.book-inline .field:first-child input { width:240px!important; }
-    .primary { padding:8px 12px!important; font-size:14px!important; }
-    .left-tab,.secondary { font-size:14px!important; }.chapter { padding:10px!important; font-size:14px!important; }
-    label,.head { font-size:14px!important; }.top { font-size:14px; }
-  }
-  /* 작업 화면은 viewport 안에서 남은 높이를 패널에 전달한다. 페이지가 아닌 각 패널 내부만 스크롤한다. */
-  .app { height:100dvh; min-height:0; overflow:hidden; }
-  main { height:100dvh; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
-  #editorView.view.active { display:flex; flex:1; min-height:0; }
-  #editorView .grid { flex:1; min-height:0; height:100%; align-items:stretch!important; overflow:hidden; }
-  .chapter-card,.editor,.preview-card { min-height:0; height:100%!important; max-height:none!important; }
-  .preview-card { position:static!important; align-self:stretch!important; display:flex; flex-direction:column; }
-  .preview-card .preview { flex:1!important; min-height:0; height:auto!important; }
-  .preview-stage { display:flex; flex:1; min-width:0; min-height:0; align-items:flex-start; justify-content:center; }
-  .preview-stage > .preview[data-device-preview="false"] { align-self:stretch; width:100%!important; height:100%!important; }
-  .preview-stage > .preview[data-device-preview="true"] { box-sizing:border-box!important; flex:0 0 auto!important; align-self:flex-start; margin:0!important; }
-  .draft-delete { color:var(--destructive)!important; }
-  .draft-delete svg { width:15px; height:15px; }
-  .draft-delete-dialog .delete-dialog-copy { padding:16px; margin:0; font-size:13px; }
-  .draft-delete-dialog [value="delete"] { background:var(--destructive)!important; color:var(--destructive-foreground)!important; }
-  .editor { display:flex; flex-direction:column; overflow:hidden; }
-  .editor-controls { flex:none; }
-  /* 장 제목·목차 입력 영역과 두 편집기 사이의 간격은 모드와 관계없이 하나로 유지한다. */
-  .editor { --editor-content-gap:12px; }
-  .editor .fields { flex:none; min-height:0; row-gap:0!important; }
-  .editor > .full,.editor > .rich-editor { margin-top:var(--editor-content-gap); }
-  /* XHTML 안내 라벨은 보조기기에만 남겨 코드 편집기의 시작점을 일반편집기와 맞춘다. */
-  .editor > .full > label { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
-  .editor > .full:not([hidden]) { flex:1; min-height:0; display:flex; flex-direction:column; }
-  .editor > .full:not([hidden]) .code-editor { flex:1; min-height:0; height:auto!important; }
-  .editor > .full:not([hidden]) .code-editor > .line-numbers { min-height:0; }
-  .editor > .full:not([hidden]) > .code-editor > textarea.code { height:100%!important; min-height:0; }
-  .editor .rich-editor { flex:1; min-height:0; height:auto!important; }
-  #xhtml-monaco-editor { height:100%!important; }
-  .editor-mode { padding:3px!important; }
-  .editor-mode button { min-width:76px; padding:7px 9px!important; }
-  .parent-toc-picker { position:relative; width:100%; }.parent-toc-button { display:flex; align-items:center; justify-content:space-between; width:100%; height:36px; overflow:hidden; border:1px solid var(--line); border-radius:8px; padding:0 10px; background:var(--bg); color:var(--text); font:600 13px inherit; text-align:left; white-space:nowrap; text-overflow:ellipsis; cursor:pointer; }.parent-toc-button::after { content:'⌄'; flex:none; margin-left:8px; color:var(--sub); font-size:16px; }.parent-toc-button:hover,.parent-toc-button[aria-expanded="true"] { border-color:var(--accent); }.parent-toc-menu { position:absolute; top:calc(100% + 5px); left:0; z-index:30; width:100%; max-height:220px; overflow:auto; padding:4px; border:1px solid var(--line); border-radius:8px; background:var(--surface); box-shadow:0 14px 34px #0008; }.parent-toc-menu[hidden] { display:none; }.parent-toc-option { display:block; width:100%; overflow:hidden; border:0; border-radius:6px; padding:8px; background:transparent; color:var(--text); font:600 12px inherit; text-align:left; white-space:nowrap; text-overflow:ellipsis; cursor:pointer; }.parent-toc-option:hover,.parent-toc-option[aria-selected="true"] { background:var(--accent-soft); color:var(--accent); }
-  .chapter-search-panel { position:fixed; top:76px; right:24px; z-index:1200; width:min(440px,calc(100vw - 28px)); padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); box-shadow:0 20px 52px #000a; }.chapter-search-panel[hidden] { display:none; }.chapter-search-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }.chapter-search-head strong { font-size:13px; }.chapter-search-close { width:26px; height:26px; border:0; border-radius:6px; background:transparent; color:var(--sub); font-size:19px; cursor:pointer; }.chapter-search-close:hover { background:var(--surface-2); color:var(--text); }.chapter-search-fields { display:grid; grid-template-columns:1fr 1fr; gap:7px; }.chapter-search-fields input { width:100%; height:34px; padding:6px 8px!important; font-size:12px!important; }.chapter-search-actions { display:flex; align-items:center; gap:7px; margin-top:9px; }.chapter-search-actions button { padding:7px 9px; font-size:12px; }.chapter-search-summary { margin:10px 0 6px; color:var(--sub); font-size:12px; }.chapter-search-results { max-height:280px; margin:0; padding:0; overflow:auto; list-style:none; }.chapter-search-result { display:block; width:100%; border:0; border-bottom:1px solid var(--line); padding:9px 4px; background:transparent; color:var(--text); text-align:left; cursor:pointer; }.chapter-search-result:hover { color:var(--accent); background:var(--accent-soft); }.chapter-search-result small { display:block; margin-top:3px; color:var(--sub); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .epub-transfer { display:flex; flex:none; align-items:stretch; gap:8px; }.epub-transfer .primary { margin:0; }
-  .epub-topbar[hidden] { display:none!important; }
-  .account-area { position:relative; flex:none; margin-right:10px; }.account-button { border:1px solid var(--line); border-radius:8px; padding:8px 11px; background:var(--surface-2); color:var(--text); font:700 12px inherit; cursor:pointer; }.account-button:hover { border-color:var(--accent); color:var(--accent); }
-  .account-panel { position:absolute; top:calc(100% + 8px); right:0; z-index:40; width:270px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); box-shadow:0 18px 45px #0008; }.account-panel[hidden] { display:none; }.account-panel h3 { margin:0 0 10px; font-size:13px; }.account-panel label { display:block; margin:8px 0 4px; font-size:11px; color:var(--sub)!important; }.account-panel input { width:100%!important; height:34px; padding:6px 8px!important; }.account-actions { display:flex; gap:6px; margin-top:10px; }.account-actions button { flex:1; }.account-message { margin:8px 0 0; color:var(--sub); font-size:11px; line-height:1.4; }.account-message.error { color:#ff9c75; }.admin-panel { margin-top:14px; padding-top:12px; border-top:1px solid var(--line); }
-  @media(max-width:1550px) { #editorView .grid { grid-template-rows:minmax(0,1fr) minmax(180px,.7fr); }.chapter-card,.editor { height:100%!important; }.preview-card { height:auto!important; max-height:none!important; } }
-  @media(max-width:700px) { .app,main { height:100dvh; }.app { overflow:hidden; } main { overflow:auto; }.chapter-card,.editor,.preview-card { height:auto!important; max-height:none!important; }.epub-transfer { width:100%; flex-wrap:wrap; }.epub-transfer .primary { flex:1; } }
-`;
-import JSZip from 'https://cdn.jsdelivr.net/npm/jszip@3.10.2/+esm';
-import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.4.16/+esm';
+// Workspace initialization wires BookProject, Tiptap/Monaco, preview, Supabase, and EPUB modules.
+// Check editor selection, chapter history, explicit save/reload, and exported EPUB after wiring changes.
 import { client as authClient } from './auth-client.js';
 import { appAccess, markAppUiReady, isAccessVerified, verifyAccess } from './app-access.js';
 import { signInApproved } from './auth-access.js';
@@ -91,7 +7,6 @@ import { diffChars } from 'https://cdn.jsdelivr.net/npm/diff@9.0.0/+esm';
 import { requestGeminiCorrections } from './gemini-interactions.js?v=20261007-63';
 import { applySourceEdits, chunkProofreadParagraphs, diffPartsToSourceEdits, extractProofreadParagraphs, isSuspiciousCorrection } from './gemini-proofread.js?v=20261007-63';
 import { fixXhtmlVoidElements } from './xhtml-tools.js?v=20261007-64';
-import { nearestPreviousTopLevelId } from './chapter-hierarchy.js?v=20261007-66';
 import { createChapterHistory } from './chapter-history.js';
 import { serializeVisualXhtml } from './visual-xhtml.js';
 import { DOMParser as ProseMirrorDOMParser, DOMSerializer as ProseMirrorDOMSerializer } from 'prosemirror-model';
@@ -99,22 +14,26 @@ import { BookProject } from './book-project.js?v=20261008-styles';
 import { stylesFromCss, applyCustomStyle, applyTagStyle } from './text-styles.js';
 import { mountTextStyles } from './text-styles-ui.js';
 import { styleShortcutBindings } from './style-shortcuts.js';
-import { immutableAssetPath, savedAssetPaths } from './cloud-asset-path.js';
+import { savedAssetPaths } from './cloud-asset-path.js';
 import { imageAssetPath, imageReferences, resolveImagePath } from './image-references.js';
 import { validateXhtml, equivalentXhtml, xhtmlPreservationIssue, projectXhtmlForVisual } from './xhtml-validation.js?v=20261007-70';
-import { formatXhtml, sourceElements, sourceAttribute, elementAtOffset, elementAtPath } from './xhtml-source.js?v=20261007-70';
+import { formatXhtml, sourceElements, sourceAttribute, elementAtOffset } from './xhtml-source.js?v=20261007-70';
 import { xhtmlCompletionContext, monacoAttributeSuggestions, registerXhtmlEmmet } from './xhtml-completion.js';
 import { mountEditorTools, editorSearchPlugin, setEditorActionIcon } from './editor-tools.js';
 import { createElement as lucideElement, Quote, FilePlus, Upload, Download, ListEnd, ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from 'https://cdn.jsdelivr.net/npm/lucide@1.52.0/+esm';
 import { createFocusTrap } from 'https://cdn.jsdelivr.net/npm/focus-trap@8.2.3/+esm';
-import { computePosition, autoUpdate, offset, flip, shift } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.8.0/+esm';
 import { mountAppSidebar } from './sidebar.js?v=20261008-76';
 import { installMonacoTheme } from './theme.js?v=20261007-75';
+import { mountPreviewDevice, mountPreviewSync } from './preview-ui.js';
+import { mountChapterToc } from './chapter-toc-ui.js';
+import { createCloudDraftIo } from './cloud-draft-io.js';
+import { createEpubFileIo } from './epub-file-io.js';
+import { createEpubExporter } from './epub-export.js';
+import { parseEpubFile } from './epub-import.js';
 
 export async function initializeApp() {
   const initialAccess = await appAccess;
   if (!initialAccess) return;
-  document.head.append(uiStyle);
   // Existing markup is ID-heavy.  Accept both CSS selectors (`#body`) and
   // bare legacy IDs (`body`) so one selector typo cannot abort UI startup.
   const $ = (selector) => {
@@ -136,20 +55,8 @@ export async function initializeApp() {
   const chapterHeader = chapterCard.querySelector('.head');
   let chapterControls = chapterList.parentElement;
   const preview = $('#preview');
-  let previewIframe = null;
-  const previewContentRoot = () => previewIframe?.isConnected ? previewIframe.contentDocument?.body || preview : preview;
-  const previewScrollRoot = () => previewIframe?.isConnected
-    ? previewIframe.contentDocument?.scrollingElement || previewContentRoot()
-    : preview;
-  const previewCard = preview.closest('.preview-card');
-  const previewHeader = previewCard.querySelector('.head');
-  const previewStage = document.createElement('div');
-  previewStage.className = 'preview-stage';
-  const previewDeviceShell = document.createElement('div');
-  previewDeviceShell.className = 'preview-device-shell';
-  preview.before(previewStage);
-  previewStage.append(previewDeviceShell);
-  previewDeviceShell.append(preview);
+  const previewUi = mountPreviewDevice(preview);
+  const {previewCard, previewContentRoot} = previewUi;
   const grid = chapterCard.parentElement;
   const editorCard = chapterCard.nextElementSibling;
   const resizeHandles = ['chapters', 'preview'].map((panel) => {
@@ -203,60 +110,6 @@ export async function initializeApp() {
     handle.addEventListener('pointercancel', finish);
   }));
   new ResizeObserver(positionResizeHandles).observe(grid);
-  const devicePresets = {
-    'iphone-16': { label: 'iPhone 16', width: 393, height: 852 },
-    'iphone-16-plus': { label: 'iPhone 16 Plus', width: 430, height: 932 },
-    'iphone-16-pro': { label: 'iPhone 16 Pro', width: 402, height: 874 },
-    'iphone-16-pro-max': { label: 'iPhone 16 Pro Max', width: 440, height: 956 },
-    'iphone-17': { label: 'iPhone 17', width: 393, height: 852 },
-    'iphone-17-air': { label: 'iPhone 17 Air', width: 430, height: 932 },
-    'iphone-17-pro': { label: 'iPhone 17 Pro', width: 402, height: 874 },
-    'iphone-17-pro-max': { label: 'iPhone 17 Pro Max', width: 440, height: 956 },
-    'iphone-18': { label: 'iPhone 18', width: 393, height: 852 },
-    'iphone-18-pro': { label: 'iPhone 18 Pro', width: 402, height: 874 },
-    'iphone-18-pro-max': { label: 'iPhone 18 Pro Max', width: 440, height: 956 },
-    'ipad-mini': { label: 'iPad mini', width: 744, height: 1133 },
-    'ipad': { label: 'iPad', width: 820, height: 1180 },
-    'ipad-air': { label: 'iPad Air', width: 820, height: 1180 },
-    'ipad-pro-11': { label: 'iPad Pro 11″', width: 834, height: 1194 },
-    'ipad-pro-13': { label: 'iPad Pro 13″', width: 1032, height: 1376 },
-  };
-  previewHeader.innerHTML = `<span>미리보기</span><div class="device-controls"><select id="phonePreview" aria-label="아이폰 미리보기"><option value="">아이폰</option><option value="iphone-16">iPhone 16</option><option value="iphone-16-plus">16 Plus</option><option value="iphone-16-pro">16 Pro</option><option value="iphone-16-pro-max">16 Pro Max</option><option value="iphone-17">iPhone 17</option><option value="iphone-17-air">17 Air</option><option value="iphone-17-pro">17 Pro</option><option value="iphone-17-pro-max">17 Pro Max</option><option value="iphone-18">iPhone 18</option><option value="iphone-18-pro">18 Pro</option><option value="iphone-18-pro-max">18 Pro Max</option></select><select id="tabletPreview" aria-label="태블릿 미리보기"><option value="">Tablet</option><option value="ipad-mini">iPad mini</option><option value="ipad">iPad</option><option value="ipad-air">iPad Air</option><option value="ipad-pro-11">iPad Pro 11″</option><option value="ipad-pro-13">iPad Pro 13″</option></select></div>`;
-  const phonePreview = $('#phonePreview');
-  const tabletPreview = $('#tabletPreview');
-  let selectedDevice = '';
-  const applyDevicePreview = () => {
-    const device = devicePresets[selectedDevice];
-    if (!device) {
-      preview.dataset.devicePreview = 'false';
-      previewDeviceShell.dataset.devicePreview = 'false';
-      preview.style.removeProperty('width');
-      preview.style.removeProperty('height');
-      preview.style.removeProperty('aspect-ratio');
-      preview.style.removeProperty('transform');
-      previewDeviceShell.style.removeProperty('width');
-      previewDeviceShell.style.removeProperty('height');
-      return;
-    }
-    // Keep the iframe at the device's CSS viewport. Only its presentation is
-    // scaled; feeding a physical, scaled width into the iframe changes CSS
-    // breakpoints and produces an inaccurate device preview.
-    const availableWidth = Math.max(1, previewStage.clientWidth);
-    const availableHeight = Math.max(1, previewStage.clientHeight);
-    const scale = Math.max(.1, Math.min(1, availableWidth / (device.width + 16), availableHeight / (device.height + 16)));
-    preview.dataset.devicePreview = 'true';
-    previewDeviceShell.dataset.devicePreview = 'true';
-    preview.style.setProperty('width', `${device.width}px`, 'important');
-    preview.style.setProperty('height', `${device.height}px`, 'important');
-    preview.style.setProperty('transform', `scale(${scale})`);
-    previewDeviceShell.style.width = `${Math.round((device.width + 16) * scale)}px`;
-    previewDeviceShell.style.height = `${Math.round((device.height + 16) * scale)}px`;
-  };
-  phonePreview.addEventListener('change', () => { selectedDevice = phonePreview.value; if (selectedDevice) tabletPreview.value = ''; applyDevicePreview(); });
-  tabletPreview.addEventListener('change', () => { selectedDevice = tabletPreview.value; if (selectedDevice) phonePreview.value = ''; applyDevicePreview(); });
-  new ResizeObserver(applyDevicePreview).observe(previewCard);
-  new ResizeObserver(applyDevicePreview).observe(previewStage);
-
   root.dataset.theme = localStorage.getItem('epub-theme') || 'dark';
 
   side.querySelector('.tip').insertAdjacentHTML('beforebegin', `
@@ -276,7 +129,7 @@ export async function initializeApp() {
   accountArea.innerHTML = `<button type="button" class="account-button">로그인</button><div class="account-panel" hidden>
     <h3>Sitescout 로그인</h3>
     <form class="login-form"><label>아이디<input name="username" autocomplete="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>비밀번호<input name="password" type="password" autocomplete="current-password" required minlength="6" /></label><div class="account-actions"><button type="submit" class="primary">로그인</button><button type="button" class="secondary account-close">닫기</button></div></form>
-    <p class="account-message" aria-live="polite"></p><div class="admin-panel" hidden><h3>사용자 아이디 발급</h3><form class="admin-form"><label>새 아이디<input name="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>임시 비밀번호<input name="password" type="password" required minlength="6" /></label><button type="submit" class="secondary" style="width:100%;margin-top:10px">아이디 발급</button></form></div>
+    <p class="account-message" aria-live="polite"></p><div class="admin-panel" hidden><h3>사용자 아이디 발급</h3><form class="admin-form"><label>새 아이디<input name="username" required pattern="[a-z0-9][a-z0-9_.-]{2,31}" /></label><label>임시 비밀번호<input name="password" type="password" required minlength="6" /></label><button type="submit" class="secondary">아이디 발급</button></form></div>
   </div>`;
   top.insertBefore(accountArea, exportButton);
   bookView.className = 'book-inline';
@@ -774,318 +627,11 @@ export async function initializeApp() {
   ['#ctitle', '#clevel', '#body'].forEach((selector) => $(selector).addEventListener('input', snapshotCurrentChapter));
   sigilFileName.addEventListener('input', snapshotCurrentChapter);
   addChapter.addEventListener('click', snapshotCurrentChapter);
-  let arrangingChapters = false;
-  // 내부 재정렬로 발생한 childList 변경은 다시 갱신하지 않는다.
-  // 그렇지 않으면 select 변경 → 재정렬 → MutationObserver 갱신이 연속 실행되어 UI가 흔들린다.
-  let ignoreInternalChapterMutation = false;
-  let chapterControlsRefreshQueued = false;
-  const chapterLabel = (chapter) => Array.from(chapter.childNodes)
-    .filter((node) => node.nodeType === Node.TEXT_NODE)
-    .map((node) => node.textContent.trim()).join(' ').trim() || '제목 없는 장';
-  const isDescendantOf = (index, ancestor) => {
-    const seen = new Set();
-    let parent = parentTocMap.get(index);
-    while (parent !== undefined && !seen.has(parent)) {
-      if (parent === ancestor) return true;
-      seen.add(parent);
-      parent = parentTocMap.get(parent);
-    }
-    return false;
-  };
-  const arrangeChapterList = ({ reorder = false } = {}) => {
-    if (arrangingChapters) return;
-    const chapters = Array.from(chapterList.querySelectorAll('.chapter[data-i]'));
-    // Row labels/handles/toggles below are view mutations too. Do not schedule
-    // another render from our own decorations on every animation frame.
-    if (chapters.length) ignoreInternalChapterMutation = true;
-    const available = new Set(chapters.map((chapter) => Number(chapter.dataset.i)));
-    parentTocMap.forEach((parent, child) => {
-      if (!available.has(parent) || parent === child || isDescendantOf(parent, child)) parentTocMap.delete(child);
-    });
-    const ordered = [];
-    const visit = (parent, depth) => {
-      let number = 0;
-      chapters.filter((chapter) => (parentTocMap.get(Number(chapter.dataset.i)) ?? null) === parent).forEach((chapter) => {
-        number += 1;
-        chapter.querySelector('.num').textContent = String(number);
-        chapter.style.setProperty('padding-left', `${10 + depth * 18}px`, 'important');
-        chapter.style.setProperty('--toc-depth', depth);
-        ordered.push(chapter);
-        visit(Number(chapter.dataset.i), depth + 1);
-      });
-    };
-    visit(null, 0);
-    if (ordered.length !== chapters.length) return;
-    // A TOC hierarchy is not a spine order. Rendering/import/restore must not
-    // move untoc'd interstitial chapters; only an explicit hierarchy move may.
-    if (reorder && !ordered.every((chapter, index) => chapter === chapters[index])) {
-      arrangingChapters = true;
-      ignoreInternalChapterMutation = true;
-      ordered.forEach((chapter) => chapterList.append(chapter));
-      arrangingChapters = false;
-    }
-    const rootHasChildren = new Set();
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      const parent = parentTocMap.get(index) ?? null;
-      if (parent !== null && (parentTocMap.get(parent) ?? null) === null) rootHasChildren.add(parent);
-    });
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      const parent = parentTocMap.get(index) ?? null;
-      let ancestor = parent;
-      let isCollapsedDescendant = false;
-      const seen = new Set([index]);
-      while (ancestor !== null && ancestor !== undefined && !seen.has(ancestor)) {
-        if (collapsedTocRoots.has(ancestor)) {
-          isCollapsedDescendant = true;
-          break;
-        }
-        seen.add(ancestor);
-        ancestor = parentTocMap.get(ancestor) ?? null;
-      }
-      chapter.hidden = isCollapsedDescendant;
-      chapter.querySelector('.toc-toggle')?.remove();
-      chapter.querySelector('.drag-handle')?.remove();
-      const handle = document.createElement('span');
-      handle.className = 'drag-handle';
-      handle.draggable = true;
-      handle.title = '끌어서 순서 또는 목차 계층 변경';
-      handle.setAttribute('aria-label', handle.title);
-      handle.textContent = '≡';
-      chapter.prepend(handle);
-      if (parent === null && rootHasChildren.has(index)) {
-        const toggle = document.createElement('button');
-        toggle.type = 'button';
-        toggle.className = 'toc-toggle';
-        const collapsed = collapsedTocRoots.has(index);
-        toggle.textContent = collapsed ? '▸' : '▾';
-        toggle.title = collapsed ? '하위 목차 펼치기' : '하위 목차 접기';
-        toggle.setAttribute('aria-label', toggle.title);
-        toggle.setAttribute('aria-expanded', String(!collapsed));
-        toggle.addEventListener('pointerdown', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-        });
-        toggle.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          if (collapsedTocRoots.has(index)) collapsedTocRoots.delete(index);
-          else collapsedTocRoots.add(index);
-          arrangeChapterList();
-        });
-        chapter.append(toggle);
-      }
-    });
-  };
-  let stopParentTocPosition = null;
-  const closeParentTocMenu = () => {
-    stopParentTocPosition?.(); stopParentTocPosition = null;
-    parentTocMenu.hidden = true;
-    parentTocButton.setAttribute('aria-expanded', 'false');
-  };
-  const renderParentTocPicker = () => {
-    const selected = parentToc.selectedOptions[0];
-    parentTocButton.textContent = selected?.textContent || '최상위 목차';
-    parentTocMenu.replaceChildren();
-    Array.from(parentToc.options).forEach((option) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'parent-toc-option';
-      item.setAttribute('role', 'option');
-      item.setAttribute('aria-selected', String(option.selected));
-      item.textContent = option.textContent;
-      const choose = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        parentToc.value = option.value;
-        closeParentTocMenu();
-        parentToc.dispatchEvent(new Event('change', { bubbles:true }));
-        parentTocButton.focus({preventScroll:true});
-      };
-      item.addEventListener('pointerdown', choose);
-      item.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') choose(event);
-      });
-      parentTocMenu.append(item);
-    });
-  };
-  const refreshChapterControls = () => {
-    arrangeChapterList();
-    const activeIndex = activeChapterIndex();
-    const chapters = Array.from(chapterList.querySelectorAll('.chapter[data-i]'));
-    parentToc.replaceChildren(new Option('최상위 목차', ''));
-    chapters.forEach((chapter) => {
-      const index = Number(chapter.dataset.i);
-      if (index !== activeIndex && !tocExcluded.has(index) && !isDescendantOf(index, activeIndex)) parentToc.add(new Option(chapterLabel(chapter), String(index)));
-      const visible = !tocExcluded.has(index);
-      chapter.classList.toggle('is-toc-hidden', !visible);
-    });
-    parentToc.value = parentTocMap.get(activeIndex) ?? '';
-    renderParentTocPicker();
-  };
-  const scheduleChapterControlsRefresh = () => {
-    if (chapterControlsRefreshQueued) return;
-    chapterControlsRefreshQueued = true;
-    requestAnimationFrame(() => {
-      chapterControlsRefreshQueued = false;
-      refreshChapterControls();
-    });
-  };
-  const chapterShortcutTargetIsEditable = (target) => Boolean(target?.closest?.(
-    'input,textarea,select,[contenteditable],.monaco-editor,.ProseMirror',
-  ));
-  const moveSelectedChapterHierarchy = (direction) => {
-    if (isCoverSelected() || !bookProject.selectedChapterId) return;
-    const selected = selectedChapterElement();
-    if (!selected) return;
-    saveCurrentChapter();
-    const selectedIndex = Number(selected.dataset.i);
-    const chapters = Array.from(chapterList.querySelectorAll('.chapter[data-i]'));
-    if (direction === 'outdent') {
-      if (!parentTocMap.has(selectedIndex)) return;
-      parentTocMap.delete(selectedIndex);
-    } else {
-      const chapterById = new Map(chapters.map((chapter) => [chapter.dataset.chapterId, chapter]));
-      const parentById = new Map(chapters.flatMap((chapter) => {
-        const parentIndex = parentTocMap.get(Number(chapter.dataset.i));
-        const parent = chapters.find((item) => Number(item.dataset.i) === parentIndex);
-        return parent ? [[chapter.dataset.chapterId, parent.dataset.chapterId]] : [];
-      }));
-      const parentId = nearestPreviousTopLevelId(chapters.map((chapter) => chapter.dataset.chapterId), parentById, selected.dataset.chapterId);
-      const parent = parentId ? chapterById.get(parentId) : null;
-      if (!parent) return;
-      const parentIndex = Number(parent.dataset.i);
-      if (parentIndex === selectedIndex || parentTocMap.get(selectedIndex) === parentIndex) return;
-      parentTocMap.set(selectedIndex, parentIndex);
-      // Keep the moved chapter after the parent's existing subtree. This is
-      // the same DOM order convention used by drag-and-drop and leaves ID and
-      // XHTML untouched.
-      const descendants = chapters.filter((chapter) => {
-        const index = Number(chapter.dataset.i);
-        return chapter !== selected && !isDescendantOf(index, selectedIndex) &&
-          (index === parentIndex || isDescendantOf(index, parentIndex));
-      });
-      const lastInSubtree = descendants.at(-1) || parent;
-      chapterList.insertBefore(selected, lastInSubtree.nextSibling);
-      collapsedTocRoots.delete(parentIndex);
-    }
-    bookProject.dirty = true; bookProject.revision++;
-    arrangeChapterList({ reorder:true });
-    refreshChapterControls();
-  };
-  document.addEventListener('keydown', (event) => {
-    if (!event.shiftKey || event.altKey || event.ctrlKey || event.metaKey || chapterShortcutTargetIsEditable(event.target)) return;
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      moveSelectedChapterHierarchy('indent');
-    } else if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      moveSelectedChapterHierarchy('outdent');
-    }
+  const {chapterLabel, refreshChapterControls, scheduleChapterControlsRefresh} = mountChapterToc({
+    chapterList, parentToc, parentTocMap, collapsedTocRoots, tocExcluded,
+    parentTocButton, parentTocMenu, parentTocPicker, bookProject, activeChapterIndex,
+    selectedChapterElement, saveCurrentChapter, isCoverSelected,
   });
-  parentToc.addEventListener('change', () => {
-    const index = activeChapterIndex();
-    if (parentToc.value) parentTocMap.set(index, Number(parentToc.value));
-    else parentTocMap.delete(index);
-    bookProject.dirty = true; bookProject.revision++;
-    arrangeChapterList({ reorder:true });
-    scheduleChapterControlsRefresh();
-  });
-  parentTocButton.addEventListener('click', () => {
-    const opening = parentTocMenu.hidden;
-    closeParentTocMenu();
-    if (opening) {
-      parentTocMenu.hidden = false;
-      parentTocMenu.style.width = `${parentTocButton.getBoundingClientRect().width}px`;
-      parentTocMenu.style.visibility = 'hidden';
-      stopParentTocPosition = autoUpdate(parentTocButton, parentTocMenu, () => {
-        computePosition(parentTocButton, parentTocMenu, {
-          strategy:'fixed', placement:'bottom-start', middleware:[offset(5), flip(), shift({padding:8})],
-        }).then(({x,y}) => {
-          if (parentTocMenu.hidden) return;
-          const opening = parentTocMenu.style.visibility === 'hidden';
-          Object.assign(parentTocMenu.style, {left:`${x}px`, top:`${y}px`, width:`${parentTocButton.getBoundingClientRect().width}px`, visibility:'visible'});
-          if (opening) parentTocMenu.querySelector('[aria-selected="true"]')?.focus({preventScroll:true});
-        });
-      });
-      parentTocButton.setAttribute('aria-expanded', 'true');
-    }
-  });
-  document.addEventListener('pointerdown', (event) => {
-    if (!parentTocPicker.contains(event.target) && !parentTocMenu.contains(event.target)) closeParentTocMenu();
-  }, true);
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !parentTocMenu.hidden) { closeParentTocMenu(); parentTocButton.focus(); }
-    if (parentTocMenu.hidden || !['ArrowDown','ArrowUp'].includes(event.key) || !parentTocMenu.contains(event.target)) return;
-    event.preventDefault();
-    const options = [...parentTocMenu.querySelectorAll('button')];
-    options[(options.indexOf(document.activeElement) + options.length + (event.key === 'ArrowDown' ? 1 : -1)) % options.length]?.focus();
-  });
-  chapterList.addEventListener('click', scheduleChapterControlsRefresh);
-  chapterList.addEventListener('click', (event) => {
-    if (event.target.closest('.toc-toggle')) return;
-    const chapter = event.target.closest('.chapter[data-i]');
-    if (!chapter) return;
-    const bounds = chapter.getBoundingClientRect();
-    if (bounds.right - event.clientX > 38) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const index = Number(chapter.dataset.i);
-    if (tocExcluded.has(index)) tocExcluded.delete(index);
-    else tocExcluded.add(index);
-    bookProject.dirty = true; bookProject.revision++;
-    refreshChapterControls();
-  }, true);
-  new MutationObserver(() => {
-    if (ignoreInternalChapterMutation) {
-      ignoreInternalChapterMutation = false;
-      return;
-    }
-    scheduleChapterControlsRefresh();
-  }).observe(chapterList, { childList:true, subtree:true });
-  let draggedChapter = null;
-  const clearDropIndicator = () => chapterList.querySelectorAll('.drop-before,.drop-after,.drop-child').forEach((chapter) => chapter.classList.remove('drop-before', 'drop-after', 'drop-child'));
-  chapterList.addEventListener('dragstart', (event) => {
-    const handle = event.target.closest('.drag-handle');
-    const chapter = handle?.closest('.chapter[data-i]');
-    if (!chapter) return;
-    draggedChapter = chapter;
-    chapter.classList.add('is-dragging');
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/plain', chapter.dataset.i);
-  });
-  chapterList.addEventListener('dragover', (event) => {
-    const target = event.target.closest('.chapter[data-i]');
-    if (!draggedChapter || !target || target === draggedChapter) return;
-    event.preventDefault();
-    clearDropIndicator();
-    const bounds = target.getBoundingClientRect();
-    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * .35);
-    target.classList.add(childDrop ? 'drop-child' : event.clientY < bounds.top + bounds.height / 2 ? 'drop-before' : 'drop-after');
-    event.dataTransfer.dropEffect = 'move';
-  });
-  chapterList.addEventListener('drop', (event) => {
-    const target = event.target.closest('.chapter[data-i]');
-    if (!draggedChapter || !target || target === draggedChapter) return;
-    event.preventDefault();
-    const draggedIndex = Number(draggedChapter.dataset.i);
-    const targetIndex = Number(target.dataset.i);
-    const bounds = target.getBoundingClientRect();
-    const childDrop = event.clientX > bounds.left + Math.min(72, bounds.width * .35);
-    let nextParent = childDrop ? (parentTocMap.get(targetIndex) ?? targetIndex) : (parentTocMap.get(targetIndex) ?? null);
-    if (nextParent === draggedIndex || isDescendantOf(nextParent, draggedIndex)) nextParent = null;
-    if (nextParent === null) parentTocMap.delete(draggedIndex);
-    else parentTocMap.set(draggedIndex, nextParent);
-    const before = !childDrop && event.clientY < bounds.top + bounds.height / 2;
-    chapterList.insertBefore(draggedChapter, before ? target : target.nextSibling);
-    collapsedTocRoots.delete(draggedIndex);
-    bookProject.dirty = true; bookProject.revision++;
-    arrangeChapterList({ reorder:true });
-    refreshChapterControls();
-  });
-  chapterList.addEventListener('dragend', () => { draggedChapter?.classList.remove('is-dragging'); draggedChapter = null; clearDropIndicator(); });
-  refreshChapterControls();
   const useAssetAwareExporter = true;
   exportButton.addEventListener('click', () => {
     if (useAssetAwareExporter) return;
@@ -1403,9 +949,6 @@ export async function initializeApp() {
       visualBaseline = getVisualHtml();
     } finally { suppressTiptapUpdate = false; }
   };
-  const visualSelectionStyle = document.createElement('style');
-  visualSelectionStyle.textContent = '::highlight(epub-visual-selection){background:var(--focus-fill);color:inherit;}';
-  document.head.append(visualSelectionStyle);
   let lastVisualRange = null;
   const refreshVisualSelectionHighlight = () => {
     const registry = window.CSS?.highlights;
@@ -1932,70 +1475,19 @@ export async function initializeApp() {
     const client = await cloudReady;
     await client?.rpc('release_epub_project_edit_lock',{p_project_id:lease.projectId,p_client_id:projectClientId,p_generation:lease.generation});
   };
-  const loadDraftAssets = async (draft, isCurrent = () => true) => {
-    const loaded = new Map();
-    const missing = new Map();
-    const ownerId = persistenceOwnerId();
-    for (const asset of draft.assets || []) {
-      let blob = null;
-      {
-        const client = await cloudReady;
-        if (client && supabaseUser) {
-          try {
-            for (const storagePath of await savedAssetPaths(ownerId, draft, asset)) {
-              const { data, error } = await client.storage.from('epub-assets').download(
-                storagePath, { cacheNonce:asset.hash || String(Date.now()) });
-              if (!error && data && (!asset.hash || await assetHash(data) === asset.hash)) { blob = data; break; }
-            }
-          } catch { /* Keep the manifest entry for a later retry. */ }
-        }
-      }
-      if (blob) loaded.set(asset.name, {
-        type:asset.type,
-        blob,
-        url:URL.createObjectURL(blob),
-        originalPath:asset.originalPath || '',
-        isCover:Boolean(asset.isCover), storagePath:asset.storagePath, hash:asset.hash || await assetHash(blob), serverStoredHash:asset.serverStoredHash,
-      });
-      else missing.set(asset.name, { ...asset });
-    }
-    if (!isCurrent()) { loaded.forEach(revokePreviewAssetUrl); return false; }
-    clearPreviewAssets();
-    loaded.forEach((asset, name) => previewAssets.set(name, asset));
-    missing.forEach((asset, name) => unresolvedAssets.set(name, asset));
-    renderAssetShelf();
-    renderAssetRecovery();
-    return true;
-  };
-  const loadImportedSourceFiles = async (draft, isCurrent = () => true) => {
-    const source = draft.importedSource;
-    if (!source) return null;
-    // Legacy server payloads may still contain the original ZIP bytes.
-    if (Array.isArray(source.files)) return {
-      ...source,
-      files:new Map(source.files.map(([path, bytes]) => [path, new Uint8Array(bytes)])),
-    };
-    const files = new Map();
-    const missing = [];
-    for (const resource of source.resources || []) {
-      let blob = null;
-      if (supabaseUser && resource.storagePath) {
-        const client = await cloudReady;
-        const { data, error } = await client.storage.from('epub-assets').download(resource.storagePath,{cacheNonce:resource.hash || String(Date.now())});
-        if (!error && data && (!resource.hash || await assetHash(data) === resource.hash)) {
-          blob = data;
-        }
-      }
-      if (!blob) { missing.push(resource.path); continue; }
-      files.set(resource.path,new Uint8Array(await blob.arrayBuffer()));
-    }
-    // Image blobs are stored in the image asset manifest, not duplicated in
-    // the source-resource manifest.
-    for (const asset of previewAssets.values()) if (asset.originalPath && asset.blob) files.set(asset.originalPath,new Uint8Array(await asset.blob.arrayBuffer()));
-    if (!isCurrent()) return null;
-    if (missing.length) console.warn('가져온 EPUB 원본 리소스 일부를 복원하지 못했습니다.',missing);
-    return { ...source, files, sourceMissing:missing };
-  };
+  const {loadDraftAssets, loadImportedSourceFiles, saveCloudDraft, deleteCloudDraft,
+    readCloudProject, listCloudProjects} = createCloudDraftIo({
+    cloudReady, persistenceOwnerId, deletionKey, projectClientId, assetHash,
+    previewAssets, unresolvedAssets, revokePreviewAssetUrl, clearPreviewAssets,
+    renderAssetShelf, renderAssetRecovery,
+    ensureEditLease:(...args) => ensureEditLease(...args),
+    renewEditLease:(...args) => renewEditLease(...args),
+    get supabaseUser() { return supabaseUser; },
+    get editLease() { return editLease; },
+    get editLeaseSupported() { return editLeaseSupported; },
+    get importedEpub() { return importedEpub; },
+    get deletedProjectIds() { return deletedProjectIds; },
+  });
   assetRetryButton.addEventListener('click', async () => {
     const ownerId = persistenceOwnerId();
     const title = openedDraftTitle;
@@ -2036,7 +1528,9 @@ export async function initializeApp() {
         element.setAttribute('aria-readonly',String(locked));
       });
     }
-    visualEditor.contentEditable = locked ? 'false' : 'true';
+    // The outer shell is never an editing host; Tiptap alone owns selection
+    // and receives lease/read-only changes through its editor API.
+    visualEditor.removeAttribute('contenteditable');
     tiptapEditor?.setEditable(!locked && !visualReadOnlyNotice.textContent);
     window.epubMonacoEditor?.updateOptions({readOnly:locked});
     if (!locked) updateToolbarState();
@@ -2086,75 +1580,6 @@ export async function initializeApp() {
     editLease = null; clearInterval(leaseRenewTimer); leaseRenewTimer = null;
     setProjectEditingAccess(false,'편집 권한이 만료되었거나 다른 기기로 이전되었습니다. 현재 탭의 원고는 유지됩니다.');
     showLeaseNotice?.('권한이 다른 기기로 이전되었거나 만료되었습니다. 현재 탭의 원고를 내보내거나 권한을 다시 가져오세요.');
-  };
-  const saveCloudDraft = async (draft, assets, ownerId) => {
-    if (deletedProjectIds.has(deletionKey(ownerId,draft.projectId))) throw new Error('서버에서 삭제된 프로젝트입니다. 현재 탭의 원고를 내보내세요.');
-    if (!isAccessVerified()) throw new Error('접근 권한을 다시 확인한 뒤 서버 동기화를 시도하세요.');
-    const client = await cloudReady;
-    if (!client || !supabaseUser || supabaseUser.id !== ownerId)
-      throw new Error('현재 회원의 서버 연결을 확인할 수 없습니다. 현재 탭의 원고는 유지됩니다.');
-    if (!editLease || editLease.projectId !== draft.projectId || editLease.expiresAt <= Date.now())
-      throw new Error('편집 권한이 만료되었거나 다른 기기로 이전되었습니다. 현재 탭의 원고는 유지됩니다.');
-    const cloudAssets = [...(draft.assets || []), ...(draft.importedSource?.resources || [])];
-    // A successful server save records serverStoredHash. Text-only saves consequently
-    // do not rehash, upload, or download immutable objects.
-    const toUpload = cloudAssets.filter(asset => {
-      asset.storagePath ||= immutableAssetPath(ownerId, draft.projectId, asset.hash);
-      return asset.serverStoredHash !== asset.hash;
-    });
-    let next = 0;
-    const uploadOne = async () => {
-      while (next < toUpload.length) {
-        const asset = toUpload[next++];
-        if (!isAccessVerified() || persistenceOwnerId() !== ownerId) throw new Error('접근 권한 확인이 필요합니다.');
-        const stored = assets.get(asset.name);
-        if (!stored?.blob) throw new Error(`${asset.sourceResource ? '원본 EPUB 리소스' : '이미지'} “${asset.originalPath || asset.name}”의 원본 파일을 찾지 못했습니다.`);
-        const { error } = await client.storage.from('epub-assets').upload(asset.storagePath, stored.blob,
-          { contentType:asset.type || 'application/octet-stream', upsert:false });
-        if (error) {
-          // An object can already exist after a prior interrupted upload. Only
-          // this unknown object is downloaded and verified; known hashes never
-          // take this path on a later text-only save.
-          const existing = await client.storage.from('epub-assets').download(asset.storagePath,{cacheNonce:asset.hash});
-          if (existing.error || !existing.data || await assetHash(existing.data) !== asset.hash) throw new Error(`${asset.sourceResource ? '원본 EPUB 리소스' : '이미지'} 업로드 실패: ${error.message}`);
-        }
-      }
-    };
-    await Promise.all(Array.from({length:Math.min(3,toUpload.length)},uploadOne));
-    if (!isAccessVerified() || persistenceOwnerId() !== ownerId || deletedProjectIds.has(deletionKey(ownerId,draft.projectId))) throw new Error('접근 권한 또는 프로젝트 삭제 상태를 다시 확인하세요.');
-    // The uploaded objects are immutable; include their confirmed hashes in
-    // the server manifest even if this is the first save of the manuscript.
-    cloudAssets.forEach(asset => { asset.serverStoredHash = asset.hash; });
-    const { data, error } = await client.rpc('overwrite_epub_project',{
-      p_project_id:draft.projectId,p_payload:draft,p_client_id:projectClientId,p_generation:editLease.generation,
-    });
-    if (error?.code === 'PGRST202') throw new Error('수동 저장용 서버 migration이 아직 적용되지 않았습니다. 현재 탭의 원고를 유지하세요.');
-    if (error?.code === 'PT423') { void renewEditLease(); throw new Error('편집 권한이 만료되었거나 다른 기기로 이전되었습니다. 현재 탭의 원고는 유지됩니다.'); }
-    if (error) throw new Error(`서버 저장 실패: ${error.message}`);
-    if (!Number.isSafeInteger(data?.revision)) throw new Error('서버 저장 응답이 올바르지 않습니다. 현재 탭의 원고는 유지됩니다.');
-    cloudAssets.forEach(asset => {
-      asset.serverStoredHash = asset.hash;
-      const local = assets.get(asset.name);
-      if (local) local.serverStoredHash = asset.hash;
-      if (!asset.sourceResource && previewAssets.get(asset.name)?.blob === local?.blob)
-        previewAssets.get(asset.name).serverStoredHash = asset.hash;
-    });
-    if (importedEpub && draft.importedSource?.resources) importedEpub.resourceManifest = structuredClone(draft.importedSource.resources);
-    draft.serverRevision = data.revision;
-    draft.lastServerSavedAt = data.saved_at || new Date().toISOString();
-    return true;
-  };
-  const deleteCloudDraft = async (draft) => {
-    if (!draft.serverRevision) return;
-    if (!isAccessVerified()) throw new Error('접근 권한을 다시 확인한 뒤 삭제하세요.');
-    if (editLeaseSupported === true && !await ensureEditLease()) throw new Error('편집 권한을 확인하지 못해 삭제하지 않았습니다.');
-    const args = {p_project_id:draft.projectId,p_expected_revision:draft.serverRevision};
-    if (editLeaseSupported === true) Object.assign(args,{p_client_id:projectClientId,p_generation:editLease?.generation});
-    const { error } = await authClient.rpc('delete_epub_project',args);
-    if (error?.code === 'PT423') { void renewEditLease(); throw new Error('편집 권한이 만료되었거나 다른 기기로 이전되었습니다. 삭제하지 않았습니다.'); }
-    if (error) throw error;
-    // Immutable assets are intentionally retained. Garbage collection is a
-    // separate, reference-aware operation, never part of a client save/delete.
   };
   const draftButton = document.createElement('button');
   draftButton.type = 'button';
@@ -2282,12 +1707,6 @@ export async function initializeApp() {
 불필요한 문장 재작성이나 표현 개선은 하지 마세요.
 
 교정된 본문만 반환하세요.`;
-  const geminiSettingsStyle = document.createElement('style');
-  geminiSettingsStyle.textContent = `
-    .gemini-settings-dialog{width:min(680px,calc(100vw - 32px));max-height:min(78vh,760px);padding:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 24px 72px #000a}.gemini-settings-dialog::backdrop{background:#0009}.gemini-dialog-head,.gemini-dialog-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.gemini-dialog-footer{border-top:1px solid var(--line);border-bottom:0}.gemini-dialog-head h2{margin:0;font-size:14px}.gemini-dialog-tabs{display:flex;gap:4px;padding:10px 16px 0}.gemini-dialog-tabs button{border:0;border-bottom:2px solid var(--accent);padding:6px 2px;background:transparent;color:var(--text);font:700 12px inherit}.gemini-settings-form{display:grid;gap:12px;padding:14px 16px}.gemini-settings-form label{display:grid;gap:6px;color:var(--sub);font-size:12px}.gemini-settings-form input,.gemini-settings-form textarea{width:100%;box-sizing:border-box}.gemini-settings-form textarea{min-height:180px;resize:vertical;line-height:1.55}.gemini-dialog-head button,.gemini-dialog-footer button,.gemini-settings-form button{min-height:30px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:var(--surface-2);color:var(--text);font:600 12px inherit;cursor:pointer}.gemini-dialog-head button:hover,.gemini-dialog-footer button:hover,.gemini-settings-form button:hover{border-color:var(--accent);color:var(--accent)}
-  `;
-  document.head.append(geminiSettingsStyle);
-  geminiSettingsStyle.textContent += '.gemini-settings-dialog{position:fixed;inset:0;margin:auto;box-sizing:border-box;overflow:hidden}.gemini-settings-dialog[open]{display:flex;flex-direction:column}.gemini-settings-dialog .gemini-settings-form{min-height:0;overflow:auto}.gemini-settings-dialog .gemini-dialog-head,.gemini-settings-dialog .gemini-dialog-tabs{flex:none}';
   const geminiSettingsDialog = document.createElement('dialog');
   geminiSettingsDialog.className = 'gemini-settings-dialog';
   geminiSettingsDialog.innerHTML = `<div class="gemini-dialog-head"><div><h2>설정</h2><p class="settings-description">작업 환경과 연결된 서비스를 관리하세요.</p></div><button type="button" data-close>닫기</button></div><div class="gemini-dialog-tabs"><button type="button" aria-current="page">API 설정</button></div><form class="gemini-settings-form"><label>Gemini API Key<input name="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…" /></label><label>기본 프롬프트<textarea name="prompt" spellcheck="false"></textarea></label><div><button type="button" data-restore>기본값 복원</button></div><div class="gemini-dialog-footer"><span>키는 현재 탭의 메모리에만 보관됩니다. 새로고침·로그아웃 후 다시 입력하세요.</span><button type="submit" class="primary">저장</button></div></form>`;
@@ -2654,6 +2073,12 @@ export async function initializeApp() {
     synchronizeFootnotes();
     const activeSourceIndex = activeChapterIndex();
     const orderedIndexes = Array.from(chapterList.querySelectorAll('.chapter[data-i]')).map((chapter) => Number(chapter.dataset.i));
+    const chapterLevel = index => {
+      let level = 1, parent = parentTocMap.get(index);
+      const seen = new Set([index]);
+      while (parent !== undefined && !seen.has(parent)) { seen.add(parent); level++; parent = parentTocMap.get(parent); }
+      return level;
+    };
     const chapters = orderedIndexes.map((index) => {
       const snapshot = chapterAt(index);
       if (!snapshot) throw new Error(`제${index + 1}장의 저장 데이터를 찾을 수 없습니다.`);
@@ -2661,7 +2086,7 @@ export async function initializeApp() {
         ...snapshot,
         id:snapshot.id || chapterList.querySelector(`.chapter[data-i="${index}"]`)?.dataset.chapterId || createChapterId(),
         title:snapshot.title,
-        level:(parentTocMap.get(index) ?? null) === null ? 1 : 2,
+        level:chapterLevel(index),
         body:snapshot.body,
         // File names are maintained independently for each chapter index.
         // Do not reuse a potentially stale editor snapshot here.
@@ -2806,320 +2231,47 @@ export async function initializeApp() {
     }
     if (event.key === 'Escape' && !chapterSearchPanel.hidden) { event.preventDefault(); closeChapterSearch(); }
   }, true);
-  const epubText = (value) => new TextEncoder().encode(value);
-  const epubEscape = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&apos;' }[character]));
-  const createEpubZip = async (files) => {
-    const archive = new JSZip();
-    // EPUB requires this exact entry to be first and stored (not compressed).
-    const mimetype = files.find((file) => file.name === 'mimetype');
-    if (mimetype) archive.file('mimetype', mimetype.data, { compression:'STORE' });
-    files.filter((file) => file.name !== 'mimetype').forEach((file) => {
-      archive.file(file.name, file.data, { compression:'DEFLATE', compressionOptions:{ level:6 } });
-    });
-    return archive.generateAsync({ type:'blob', mimeType:'application/epub+zip', compression:'DEFLATE', streamFiles:false });
-  };
-  const normaliseImportedFootnoteLinks = (body, chapterPath, footnotePath) => String(body).replace(/<a\b([^>]*)>/gi, (all, attributes) => {
-    const href = attributeValue(attributes, 'href');
-    const id = href.split('#')[1] || '';
-    const targetPath = href ? zipPath(chapterPath.slice(0, chapterPath.lastIndexOf('/') + 1), href.split('#')[0]) : '';
-    if (!id || targetPath !== footnotePath) return all;
-    const withoutTarget = attributes.replace(/\s+target\s*=\s*(["']).*?\1/gi, '');
-    if (/(?:^|\s)noteref(?:\s|$)/i.test(attributeValue(withoutTarget, 'epub:type'))) return `<a${withoutTarget}>`;
-    return `<a${withoutTarget} epub:type="noteref">`;
+  const {epubText, epubEscape, createEpubZip, normaliseImportedFootnoteLinks, importedMetadata,
+    makeEpubNav, replaceXhtmlBody, replaceXhtmlTitle, relativeEpubPath,
+    zipText, zipPath, unzipEpub, xmlDocument, elementText, xhtmlBody, xhtmlTitle,
+    tocEntriesFromNcx, tocEntriesFromNav} = createEpubFileIo({
+    attributeValue, defaultChapterFileName, tocExcluded, parentTocMap,
   });
-  const importedMetadata = (imported, draft) => {
-    const identifier = imported.identifier || `urn:uuid:${crypto.randomUUID()}`;
-    return `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">${epubEscape(identifier)}</dc:identifier><dc:title>${epubEscape(draft.title || '새 전자책')}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ''}<dc:language>${epubEscape(draft.language || 'ko')}</dc:language>${imported.metadataExtras || ''}<meta property="dcterms:modified">${new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')}</meta></metadata>`;
-  };
-  const makeEpubNav = (chapters, filenames = chapters.map((_, index) => defaultChapterFileName(index)), structure = { tocExcluded, parentTocMap }) => {
-    const included = chapters.filter((_, index) => !structure.tocExcluded.has(index));
-    const visible = new Set(included.map((_, index) => chapters.indexOf(included[index])));
-    const parentFor = (index) => {
-      const seen = new Set([index]);
-      let parent = structure.parentTocMap.get(index);
-      while (parent !== undefined && !seen.has(parent)) {
-        if (visible.has(parent)) return parent;
-        seen.add(parent);
-        parent = structure.parentTocMap.get(parent);
-      }
-      return null;
-    };
-    const items = included.map((chapter) => ({ chapter, index:chapters.indexOf(chapter) }));
-    const render = (parent) => items.filter((item) => parentFor(item.index) === parent).map((item) => {
-      const children = render(item.index);
-      const link = `<a href="text/${epubEscape(filenames[item.index])}">${epubEscape(item.chapter.title || '제목 없는 장')}</a>`;
-      return `<li>${link}${children ? `<ol>${children}</ol>` : ''}</li>`;
-    }).join('');
-    const landmarks = (structure.landmarks || []).map(item => `<li><a epub:type="${epubEscape(item.type)}" href="${epubEscape(item.href)}">${epubEscape(item.title)}</a></li>`).join('');
-    return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>목차</title></head><body><nav epub:type="toc"><h1>목차</h1><ol>${render(null)}</ol></nav>${landmarks ? `<nav epub:type="landmarks" hidden="hidden"><h2>안내</h2><ol>${landmarks}</ol></nav>` : ''}</body></html>`;
-  };
-  const replaceXhtmlBody = (source, body) => /<body\b[^>]*>[\s\S]*?<\/body\s*>/i.test(source) ? source.replace(/(<body\b[^>]*>)[\s\S]*?(<\/body\s*>)/i, (_, opening, closing) => opening + body + closing) : source;
-  const replaceXhtmlTitle = (source, title) => /<title\b[^>]*>[\s\S]*?<\/title\s*>/i.test(source) ? source.replace(/(<title\b[^>]*>)[\s\S]*?(<\/title\s*>)/i, (_, opening, closing) => opening + epubEscape(title) + closing) : source;
-  const relativeEpubPath = (fromFile, toFile) => {
-    const from = fromFile.split('/').slice(0, -1);
-    const to = toFile.split('/');
-    while (from.length && to.length && from[0] === to[0]) { from.shift(); to.shift(); }
-    return `${'../'.repeat(from.length)}${to.join('/')}` || toFile.split('/').pop();
-  };
-  const exportImportedEpub3 = async (draft) => {
-    const imported = importedEpub;
-    if (!imported) return false;
-    const output = new Map(imported.files);
-    const addedMeta = [];
-    const resolvedMeta = new Map(draft.chapters.map(chapter => {
-      let meta = imported.chapterMeta.find(item => item.path === chapter.originalPath);
-      if (!meta) {
-        const path = `${imported.packageBase}text/${chapter.fileName}`;
-        if (output.has(path) && path !== imported.footnotePath) throw new Error(`새 장 경로가 기존 리소스와 겹칩니다: ${path}`);
-        meta = { path, idref:chapter.id, body:'', tocTitle:chapter.title, source:`<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>${epubEscape(chapter.title)}</title></head><body></body></html>` };
-        addedMeta.push(meta);
-      }
-      return [chapter.id, meta];
-    }));
-    let replacementCoverType = '';
-    if (imported.coverReplaced && imported.coverImagePath && draft.coverSource) {
-      const blob = await fetch(draft.coverSource).then((response) => response.blob());
-      output.set(imported.coverImagePath, new Uint8Array(await blob.arrayBuffer()));
-      replacementCoverType = blob.type || '';
-    }
-    const metaForChapter = chapter => resolvedMeta.get(chapter.id);
-    draft.chapters.forEach((chapter, index) => {
-      const meta = metaForChapter(chapter, index);
-      const exportBody = normaliseImportedFootnoteLinks(
-        chapter.body.replace(/\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi, ''), meta.path, imported.footnotePath,
-      );
-      let source = chapter.body === meta.body ? meta.source : replaceXhtmlBody(meta.source, exportBody);
-      if (chapter.title && chapter.title !== meta.tocTitle) source = replaceXhtmlTitle(source, chapter.title);
-      output.set(meta.path, epubText(source));
-    });
-    if (imported.stylesheetPath && output.has(imported.stylesheetPath)) output.set(imported.stylesheetPath, epubText(draft.css));
-    // 원본 EPUB에 없던 새 각주만 기존 각주 문서 끝에 추가한다. 기존 footnote
-    // 마크업과 내부 링크는 삭제하거나 재작성하지 않는다.
-    const footnotePath = imported.footnotePath || `${imported.packageBase}text/footnote.xhtml`;
-    const generatedFootnoteId = 'sitescout-footnotes';
-    if (draft.footnotes?.length) {
-      const asides = draft.footnotes.map((note) => {
-        const sourceIndex = draft.chapters.findIndex((chapter) => chapter.id === note.sourceChapterId);
-        const source = metaForChapter(draft.chapters[Math.max(0, sourceIndex)], Math.max(0, sourceIndex));
-        const href = relativeEpubPath(footnotePath, source.path);
-        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(href)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
-      }).join('');
-      if (output.has(footnotePath)) {
-        const original = zipText(output.get(footnotePath));
-        const addition = `<section id="${generatedFootnoteId}" epub:type="footnotes">${asides}</section>`;
-        output.set(footnotePath, epubText(/<\/body\s*>/i.test(original) ? original.replace(/<\/body\s*>/i, `${addition}</body>`) : `${original}${addition}`));
-      } else {
-        output.set(footnotePath, epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(draft.language || 'ko')}"><head><title>각주</title></head><body><section id="${generatedFootnoteId}" epub:type="footnotes"><h1>각주</h1>${asides}</section></body></html>`));
-      }
-    }
-    const draftTocExcluded = new Set(draft.tocExcluded);
-    const draftParentTocMap = new Map(draft.parentToc);
-    const navItems = draft.chapters.map((chapter, index) => ({ meta:metaForChapter(chapter, index), index, chapter })).filter(({ index }) => !draftTocExcluded.has(index));
-    const renderNav = (parent) => navItems.filter(({ index }) => (draftParentTocMap.get(index) ?? null) === parent).map(({ meta, index, chapter }) => {
-      const children = renderNav(index);
-      const href = relativeEpubPath(imported.navPath, meta.path);
-      return `<li><a href="${epubEscape(href)}">${epubEscape(chapter.title || meta.tocTitle || '제목 없는 장')}</a>${children ? `<ol>${children}</ol>` : ''}</li>`;
-    }).join('');
-    let navMarkup = renderNav(null);
-    if (imported.tocTree?.length) {
-      const originalChapterPaths = new Set(imported.chapterMeta.map(meta => meta.path));
-      const currentPaths = new Set(draft.chapters.map(chapter => chapter.originalPath));
-      const includedPaths = new Set(navItems.map(item => item.chapter.originalPath));
-      const coveredPaths = new Set();
-      const renderTree = (nodes) => nodes.map((node) => {
-        if (originalChapterPaths.has(node.path) && !currentPaths.has(node.path) && !imported.coverPagePaths.includes(node.path)) return '';
-        if (imported.coverDeleted && imported.coverPagePaths.includes(node.path)) return '';
-        if (currentPaths.has(node.path) && !includedPaths.has(node.path)) return '';
-        const chapter = navItems.find(item => item.chapter.originalPath === node.path);
-        const path = chapter?.meta.path || node.path;
-        if (chapter) coveredPaths.add(node.path);
-        const href = `${relativeEpubPath(imported.navPath, path)}${node.fragment || ''}`;
-        const children = renderTree(node.children || []);
-        return `<li>${path ? `<a href="${epubEscape(href)}">${epubEscape(node.title || chapter?.chapter.title || '제목 없는 장')}</a>` : `<span>${epubEscape(node.title)}</span>`}${children ? `<ol>${children}</ol>` : ''}</li>`;
-      }).join('');
-      navMarkup = renderTree(imported.tocTree) + navItems.filter(item => !coveredPaths.has(item.chapter.originalPath)).map(item =>
-        `<li><a href="${epubEscape(relativeEpubPath(imported.navPath, item.meta.path))}">${epubEscape(item.chapter.title || '제목 없는 장')}</a></li>`).join('');
-    }
-    output.set(imported.navPath, epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"><head><title>목차</title></head><body><nav epub:type="toc"><h1>목차</h1><ol>${navMarkup}</ol></nav></body></html>`));
-    const retainedPaths = new Set(draft.chapters.map(chapter => metaForChapter(chapter).path));
-    const deletedPaths = new Set(imported.chapterMeta.filter(meta => !retainedPaths.has(meta.path)).map(meta => meta.path));
-    if (imported.coverDeleted) imported.coverPagePaths.forEach(path => deletedPaths.add(path));
-    deletedPaths.forEach(path => output.delete(path));
-    const manifest = imported.manifest.filter((item) => !deletedPaths.has(item.href) && !item.properties.split(/\s+/).includes('nav')).map((item) => {
-      const properties = new Set(item.properties.split(/\s+/).filter(Boolean));
-      if (item.href === imported.coverImagePath && !imported.coverDeleted) properties.add('cover-image');
-      if (imported.coverDeleted) properties.delete('cover-image');
-      const mediaType = item.href === imported.coverImagePath && replacementCoverType ? replacementCoverType : item.type;
-      return `<item id="${epubEscape(item.id)}" href="${epubEscape(item.rawHref)}" media-type="${epubEscape(mediaType)}"${properties.size ? ` properties="${epubEscape(Array.from(properties).join(' '))}"` : ''}/>`;
-    });
-    addedMeta.forEach(meta => manifest.push(`<item id="${epubEscape(meta.idref)}" href="${epubEscape(relativeEpubPath(imported.packagePath, meta.path))}" media-type="application/xhtml+xml"/>`));
-    const hasFootnoteManifest = imported.manifest.some((item) => item.href === footnotePath);
-    if (draft.footnotes?.length && !hasFootnoteManifest) manifest.push(`<item id="footnotes" href="${epubEscape(relativeEpubPath(imported.packagePath, footnotePath))}" media-type="application/xhtml+xml"/>`);
-    const navHref = relativeEpubPath(imported.packagePath, imported.navPath);
-    manifest.push(`<item id="nav" href="${epubEscape(navHref)}" media-type="application/xhtml+xml" properties="nav"/>`);
-    const orderedRefs = draft.chapters.map(chapter => imported.spineRefs.find(ref => ref.idref === metaForChapter(chapter).idref) || {idref:metaForChapter(chapter).idref});
-    const chapterRefIds = new Set(imported.chapterMeta.map((meta) => meta.idref));
-    let chapterRefIndex = 0;
-    const spineRefs = imported.spineRefs.filter(ref => !deletedPaths.has(imported.manifest.find(item => item.id === ref.idref)?.href) || chapterRefIds.has(ref.idref)).flatMap((ref) => {
-      const next = chapterRefIds.has(ref.idref) ? orderedRefs[chapterRefIndex++] : ref;
-      return next ? [{ ...next }] : [];
-    });
-    spineRefs.push(...orderedRefs.slice(chapterRefIndex));
-    if (draft.footnotes?.length && !spineRefs.some((ref) => ref.idref === (imported.footnoteManifestId || 'footnotes'))) spineRefs.push({ idref:'footnotes', linear:'no' });
-    const spine = spineRefs.map((ref) => `<itemref idref="${epubEscape(ref.idref)}"${ref.linear ? ` linear="${epubEscape(ref.linear)}"` : ''}/>`).join('');
-    const title = draft.title || '새 전자책';
-    const language = draft.language || 'ko';
-    output.set(imported.packagePath, epubText(`<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}">${importedMetadata(imported, draft)}<manifest>${manifest.join('')}</manifest><spine>${spine}</spine></package>`));
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(await createEpubZip(Array.from(output, ([name, data]) => ({ name, data }))));
-    link.download = `${title.replace(/[\\/:*?"<>|]/g, '-')}.epub`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-    setStatus(`[${title}] EPUB 3.0 파일을 다운로드했습니다. 원본 spine·경로·목차를 보존했습니다.`);
-    return true;
-  };
-  const exportAssetAwareEpub = async () => {
-    const draft = collectDraft();
-    const missing = draft.assets.filter(asset => !previewAssets.get(asset.name)?.blob);
-    if (missing.length) {
-      setStatus(`이미지 ${missing.length}개를 불러오지 못해 EPUB을 내보낼 수 없습니다. 이미지 다시 불러오기를 사용하세요.`, 'error');
-      return false;
-    }
-    // This is the single export gateway: imported and newly-created EPUBs
-    // both stop here before a ZIP Blob or download link can be made.
-    const xhtmlErrors = validateAllChapters(draft);
-    if (xhtmlErrors.length) {
-      setStatus(`XHTML 오류 ${xhtmlErrors.length}건이 있어 EPUB을 내보낼 수 없습니다. 오류를 수정한 뒤 다시 시도하세요.`, 'error');
-      return false;
-    }
-    const availableImages = new Set(draft.assets.map(asset => imageAssetPath(asset.name, asset)));
-    const missingReferences = [];
-    for (const chapter of draft.chapters) {
-      const base = chapter.originalPath || `EPUB/text/${chapter.fileName}`;
-      const bodyDocument = new DOMParser().parseFromString(`<root xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">${chapter.body}</root>`, 'application/xml');
-      for (const image of [...bodyDocument.getElementsByTagName('img'), ...bodyDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'image')]) {
-        const source = image.getAttribute('src') || image.getAttribute('href') || image.getAttribute('xlink:href');
-        const path = source?.startsWith('images/') ? `EPUB/Image/${source.slice(7).split(/[?#]/)[0]}` : resolveImagePath(source, base);
-        if (path && !availableImages.has(path)) missingReferences.push(path);
-      }
-    }
-    for (const item of importedEpub?.manifest || []) {
-      if (item.type.startsWith('image/') && !importedEpub.files.has(item.href) && !availableImages.has(item.href)) missingReferences.push(item.href);
-    }
-    if (missingReferences.length) {
-      setStatus(`참조된 이미지 ${[...new Set(missingReferences)].join(', ')}을(를) 찾지 못해 EPUB을 내보낼 수 없습니다.`, 'error');
-      return false;
-    }
-    const footnoteResult = prepareFootnotes(draft);
-    if (footnoteResult.errors.length) {
-      setStatus(`각주 오류 ${footnoteResult.errors.length}건이 있어 EPUB을 내보낼 수 없습니다. 각주 링크와 내용을 확인하세요.`, 'error');
-      return false;
-    }
-    draft.footnotes = footnoteResult.notes.map((note) => ({ ...note }));
-    // UI-only cover/central-note entries have a single exporter below.
-    // Persist all entries; only project the content spine for EPUB generation.
-    draft.auxiliaryChapters = draft.chapters.filter(chapter => chapter.generated && ['cover','footnotes'].includes(chapter.type));
-    const kept = draft.chapters.map((chapter,index) => ({ chapter,index })).filter(({chapter}) => !draft.auxiliaryChapters.includes(chapter));
-    const remap = new Map(kept.map(({index}, next) => [index,next]));
-    draft.tocExcluded = draft.tocExcluded.filter(index => remap.has(index)).map(index => remap.get(index));
-    draft.parentToc = draft.parentToc.filter(([child,parent]) => remap.has(child) && remap.has(parent)).map(([child,parent]) => [remap.get(child),remap.get(parent)]);
-    draft.chapters = kept.map(({chapter}) => chapter);
-    draft.updatedAt = new Date().toISOString();
-    if (await exportImportedEpub3(draft)) return;
-    const title = draft.title || '새 전자책';
-    const language = draft.language || 'ko';
-    const files = [
-      { name:'mimetype', data:epubText('application/epub+zip') },
-      { name:'META-INF/container.xml', data:epubText('<?xml version="1.0" encoding="UTF-8"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml"/></rootfiles></container>') },
-      { name:'EPUB/styles/book.css', data:epubText(draft.css) },
-    ];
-    const manifest = ['<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>', '<item id="css" href="styles/book.css" media-type="text/css"/>'];
-    const spine = [];
-    const usedFilenames = new Set();
-    const filenames = draft.chapters.map((chapter, index) => {
-      const requested = String(chapter.fileName || defaultChapterFileName(index)).trim().replace(/^.*[\\/]/, '').replace(/[<>:"|?*]/g, '-') || defaultChapterFileName(index);
-      const hasXhtmlExtension = /\.xhtml?$/i.test(requested);
-      const extension = hasXhtmlExtension ? '' : '.xhtml';
-      const base = hasXhtmlExtension ? requested : requested || `chapter-${index + 1}`;
-      let filename = `${base}${extension}`;
-      let suffix = 2;
-      while (usedFilenames.has(filename.toLowerCase())) {
-        filename = `${base}-${suffix}${extension}`;
-        suffix += 1;
-      }
-      usedFilenames.add(filename.toLowerCase());
-      return filename;
-    });
-    if (draft.coverSource) {
-      const coverBlob = await fetch(draft.coverSource).then((response) => response.blob());
-      const coverExtension = coverBlob.type === 'image/png' ? 'png' : 'jpg';
-      const coverName = `cover.${coverExtension}`;
-      files.push({ name:`EPUB/Image/${coverName}`, data:new Uint8Array(await coverBlob.arrayBuffer()) });
-      files.push({ name:'EPUB/text/cover.xhtml', data:epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><title>표지</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><img src="../Image/${coverName}" alt="표지"/></body></html>`) });
-      manifest.push(`<item id="cover-image" href="Image/${coverName}" media-type="${coverBlob.type}" properties="cover-image"/>`, '<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="cover-page" linear="no"/>');
-    } else if (draft.auxiliaryChapters.some(chapter => chapter.type === 'cover')) {
-      files.push({ name:'EPUB/text/cover.xhtml', data:epubText('<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title>표지</title></head><body></body></html>') });
-      manifest.push('<item id="cover-page" href="text/cover.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="cover-page"/>');
-    }
-    for (let index = 0; index < draft.chapters.length; index += 1) {
-      const chapter = draft.chapters[index];
-      const filename = filenames[index];
-      // data-sitescout-footnote는 편집기 내부 재정렬용 메타데이터다. 최종 EPUB에는
-      // 표준 noteref 속성과 일반 href/id 링크만 남긴다.
-      const body = normaliseXhtml(chapter.body).replace(/\sdata-sitescout-footnote\s*=\s*(["']).*?\1/gi, '').replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-f]+;)/gi, '&amp;').replace(/src=(['"])images\//g, 'src=$1../Image/');
-      files.push({ name:`EPUB/text/${filename}`, data:epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>${epubEscape(chapter.title || title)}</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body>${body}</body></html>`) });
-      manifest.push(`<item id="chapter-${index + 1}" href="text/${filename}" media-type="application/xhtml+xml"/>`);
-      spine.push(`<itemref idref="chapter-${index + 1}"/>`);
-    }
-    if (draft.footnotes.length || draft.auxiliaryChapters.some(chapter => chapter.type === 'footnotes')) {
-      const footnoteBody = draft.footnotes.map((note) => {
-        const sourceIndex = draft.chapters.findIndex((chapter) => chapter.id === note.sourceChapterId);
-        const sourceFile = filenames[Math.max(0, sourceIndex)] || filenames[0];
-        return `<aside epub:type="footnote" id="${epubEscape(note.id)}"><p><a href="${epubEscape(sourceFile)}#${epubEscape(note.referenceId)}">${note.number}.</a> ${note.content}</p></aside>`;
-      }).join('');
-      files.push({ name:'EPUB/text/footnote.xhtml', data:epubText(`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${epubEscape(language)}"><head><meta charset="UTF-8"/><title>각주</title><link rel="stylesheet" type="text/css" href="../styles/book.css"/></head><body><section epub:type="footnotes"><h1>각주</h1>${footnoteBody}</section></body></html>`) });
-      manifest.push('<item id="footnotes" href="text/footnote.xhtml" media-type="application/xhtml+xml"/>');
-      spine.push('<itemref idref="footnotes" linear="no"/>');
-    }
-    for (let index = 0; index < draft.assets.length; index += 1) {
-      const asset = draft.assets[index];
-      const stored = previewAssets.get(asset.name);
-      if (!stored?.blob) continue;
-      files.push({ name:`EPUB/Image/${asset.name}`, data:new Uint8Array(await stored.blob.arrayBuffer()) });
-      manifest.push(`<item id="image-${index + 1}" href="Image/${epubEscape(asset.name)}" media-type="${epubEscape(asset.type || 'image/png')}"/>`);
-    }
-    const landmarks = [
-      {name:'EPUB/text/cover.xhtml',type:'cover',href:'text/cover.xhtml',title:'표지'},
-      {name:'EPUB/text/footnote.xhtml',type:'endnotes',href:'text/footnote.xhtml',title:'각주'},
-    ].filter(item => files.some(file => file.name === item.name));
-    files.push({ name:'EPUB/nav.xhtml', data:epubText(makeEpubNav(draft.chapters, filenames, { tocExcluded:new Set(draft.tocExcluded), parentTocMap:new Map(draft.parentToc), landmarks })) });
-    files.push({ name:'EPUB/package.opf', data:epubText(`<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="${epubEscape(language)}"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="pub-id">urn:uuid:${crypto.randomUUID()}</dc:identifier><dc:title>${epubEscape(title)}</dc:title>${draft.author ? `<dc:creator>${epubEscape(draft.author)}</dc:creator>` : ''}<dc:language>${epubEscape(language)}</dc:language><meta property="dcterms:modified">${new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')}</meta></metadata><manifest>${manifest.join('')}</manifest><spine>${spine.join('')}</spine></package>`) });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(await createEpubZip(files));
-    link.download = `${title.replace(/[\\/:*?"<>|]/g, '-')}.epub`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-    setStatus(`[${title}] EPUB 3.0 파일을 다운로드했습니다. 다운로드 폴더를 확인하세요.`);
-  };
+  const {exportAssetAwareEpub} = createEpubExporter({
+    collectDraft, previewAssets, setStatus, prepareFootnotes, defaultChapterFileName,
+    epubText, epubEscape, createEpubZip, normaliseImportedFootnoteLinks,
+    replaceXhtmlBody, replaceXhtmlTitle, relativeEpubPath, importedMetadata, zipText, makeEpubNav,
+    validateAllChapters:(...args) => validateAllChapters(...args),
+    normaliseXhtml:(...args) => normaliseXhtml(...args),
+    get importedEpub() { return importedEpub; },
+  });
   exportButton.addEventListener('click', (event) => {
     if (!useAssetAwareExporter) return;
     event.preventDefault();
     event.stopImmediatePropagation();
     exportAssetAwareEpub().catch((error) => setStatus(error.message || 'EPUB 파일을 만들지 못했습니다.', 'error'));
   }, true);
-  const loadDraft = async (draft) => {
+  const loadDraft = async (draft, request = projectOpenGeneration) => {
     if (!Array.isArray(draft?.chapters)) return false;
     if (editLease?.projectId && editLease.projectId !== draft.projectId) void releaseEditLease();
     const epoch = restoreEpoch;
     const revision = bookProject.revision;
     const ownerId = persistenceOwnerId();
     if (!draft.projectId) throw new Error('서버 원고 ID가 없습니다.');
-    if (epoch !== restoreEpoch || revision !== bookProject.revision || ownerId !== persistenceOwnerId()) return false;
-    if (!await loadDraftAssets(draft, () => epoch === restoreEpoch && revision === bookProject.revision)) return false;
-    importedEpub = await loadImportedSourceFiles(draft, () => epoch === restoreEpoch && revision === bookProject.revision);
-    if (epoch !== restoreEpoch || revision !== bookProject.revision || ownerId !== persistenceOwnerId()) return false;
+    const isCurrent = () => request === projectOpenGeneration && epoch === restoreEpoch
+      && revision === bookProject.revision && ownerId === persistenceOwnerId();
+    if (!isCurrent()) return false;
+    const stagedAssets = await loadDraftAssets(draft,isCurrent);
+    if (!stagedAssets) return false;
+    let stagedSource;
+    try { stagedSource = await loadImportedSourceFiles(draft,isCurrent,stagedAssets.loaded); }
+    catch (error) { stagedAssets.loaded.forEach(revokePreviewAssetUrl); throw error; }
+    if (!isCurrent()) { stagedAssets.loaded.forEach(revokePreviewAssetUrl); return false; }
+    clearPreviewAssets();
+    stagedAssets.loaded.forEach((asset,name) => previewAssets.set(name,asset));
+    stagedAssets.missing.forEach((asset,name) => unresolvedAssets.set(name,asset));
+    importedEpub = stagedSource;
+    renderAssetShelf(); renderAssetRecovery();
     footnotes.clear();
     setProjectEditingAccess(false);
     (draft.footnotes || []).forEach((note) => {
@@ -3168,124 +2320,16 @@ export async function initializeApp() {
       : `“${draft.title}” 서버 저장본을 불러왔습니다.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? 'error' : 'ok');
     return true;
   };
-  const zipText = (bytes) => new TextDecoder('utf-8').decode(bytes).replace(/^\uFEFF/, '');
-  const zipPath = (basePath, href) => {
-    try { return decodeURIComponent(new URL(href, `https://epub.local/${basePath}`).pathname.slice(1)); }
-    catch { return href.replace(/^\.\//, ''); }
-  };
-  const unzipEpub = async (file) => {
-    let archive;
-    try { archive = await JSZip.loadAsync(file); }
-    catch { throw new Error('유효한 EPUB(ZIP) 파일이 아닙니다.'); }
-    const files = new Map();
-    await Promise.all(Object.entries(archive.files)
-      .filter(([, entry]) => !entry.dir)
-      .map(async ([name, entry]) => files.set(name, await entry.async('uint8array'))));
-    return files;
-  };
-  const xmlDocument = (source, label) => {
-    const documentNode = new DOMParser().parseFromString(source, 'application/xml');
-    if (documentNode.querySelector('parsererror')) throw new Error(`${label} 형식이 올바르지 않습니다.`);
-    return documentNode;
-  };
-  const elementText = (documentNode, name) => documentNode.getElementsByTagNameNS('*', name)[0]?.textContent?.trim() || '';
-  const xhtmlBody = (source) => /<body\b[^>]*>([\s\S]*?)<\/body\s*>/i.exec(source)?.[1] ?? source;
-  const xhtmlTitle = (source) => /<title\b[^>]*>([\s\S]*?)<\/title\s*>/i.exec(source)?.[1].replace(/<[^>]+>/g, '').trim() || '';
-  const tocEntriesFromNcx = (source, basePath) => {
-    const documentNode = xmlDocument(source, 'toc.ncx');
-    const entries = new Map();
-    const visit = (node, level, parentPath = null) => Array.from(node.children).filter((child) => child.localName === 'navPoint').map((point) => {
-      const href = point.getElementsByTagNameNS('*', 'content')[0]?.getAttribute('src') || '';
-      const path = zipPath(basePath, href.split('#')[0]);
-      const title = point.getElementsByTagNameNS('*', 'text')[0]?.textContent?.trim() || '';
-      if (path && !entries.has(path)) entries.set(path, { title, level, parentPath });
-      return { path, fragment:href.includes('#') ? `#${href.split('#').slice(1).join('#')}` : '', title,
-        children:visit(point, level + 1, path || parentPath) };
-    });
-    entries.tree = visit(documentNode.getElementsByTagNameNS('*', 'navMap')[0] || documentNode, 1);
-    return entries;
-  };
-  const tocEntriesFromNav = (source, basePath) => {
-    const documentNode = new DOMParser().parseFromString(source, 'text/html');
-    const toc = Array.from(documentNode.querySelectorAll('nav')).find((node) => /(^|\s)toc(\s|$)/i.test(node.getAttribute('epub:type') || node.getAttribute('type') || '')) || documentNode.querySelector('nav');
-    const entries = new Map();
-    const visit = (list, level, parentPath = null) => Array.from(list?.children || []).filter((node) => node.tagName === 'LI').map((item) => {
-      const link = item.querySelector(':scope > a');
-      const href = link?.getAttribute('href') || '';
-      const path = href ? zipPath(basePath, href.split('#')[0]) : '';
-      const title = link?.textContent.trim() || '';
-      if (path && !entries.has(path)) entries.set(path, { title, level, parentPath });
-      return { path, fragment:href.includes('#') ? `#${href.split('#').slice(1).join('#')}` : '', title,
-        children:visit(Array.from(item.children).find((node) => node.tagName === 'OL'), level + 1, path || parentPath) };
-    });
-    entries.tree = visit(toc?.querySelector('ol'), 1);
-    return entries;
-  };
   const importEpub = async (file) => {
     const instanceId = bookProject.instanceId;
     const revision = bookProject.revision;
-    const files = await unzipEpub(file);
-    const container = xmlDocument(zipText(files.get('META-INF/container.xml') || new Uint8Array()), 'container.xml');
-    const packagePath = container.getElementsByTagNameNS('*', 'rootfile')[0]?.getAttribute('full-path');
-    if (!packagePath || !files.has(packagePath)) throw new Error('EPUB 패키지(OPF)를 찾을 수 없습니다.');
-    const packageDocument = xmlDocument(zipText(files.get(packagePath)), 'EPUB 패키지');
-    const packageBase = packagePath.slice(0, packagePath.lastIndexOf('/') + 1);
-    const metadataNode = packageDocument.getElementsByTagNameNS('*', 'metadata')[0];
-    const originalIdentifier = elementText(packageDocument, 'identifier');
-    const metadataExtras = Array.from(metadataNode?.children || [])
-      .filter((node) => !['identifier', 'title', 'creator', 'language'].includes(node.localName) && !(node.localName === 'meta' && node.getAttribute('property') === 'dcterms:modified'))
-      .map((node) => new XMLSerializer().serializeToString(node)).join('');
-    const manifest = new Map(Array.from(packageDocument.getElementsByTagNameNS('*', 'item')).map((item) => [item.getAttribute('id'), {
-      id:item.getAttribute('id'), href:zipPath(packageBase, item.getAttribute('href') || ''), rawHref:item.getAttribute('href') || '', type:item.getAttribute('media-type') || '', properties:item.getAttribute('properties') || '',
-    }]));
-    const spineRefs = Array.from(packageDocument.getElementsByTagNameNS('*', 'itemref')).map((item) => ({ idref:item.getAttribute('idref'), linear:item.getAttribute('linear') || '' }));
-    const metadataCoverId = Array.from(packageDocument.getElementsByTagNameNS('*', 'meta')).find((item) => item.getAttribute('name') === 'cover')?.getAttribute('content');
-    const guideCoverRef = Array.from(packageDocument.getElementsByTagNameNS('*', 'reference')).find((item) => item.getAttribute('type') === 'cover')?.getAttribute('href') || '';
-    const guideCoverPath = guideCoverRef ? zipPath(packageBase, guideCoverRef.split('#')[0]) : '';
-    let coverImage = Array.from(manifest.values()).find((item) => item.properties.split(/\s+/).includes('cover-image')) || manifest.get(metadataCoverId);
-    const coverPagePaths = new Set();
-    if (guideCoverPath) {
-      const guideItem = Array.from(manifest.values()).find((item) => item.href === guideCoverPath);
-      if (guideItem?.type.includes('xhtml')) coverPagePaths.add(guideCoverPath);
-      else if (guideItem?.type.startsWith('image/')) coverImage ||= guideItem;
-    }
-    const imageFromCoverPage = (path) => {
-      const source = zipText(files.get(path) || new Uint8Array());
-      const match = /(?:src|href|xlink:href)\s*=\s*(["'])(.*?)\1/i.exec(source);
-      return match ? Array.from(manifest.values()).find((item) => item.href === zipPath(path.slice(0, path.lastIndexOf('/') + 1), match[2].split('#')[0])) : null;
-    };
-    if (!coverImage && guideCoverPath) coverImage = imageFromCoverPage(guideCoverPath);
-    const spineXhtmlItems = spineRefs.map((ref) => manifest.get(ref.idref)).filter((item) => item?.type.includes('xhtml'));
-    // 일부 EPUB은 OPF 표지 메타데이터가 없다. 이 경우 파일명만으로 제외하지 않고,
-    // spine XHTML이 실제 이미지 리소스를 참조하며 본문 텍스트가 거의 없는지를 함께
-    // 확인해 표지 페이지를 추론한다.
-    const inferredCoverPage = spineXhtmlItems.find((item) => {
-      const referencedImage = imageFromCoverPage(item.href);
-      if (!referencedImage) return false;
-      const plainText = xhtmlBody(zipText(files.get(item.href) || new Uint8Array()))
-        .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-      return plainText.length < 80 && (/cover|front/i.test(item.rawHref) || /cover|front/i.test(referencedImage.rawHref) || item === spineXhtmlItems[0]);
+    const {files, packagePath, packageBase, originalIdentifier, metadataExtras,
+      manifest, spineRefs, coverPagePaths, coverImage, chapterMeta, chapters,
+      navItem, tocEntries, title, author, language} = await parseEpubFile(file, {
+      unzipEpub, xmlDocument, zipText, zipPath, elementText,
+      xhtmlBody, xhtmlTitle, tocEntriesFromNav, tocEntriesFromNcx,
+      createChapterId, defaultChapterFileName,
     });
-    if (!coverImage && inferredCoverPage) coverImage = imageFromCoverPage(inferredCoverPage.href);
-    // 표지 페이지는 정확히 하나만 선택한다. 같은 이미지를 사용하는 일반 본문이나
-    // 속표지를 모두 표지로 분류하면 spine에서 표지가 중복되는 문제가 생긴다.
-    if (!coverPagePaths.size) {
-      const coverPage = inferredCoverPage || (coverImage && spineXhtmlItems.find((item) => imageFromCoverPage(item.href)?.href === coverImage.href));
-      if (coverPage) coverPagePaths.add(coverPage.href);
-    }
-    const spine = spineRefs.map((ref) => ({ ...ref, item:manifest.get(ref.idref) })).filter((ref) => ref.item?.type.includes('xhtml') && !coverPagePaths.has(ref.item.href));
-    const chapterSources = spine;
-    if (!chapterSources.length) throw new Error('불러올 XHTML 본문을 찾을 수 없습니다.');
-    const navItem = Array.from(manifest.values()).find((item) => item.properties.split(/\s+/).includes('nav'));
-    const ncxItem = Array.from(manifest.values()).find((item) => item.type === 'application/x-dtbncx+xml');
-    const tocEntries = navItem && files.has(navItem.href) ? tocEntriesFromNav(zipText(files.get(navItem.href)), navItem.href.slice(0, navItem.href.lastIndexOf('/') + 1)) : ncxItem && files.has(ncxItem.href) ? tocEntriesFromNcx(zipText(files.get(ncxItem.href)), ncxItem.href.slice(0, ncxItem.href.lastIndexOf('/') + 1)) : new Map();
-    const chapterMeta = chapterSources.map(({ item, idref, linear }, index) => {
-      const source = zipText(files.get(item.href) || new Uint8Array());
-      const toc = tocEntries.get(item.href);
-      return { index, idref, linear, path:item.href, rawHref:item.rawHref, source, body:xhtmlBody(source), tocTitle:toc?.title || xhtmlTitle(source) || `제${index + 1}장`, tocLevel:toc?.level || 1, tocParentPath:toc?.parentPath || null, includeInToc:Boolean(toc) };
-    });
-    const chapters = chapterMeta.map((meta) => ({ id:createChapterId(), originalPath:meta.path, title:meta.tocTitle, level:meta.tocLevel, body:meta.body, fileName:meta.path.split('/').pop() || defaultChapterFileName(meta.index) }));
-    const title = elementText(packageDocument, 'title') || file.name.replace(/\.epub$/i, '');
     if (bookProject.instanceId !== instanceId || bookProject.revision !== revision) throw new Error('불러오는 동안 현재 원고가 변경되었습니다. EPUB을 다시 선택하세요.');
     restoreEpoch++;
     void releaseEditLease();
@@ -3294,8 +2338,8 @@ export async function initializeApp() {
     footnotes.clear();
     replaceProjectChapters(chapters, chapters[0]?.id);
     $('#title').value = title;
-    $('#author').value = elementText(packageDocument, 'creator');
-    $('#language').value = elementText(packageDocument, 'language') || 'ko';
+    $('#author').value = author;
+    $('#language').value = language;
     const stylesheet = Array.from(manifest.values()).find((item) => item.type === 'text/css' && files.has(item.href));
     hydrateCssValue(stylesheet ? zipText(files.get(stylesheet.href)) : '');
     Object.assign(bookProject, stylesFromCss($('#css').value));
@@ -3393,12 +2437,9 @@ export async function initializeApp() {
     const ownerId = persistenceOwnerId();
     try {
       if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
-      const {data:record,error} = await authClient.from('epub_drafts').select('payload,project_id,revision,updated_at')
-        .eq('owner_id',ownerId).eq('project_id',projectId).maybeSingle();
+      const draft = await readCloudProject(ownerId,projectId);
       if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
-      if (error) throw error;
-      if (!record?.payload) throw new Error('서버 저장본을 찾을 수 없습니다.');
-      await loadDraft({...record.payload,projectId:record.project_id,serverRevision:record.revision,lastServerSavedAt:record.updated_at});
+      await loadDraft(draft,request);
     } catch (error) { setStatus(`프로젝트 열기 실패: ${error.message}`, 'error'); }
   };
   const deleteDialog = document.createElement('dialog');
@@ -3482,26 +2523,9 @@ export async function initializeApp() {
     if (cloudRestoreInFlight) { cloudRestoreQueued = true; return cloudRestoreInFlight; }
     cloudRestoreInFlight = (async () => {
       if (!isAccessVerified() || !supabaseUser) return;
-      const client = await cloudReady;
       const ownerId = supabaseUser.id;
       const epoch = restoreEpoch;
-      const rows = [];
-      for (let offset = 0; ; offset += 500) {
-        const {data,error} = await client.from('epub_drafts')
-          .select('project_id,title,revision,updated_at').eq('owner_id',ownerId)
-          .order('updated_at',{ascending:false}).range(offset,offset+499);
-        if (error) throw error;
-        rows.push(...data);
-        if (data.length < 500) break;
-      }
-      const deletions = [];
-      for (let offset = 0; ; offset += 500) {
-        const {data,error} = await client.from('epub_project_deletions')
-          .select('project_id,revision').eq('owner_id',ownerId).order('project_id').range(offset,offset+499);
-        if (error) throw error;
-        deletions.push(...data);
-        if (data.length < 500) break;
-      }
+      const {rows,deletions} = await listCloudProjects(ownerId);
       if (epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
       deletedProjectIds.clear();
       deletions.forEach(row => deletedProjectIds.add(deletionKey(ownerId,row.project_id)));
@@ -3624,60 +2648,14 @@ export async function initializeApp() {
   });
   renderDrafts();
 
-  const refreshPreview = () => {
-    cancelAnimationFrame(previewFrame);
-    // 표지 선택은 chapter selection을 바꾸지 않는 읽기 전용 view다. 이 상태에서
-    // editor input/저장 이벤트가 오더라도 마지막 본문을 다시 그려 표지를 덮지 않는다.
-    if (isCoverSelected()) {
-      showCoverPreview();
-      return;
-    }
-    snapshotCurrentChapter();
-    // Preview-only sanitisation: the editor and EPUB exporter retain the
-    // original XHTML verbatim, while imported content cannot execute in this
-    // app's document.
-    const content = document.createElement('template');
-    content.innerHTML = DOMPurify.sanitize(htmlEditor.value, {
-      USE_PROFILES:{ html:true, svg:true, svgFilters:true },
-      ADD_ATTR:['epub:type', 'xml:lang', 'data-sitescout-footnote'],
-    });
-    const scrollTop = previewScrollRoot().scrollTop;
-    const chapterId = bookProject.selectedChapterId;
-    const frame = document.createElement('iframe');
-    frame.className = 'preview-isolated-frame';
-    frame.title = '격리된 EPUB 미리보기';
-    frame.setAttribute('sandbox', 'allow-same-origin');
-    frame.addEventListener('load', () => {
-      if (!frame.isConnected || chapterId !== bookProject.selectedChapterId) return;
-      const doc = frame.contentDocument;
-      if (!doc) return;
-      const colors = getComputedStyle(preview);
-      doc.documentElement.style.color = colors.color;
-      doc.documentElement.style.backgroundColor = colors.backgroundColor;
-      const style = doc.createElement('style');
-      style.textContent = $('#css').value;
-      doc.head.append(style);
-      doc.body.style.setProperty('font-size','20px','important');
-      const scrollbarStyle = doc.createElement('style');
-      scrollbarStyle.textContent = 'html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}';
-      doc.head.append(scrollbarStyle);
-      hydrateResourceImages(doc.body, activeChapterIndex());
-      (doc.scrollingElement || doc.body).scrollTop = scrollTop;
-      doc.addEventListener('click', handlePreviewClick);
-    }, { once:true });
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}.preview-focus{background:rgba(240,142,49,.16);outline:2px solid #e88a31}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
-    previewIframe = frame;
-    preview.replaceChildren(frame);
-  };
-  let previewFrame = 0;
-  const schedulePreview = () => {
-    cancelAnimationFrame(previewFrame);
-    const chapterId = bookProject.selectedChapterId;
-    previewFrame = requestAnimationFrame(() => {
-      if (chapterId === bookProject.selectedChapterId) refreshPreview();
-    });
-  };
-  cssEditor.addEventListener('input', schedulePreview);
+  const {refreshPreview, schedulePreview, synchronizeFocus, sourceNodeForElement,
+    previewBlockSelector, previewTextOffset, sourceTextOffset, isFocusSyncing} = mountPreviewSync({
+    previewUi, preview, htmlEditor, cssEditor, visualEditor, bookProject,
+    isCoverSelected, showCoverPreview, snapshotCurrentChapter, hydrateResourceImages, activeChapterIndex,
+    getVisualLoadedChapterId:() => visualLoadedChapterId,
+    getTiptapEditor:() => tiptapEditor,
+    followBookLink:(anchor) => followBookLink(anchor),
+  });
   const syncFromVisual = () => {
     if (!tiptapEditor || !tiptapEditor.isEditable || tiptapEditor.view.composing || suppressTiptapUpdate || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
     if (getVisualHtml() === visualBaseline) return;
@@ -3706,100 +2684,6 @@ export async function initializeApp() {
     }
     snapshotCurrentChapter();
   }
-  const previewBlockSelector = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,td,th,img,hr,br';
-  let focusSyncing = false;
-  const sourceNodeForElement = (element, rootNode) => {
-    if (!element || !rootNode.contains(element)) return null;
-    const nodes = sourceElements(htmlEditor.value);
-    if (element.id) {
-      const match = nodes.find(node => sourceAttribute(node, 'id') === element.id);
-      if (match) return match;
-    }
-    const tag = element.tagName?.toLowerCase();
-    const occurrence = Array.from(rootNode.querySelectorAll(tag)).indexOf(element);
-    return nodes.filter(node => node.tag === tag)[occurrence] || null;
-  };
-  const renderedElementForSource = (node, rootNode) => {
-    if (!node) return null;
-    const id = sourceAttribute(node, 'id');
-    if (id) {
-      const exact = Array.from(rootNode.querySelectorAll('[id]')).find(element => element.id === id);
-      if (exact) return exact;
-    }
-    const direct = elementAtPath(rootNode, node.path);
-    if (direct?.tagName.toLowerCase() === node.tag) return direct;
-    const peers = sourceElements(htmlEditor.value).filter(item => item.tag === node.tag);
-    const ordinal = peers.findIndex(item => item.start === node.start);
-    return Array.from(rootNode.querySelectorAll(node.tag))[ordinal] || null;
-  };
-  const scrollWithin = (panel, target) => {
-    if (!target || panel.hidden) return;
-    const bounds = target.getBoundingClientRect(); const frame = panel.getBoundingClientRect();
-    if (bounds.top < frame.top || bounds.bottom > frame.bottom) panel.scrollTop += bounds.top - frame.top - panel.clientHeight / 3;
-  };
-  const previewTextOffset = (element, container, offset) => {
-    if (!element || !container || !element.contains(container)) return 0;
-    try {
-      const range = element.ownerDocument.createRange();
-      range.selectNodeContents(element); range.setEnd(container, offset);
-      return range.toString().length;
-    } catch { return 0; }
-  };
-  const sourceTextOffset = (node, offset) => {
-    if (!node || !Number.isInteger(offset)) return 0;
-    const source = htmlEditor.value.slice(node.start, Math.max(node.start, offset));
-    const contentStart = source.indexOf('>');
-    if (contentStart < 0) return 0;
-    return new DOMParser().parseFromString(`<body>${source.slice(contentStart + 1)}</body>`, 'text/html').body.textContent.length;
-  };
-  const highlightPreviewContext = (element, caretOffset = 0) => {
-    const rootNode = previewContentRoot();
-    rootNode.querySelectorAll('mark.preview-context').forEach(mark => mark.replaceWith(...mark.childNodes));
-    if (!element) return;
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-    const words = []; let node; let base = 0;
-    while ((node = walker.nextNode())) {
-      for (const match of node.data.matchAll(/\S+/g)) words.push({ node, start:base + match.index, end:base + match.index + match[0].length, localStart:match.index, localEnd:match.index + match[0].length });
-      base += node.data.length;
-    }
-    const index = words.findIndex(word => caretOffset >= word.start && caretOffset <= word.end);
-    const selected = (index >= 0 ? [words[Math.max(0,index - 1)], words[index], words[index + 1]] : words.slice(0, 2)).filter(Boolean);
-    // Wrap from the end so offsets in preceding text nodes stay stable.
-    for (const word of [...new Set(selected)].sort((left,right) => right.start - left.start)) {
-      const range = rootNode.ownerDocument.createRange();
-      range.setStart(word.node, word.localStart); range.setEnd(word.node, word.localEnd);
-      const mark = rootNode.ownerDocument.createElement('mark'); mark.className = 'preview-context';
-      try { range.surroundContents(mark); } catch { /* inline boundary: keep the block highlight */ }
-    }
-  };
-  const synchronizeFocus = (node, origin, caretOffset = 0) => {
-    if (!node || focusSyncing || isCoverSelected()) return;
-    const chapterId = bookProject.selectedChapterId;
-    focusSyncing = true;
-    try {
-      const previewRoot = previewContentRoot();
-      const previewElement = renderedElementForSource(node, previewRoot);
-      if (previewElement) {
-        previewRoot.querySelectorAll('.preview-focus').forEach(element => element.classList.remove('preview-focus'));
-        previewElement.classList.add('preview-focus');
-        highlightPreviewContext(previewElement, caretOffset);
-        if (origin !== 'preview') scrollWithin(previewScrollRoot(), previewElement);
-      }
-      const visualRoot = visualEditor.querySelector('.ProseMirror') || visualEditor;
-      const visualElement = renderedElementForSource(node, visualRoot);
-      if (visualElement && origin !== 'visual' && visualLoadedChapterId === chapterId) {
-        if (tiptapEditor) {
-          try { tiptapEditor.commands.setTextSelection(tiptapEditor.view.posAtDOM(visualElement, 0)); } catch { /* unsupported node: keep current caret */ }
-        }
-        scrollWithin(visualEditor, visualElement);
-      }
-      const editor = window.epubMonacoEditor;
-      if (editor && origin !== 'monaco' && editor.getValue() === htmlEditor.value) {
-        const position = editor.getModel().getPositionAt(node.start);
-        editor.setPosition(position); editor.revealPositionInCenterIfOutsideViewport(position);
-      }
-    } finally { focusSyncing = false; }
-  };
   const followBookLink = (anchor) => {
     const href = anchor?.getAttribute('href');
     if (!href || /^(?:https?:|mailto:|data:)/i.test(href) || !bookProject.selectedChapter) return false;
@@ -3818,26 +2702,6 @@ export async function initializeApp() {
     if (node) synchronizeFocus(node, 'link');
     return true;
   };
-  const handlePreviewClick = event => {
-    const anchor = event.target.closest('a[href]');
-    if (anchor && followBookLink(anchor)) { event.preventDefault(); return; }
-    const rootNode = previewContentRoot();
-    const target = event.target.closest(previewBlockSelector + ',a,span,strong,em');
-    synchronizeFocus(sourceNodeForElement(target, rootNode), 'preview', previewTextOffset(target, event.target, 0));
-  };
-  preview.addEventListener('click', handlePreviewClick);
-  visualEditor.addEventListener('click', event => {
-    const anchor = event.target.closest('a[href]');
-    if (anchor && followBookLink(anchor)) { event.preventDefault(); return; }
-    const target = event.target.closest(previewBlockSelector + ',a,span,strong,em');
-    const selection = window.getSelection();
-    synchronizeFocus(sourceNodeForElement(target, visualEditor), 'visual', previewTextOffset(target, selection?.anchorNode, selection?.anchorOffset || 0));
-  });
-  visualEditor.addEventListener('keyup', () => {
-    const selection = window.getSelection();
-    const element = selection?.anchorNode?.nodeType === 1 ? selection.anchorNode : selection?.anchorNode?.parentElement;
-    synchronizeFocus(sourceNodeForElement(element, visualEditor), 'visual', previewTextOffset(element, selection?.anchorNode, selection?.anchorOffset || 0));
-  });
   const xhtmlVoidTags = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
   const normaliseXhtml = (source) => {
     // XML parser가 읽을 수 있도록 XHTML 빈 요소와 오타 난 여는 괄호를 먼저 보정합니다.
@@ -4192,8 +3056,8 @@ export async function initializeApp() {
     richToolbar.querySelector('[data-font-size]').value = sized?.style.fontSize?.replace('px', '') || '';
     richToolbar.querySelector('[data-font-family]').value = activeBlock?.style.fontFamily || '';
   };
-  // source↔preview 위치 추적은 XHTML 구조 변경 뒤 오매핑될 수 있어 자동 이동을 하지 않는다.
-  // 미리보기는 현재 장 렌더링만 갱신하며 사용자의 스크롤 위치를 강제로 바꾸지 않는다.
+  // 커서 이동 때만 preview-ui의 source↔iframe 위치 매핑을 사용한다.
+  // 원고 렌더링 자체는 사용자의 미리보기 스크롤 위치를 유지한다.
   visualEditor.addEventListener('compositionend', () => { queueMicrotask(() => syncFromVisual()); });
   visualEditor.addEventListener('input', () => { syncFromVisual({ normalise:false }); updateToolbarState(); });
   visualEditor.addEventListener('keyup', () => { rememberVisualRange(); updateToolbarState(); });
@@ -4479,16 +3343,6 @@ export async function initializeApp() {
       host.id = 'xhtml-monaco-editor';
       host.setAttribute('aria-label', 'XHTML 코드 편집기');
       codeEditor.append(host);
-      const editorStyle = document.createElement('style');
-      editorStyle.textContent = `
-        .code-editor:has(#xhtml-monaco-editor){display:block;border:1px solid var(--line);background:var(--bg)}
-        /* Monaco 내부 textarea는 실제 키보드 입력을 받으므로, 기존 직접 자식 textarea만 숨긴다. */
-        .code-editor:has(#xhtml-monaco-editor) > .line-numbers,.code-editor:has(#xhtml-monaco-editor) > textarea.code{display:none!important}
-        #xhtml-monaco-editor{height:100%;min-height:0;text-align:left}
-        .xhtml-diagnostics{margin-top:8px;padding:8px 10px;border:1px solid #ff8b72aa;border-radius:7px;background:#ff510018;color:#ffb39d;font-size:12px;line-height:1.45}.xhtml-diagnostics[hidden]{display:none}
-        .monaco-editor .xhtml-emmet-suggestion{color:#a78bfa!important}
-      `;
-      document.head.append(editorStyle);
       const tags = ['html','head','body','title','meta','link','style','script','div','section','article','header','footer','main','nav','aside','p','span','strong','em','b','i','u','h1','h2','h3','h4','h5','h6','ul','ol','li','table','thead','tbody','tr','th','td','a','img','figure','figcaption','br','hr'];
       monaco.languages.registerCompletionItemProvider('html', {
         triggerCharacters:['<',' ','.',':'],
@@ -4520,7 +3374,7 @@ export async function initializeApp() {
       window.epubMonacoEditor = editor;
       editor.addAction({id:'epub.history.redo',label:'다시 실행',keybindings:[monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyY, monaco.KeyMod.WinCtrl | monaco.KeyCode.KeyY],precondition:'editorTextFocus',run:() => runHistory(true)});
       editor.onDidChangeCursorPosition(event => {
-        if (focusSyncing || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
+        if (isFocusSyncing() || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
         if (editor.getValue() !== htmlEditor.value) return;
         const offset = editor.getModel().getOffsetAt(event.position);
         const node = elementAtOffset(htmlEditor.value, offset);
@@ -4841,7 +3695,7 @@ export async function initializeApp() {
           syncFromVisual({ normalise:false });
         },
         onSelectionUpdate:({ editor:instance }) => {
-          if (focusSyncing || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
+          if (isFocusSyncing() || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
           const { from } = instance.state.selection;
           const dom = instance.view.domAtPos(from).node;
           const element = dom.nodeType === Node.ELEMENT_NODE ? dom : dom.parentElement;
@@ -4875,9 +3729,6 @@ export async function initializeApp() {
       },true);
       setVisualHtml(htmlEditor.value);
       visualEditor.removeAttribute('contenteditable');
-      const style = document.createElement('style');
-      style.textContent = '.rich-editor .ProseMirror{min-height:100%;outline:0}.rich-editor .ProseMirror:focus{outline:0}';
-      document.head.append(style);
     } catch (error) {
       console.warn('Tiptap 일반편집기를 불러오지 못했습니다.', error);
       visualEditor.setAttribute('aria-disabled', 'true');

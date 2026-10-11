@@ -1,0 +1,47 @@
+/* Editor selection highlight, Monaco host, diagnostics, and Tiptap host. */
+::highlight(epub-visual-selection) {
+  background: var(--focus-fill);
+  color: inherit;
+}
+.code-editor:has(#xhtml-monaco-editor) {
+  display: block;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+/* Monaco 내부 textarea는 실제 키보드 입력을 받으므로, 기존 직접 자식 textarea만 숨긴다. */
+.code-editor:has(#xhtml-monaco-editor) > .line-numbers,
+.code-editor:has(#xhtml-monaco-editor) > textarea.code {
+  display: none !important;
+}
+#xhtml-monaco-editor {
+  height: 100%;
+  min-height: 0;
+  text-align: left;
+}
+#xhtml-monaco-editor:focus-within {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.xhtml-diagnostics {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #ff8b72aa;
+  border-radius: 7px;
+  background: #ff510018;
+  color: #ffb39d;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.xhtml-diagnostics[hidden] {
+  display: none;
+}
+.monaco-editor .xhtml-emmet-suggestion {
+  color: #a78bfa !important;
+}
+.rich-editor .ProseMirror {
+  min-height: 100%;
+  outline: 0;
+}
+.rich-editor .ProseMirror:focus {
+  outline: 0;
+}

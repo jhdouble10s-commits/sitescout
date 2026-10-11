@@ -1,7 +1,9 @@
 import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import {readFile} from 'node:fs/promises';
-import {mockApprovedSession} from './approved-session.js';
+import {createHash} from 'node:crypto';
+import {immutableAssetPath} from '../../cloud-asset-path.js';
+import {mockApprovedSession,approvedUser} from './approved-session.js';
 import {projectCloud} from './project-cloud-fixture.js';
 
 const warning = page => page.evaluate(() => {
@@ -46,6 +48,60 @@ test('server-only list and explicit save reopen without local manuscript writes'
     await expect(other.locator('#title')).toHaveValue('수동 저장 원고');
     await expect(other.locator('#body')).toHaveValue('<p>서버에만 저장</p>');
   } finally {await other.close();}
+});
+
+test('project open validates four image downloads concurrently before changing the manuscript',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;cloud.downloadDelayMs=90;
+  const projectId='00000000-0000-4000-8000-000000000050';
+  const assets=Array.from({length:4},(_,index) => {
+    const bytes=Buffer.from(`synthetic-image-${index}`);
+    const hash=createHash('sha256').update(bytes).digest('hex');
+    const storagePath=immutableAssetPath(approvedUser.id,projectId,hash);
+    cloud.objects.set(`epub-assets/${storagePath}`,bytes);
+    return {name:`image-${index}.png`,type:'image/png',hash,storagePath};
+  });
+  const draft={projectId,title:'병렬 이미지 원고',author:'',language:'ko',css:'',
+    selectedChapterId:'chapter-parallel',chapters:[{id:'chapter-parallel',title:'본문',xhtml:'<p>원문 보존</p>',body:'<p>원문 보존</p>',fileName:'chapter.xhtml'}],
+    assets,parentToc:[],tocExcluded:[],footnotes:[]};
+  cloud.rows.set(projectId,{project_id:projectId,title:draft.title,revision:1,updated_at:new Date().toISOString(),payload:draft});
+  await start(page,cloud);
+  await page.locator('.sb-projects .tab').click();
+  const started=Date.now();
+  await page.getByRole('button',{name:draft.title,exact:true}).click();
+  await expect(page.locator('#title')).toHaveValue(draft.title);
+  await expect(page.locator('#body')).toHaveValue('<p>원문 보존</p>');
+  await expect(page.locator('.asset-row')).toHaveCount(4);
+  console.log('SYNTHETIC_PROJECT_OPEN_MS',Date.now()-started,'MAX_DOWNLOADS',cloud.maxActiveDownloads);
+  expect(cloud.maxActiveDownloads).toBeGreaterThan(1);
+});
+
+test('rapid project switch and failed read never mix staged images or replace the open manuscript',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;cloud.downloadDelayMs=180;
+  const firstId='00000000-0000-4000-8000-000000000051';
+  const secondId='00000000-0000-4000-8000-000000000052';
+  const bytes=Buffer.from('synthetic-stale-image');
+  const hash=createHash('sha256').update(bytes).digest('hex');
+  const storagePath=immutableAssetPath(approvedUser.id,firstId,hash);
+  cloud.objects.set(`epub-assets/${storagePath}`,bytes);
+  const draft=(projectId,title,body,assets=[]) => ({projectId,title,author:'',language:'ko',css:'',
+    selectedChapterId:`chapter-${projectId}`,chapters:[{id:`chapter-${projectId}`,title:'본문',xhtml:body,body,fileName:'chapter.xhtml'}],
+    assets,parentToc:[],tocExcluded:[],footnotes:[]});
+  for (const item of [draft(firstId,'느린 A','<p>A 원문</p>',[{name:'stale.png',type:'image/png',hash,storagePath}]),draft(secondId,'빠른 B','<p>B 원문</p>')])
+    cloud.rows.set(item.projectId,{project_id:item.projectId,title:item.title,revision:1,updated_at:new Date().toISOString(),payload:item});
+  await start(page,cloud);
+  await page.locator('.sb-projects .tab').click();
+  await page.getByRole('button',{name:'느린 A',exact:true}).click();
+  await page.getByRole('button',{name:'빠른 B',exact:true}).click();
+  await expect(page.locator('#title')).toHaveValue('빠른 B');
+  await page.waitForTimeout(400);
+  await expect(page.locator('#body')).toHaveValue('<p>B 원문</p>');
+  await expect(page.locator('.asset-row')).toHaveCount(0);
+  cloud.failReadProjectId=firstId;
+  await page.getByRole('button',{name:'느린 A',exact:true}).click();
+  await expect(page.locator('#status')).toContainText('프로젝트 열기 실패');
+  await expect(page.locator('#title')).toHaveValue('빠른 B');
+  await expect(page.locator('#body')).toHaveValue('<p>B 원문</p>');
+  await expect(page.locator('.asset-row')).toHaveCount(0);
 });
 
 test('legacy IndexedDB manuscripts remain untouched and never enter the server list',async ({page}) => {
