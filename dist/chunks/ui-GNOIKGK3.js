@@ -61353,6 +61353,7 @@ ${locations.join("\n")}
     }
     htmlEditor.value = source;
     visualBaseline = getVisualHtml();
+    window.recordChapterEdit?.(bookProject.selectedChapter, source, true);
     htmlEditor.dispatchEvent(new Event("input", { bubbles: true }));
   };
   function saveCurrentChapter() {

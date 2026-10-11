@@ -2665,6 +2665,9 @@ export async function initializeApp() {
     catch (error) { setStatus(`${error.message} 원본 원고를 유지했습니다.`, 'error'); return; }
     htmlEditor.value = source;
     visualBaseline = getVisualHtml();
+    // Tiptap history is disabled so both modes share the chapter's Monaco
+    // model. Delimit each visual transaction before the textarea bridge runs.
+    window.recordChapterEdit?.(bookProject.selectedChapter, source, true);
     htmlEditor.dispatchEvent(new Event('input', { bubbles: true }));
   };
   function saveCurrentChapter() {

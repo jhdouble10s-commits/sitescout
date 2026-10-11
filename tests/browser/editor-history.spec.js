@@ -20,6 +20,27 @@ async function insert(page, text) {
   },text);
 }
 const source = page => page.locator('#body').inputValue();
+test('visual edits undo and redo one transaction at a time after save', async ({page}) => {
+  await start(page); await mode(page,true);
+  await page.locator('#title').fill('단계별 실행 시험');
+  await page.locator('.ProseMirror').click();
+  await page.keyboard.insertText('Alpha');
+  await page.keyboard.press('Enter');
+  await page.keyboard.insertText('Beta');
+  await page.keyboard.press('Enter');
+  await page.keyboard.insertText('Gamma');
+  await expect(page.locator('#body')).toHaveValue('<p>Alpha</p><p>Beta</p><p>Gamma</p>');
+  await page.locator('.draft-save').click();
+  await expect(page.locator('#status')).toContainText('서버 저장 완료');
+  await page.locator('[data-editor-action=undo]').click();
+  await expect(page.locator('#body')).toHaveValue('<p>Alpha</p><p>Beta</p><p></p>');
+  await page.locator('[data-editor-action=undo]').click();
+  await expect(page.locator('#body')).toHaveValue('<p>Alpha</p><p>Beta</p>');
+  await page.locator('[data-editor-action=redo]').click();
+  await expect(page.locator('#body')).toHaveValue('<p>Alpha</p><p>Beta</p><p></p>');
+  await page.locator('[data-editor-action=redo]').click();
+  await expect(page.locator('#body')).toHaveValue('<p>Alpha</p><p>Beta</p><p>Gamma</p>');
+});
 test('chapter history survives modes, navigation, redo branching and save', async ({page}) => {
   await start(page); await mode(page,false);
   const a=await page.locator('#list .chapter.active').getAttribute('data-chapter-id');
@@ -44,7 +65,8 @@ test('chapter history survives modes, navigation, redo branching and save', asyn
   await mode(page,false); expect(await source(page)).toContain('visual');
   await page.locator('#title').fill('History test'); await page.locator('.draft-save').click();
   await page.locator('[data-editor-action=undo]').click();
-  expect(await source(page)).toBe('<p>Alpha</p>');
+  // keyboard.type emits one visual transaction per character: one undo removes only the last one.
+  expect(await source(page)).toBe('<p>Alpha visua</p>');
   await page.locator('[data-editor-action=redo]').click();
   expect(await source(page)).toContain('visual');
   await page.locator('[data-editor-action=undo]').click(); await insert(page,'<p>New branch</p>');
@@ -143,9 +165,10 @@ test('labels, settings, tooltip alignment and field drag at desktop resolutions'
 test('keyboard history and late AI response never overwrite another chapter', async ({page}) => {
   await start(page); await mode(page,true);
   await page.locator('.ProseMirror').click(); await page.keyboard.type('keyboard');
-  await page.keyboard.press('ControlOrMeta+z'); expect(await source(page)).not.toContain('keyboard');
+  await page.keyboard.press('ControlOrMeta+z'); expect(await source(page)).toContain('keyboar</p>');
   await page.keyboard.press('ControlOrMeta+Shift+z'); expect(await source(page)).toContain('keyboard');
-  await page.keyboard.press('ControlOrMeta+z'); await page.keyboard.press('Control+y');
+  await page.keyboard.press('ControlOrMeta+z'); expect(await source(page)).toContain('keyboar</p>');
+  await page.keyboard.press('Control+y');
   expect(await source(page)).toContain('keyboard');
   await mode(page,false); await insert(page,'<p>기도를통해</p>');
   await page.evaluate(() => window.epubMonacoEditor.focus());

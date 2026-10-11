@@ -249,7 +249,7 @@ test('Enter, first-paragraph deletion, style shortcut and history keep the Tipta
   await dialog.locator('[name=style]').selectOption('h1');
   await dialog.locator('[name=shortcut]').focus(); await page.keyboard.press('Control+Alt+7');
   await dialog.getByRole('button',{name:'저장',exact:true}).click();
-  await page.locator('.ProseMirror p').nth(1).click();
+  await page.locator('.ProseMirror p').filter({hasText:'Before save'}).click();
   await page.keyboard.press('ControlOrMeta+Alt+7');
   await expect(page.locator('.ProseMirror h1')).toContainText('Before save');
   expect(await source(page)).toContain('Second');
