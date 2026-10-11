@@ -259,8 +259,9 @@ export function createCloudDraftIo(ctx) {
     cloudAssets.forEach((asset) => {
       asset.serverStoredHash = asset.hash;
     });
-    const { data, error } = await client.rpc("overwrite_epub_project", {
+    const { data, error } = await client.rpc("save_epub_project", {
       p_project_id: draft.projectId,
+      p_expected_revision: draft.serverRevision || 0,
       p_payload: draft,
       p_client_id: projectClientId,
       p_generation: ctx.editLease.generation,
@@ -275,6 +276,8 @@ export function createCloudDraftIo(ctx) {
         "편집 권한이 만료되었거나 다른 기기로 이전되었습니다. 현재 탭의 원고는 유지됩니다.",
       );
     }
+    if (error?.code === "PT409")
+      throw new Error("서버 저장 충돌: 다른 탭에서 저장·삭제된 원고입니다. 현재 탭의 내용을 유지했습니다. 서버 저장본을 확인한 뒤 다시 진행하세요.");
     if (error) throw new Error(`서버 저장 실패: ${error.message}`);
     if (!Number.isSafeInteger(data?.revision))
       throw new Error(

@@ -57414,8 +57414,9 @@ function createCloudDraftIo(ctx) {
     cloudAssets.forEach((asset) => {
       asset.serverStoredHash = asset.hash;
     });
-    const { data, error } = await client2.rpc("overwrite_epub_project", {
+    const { data, error } = await client2.rpc("save_epub_project", {
       p_project_id: draft.projectId,
+      p_expected_revision: draft.serverRevision || 0,
       p_payload: draft,
       p_client_id: projectClientId,
       p_generation: ctx.editLease.generation
@@ -57430,6 +57431,8 @@ function createCloudDraftIo(ctx) {
         "\uD3B8\uC9D1 \uAD8C\uD55C\uC774 \uB9CC\uB8CC\uB418\uC5C8\uAC70\uB098 \uB2E4\uB978 \uAE30\uAE30\uB85C \uC774\uC804\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4."
       );
     }
+    if (error?.code === "PT409")
+      throw new Error("\uC11C\uBC84 \uC800\uC7A5 \uCDA9\uB3CC: \uB2E4\uB978 \uD0ED\uC5D0\uC11C \uC800\uC7A5\xB7\uC0AD\uC81C\uB41C \uC6D0\uACE0\uC785\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uB0B4\uC6A9\uC744 \uC720\uC9C0\uD588\uC2B5\uB2C8\uB2E4. \uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uD655\uC778\uD55C \uB4A4 \uB2E4\uC2DC \uC9C4\uD589\uD558\uC138\uC694.");
     if (error) throw new Error(`\uC11C\uBC84 \uC800\uC7A5 \uC2E4\uD328: ${error.message}`);
     if (!Number.isSafeInteger(data?.revision))
       throw new Error(
@@ -58034,6 +58037,10 @@ function createEpubExporter(ctx) {
   };
   const exportAssetAwareEpub = async () => {
     const draft = collectDraft();
+    if (ctx.importedEpub?.sourceMissing?.length) {
+      setStatus(`\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4 ${ctx.importedEpub.sourceMissing.length}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD574 \uB0B4\uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uD504\uB85C\uC81D\uD2B8\uB97C \uB2E4\uC2DC \uC5F4\uC5B4 \uC8FC\uC138\uC694.`, "error");
+      return false;
+    }
     const missing = draft.assets.filter(
       (asset) => !previewAssets.get(asset.name)?.blob
     );
@@ -59097,6 +59104,7 @@ async function initializeApp() {
   codeEditor.append(lineNumbers, htmlEditor);
   const previewAssets = /* @__PURE__ */ new Map();
   const unresolvedAssets = /* @__PURE__ */ new Map();
+  let assetsHydrating = false;
   const assetHash = async (blob) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", await blob.arrayBuffer()))).map((byte) => byte.toString(16).padStart(2, "0")).join("");
   const revokePreviewAssetUrl = (asset) => {
     if (asset?.url?.startsWith("blob:")) URL.revokeObjectURL(asset.url);
@@ -59215,7 +59223,7 @@ async function initializeApp() {
   assetRecovery.append(assetRecoveryText, assetRetryButton);
   $2("#assetList").after(assetRecovery);
   const renderAssetRecovery = () => {
-    assetRecovery.hidden = unresolvedAssets.size === 0;
+    assetRecovery.hidden = assetsHydrating || unresolvedAssets.size === 0;
     assetRecoveryText.textContent = unresolvedAssets.size ? `\uC774\uBBF8\uC9C0 ${unresolvedAssets.size}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uC790\uC0B0 \uC815\uBCF4\uB294 \uBCF4\uC874\uB429\uB2C8\uB2E4. ` : "";
   };
   const renderAssetShelf = () => {
@@ -59870,7 +59878,7 @@ ${locations.join("\n")}
     accountMessage.textContent = message;
     accountMessage.classList.toggle("error", error);
   };
-  const refreshAccountUi = async () => {
+  const refreshAccountUi = async ({ restoreProjects = true } = {}) => {
     const client2 = await cloudReady;
     if (!client2 || !supabaseUser) {
       loadAccountCssPresets(null);
@@ -59892,7 +59900,7 @@ ${locations.join("\n")}
     adminPanel.hidden = !isApprovedAdmin;
     if (memberAdminSettingsTab) memberAdminSettingsTab.hidden = !isApprovedAdmin;
     if (memberAdminSettingsPanel) memberAdminSettingsPanel.hidden = !isApprovedAdmin;
-    await restoreCloudDrafts();
+    if (restoreProjects) await restoreCloudDrafts();
   };
   accountButton.addEventListener("click", async () => {
     if (supabaseUser) {
@@ -60040,8 +60048,8 @@ ${locations.join("\n")}
   const setProjectEditingAccess = (allowed, message = "") => {
     const locked = editLeaseSupported === true && !allowed;
     document.documentElement.dataset.projectEditAccess = locked ? "readonly" : "editable";
-    takeEditButton.hidden = !locked;
-    takeEditButton.disabled = !locked;
+    takeEditButton.hidden = !locked || assetsHydrating;
+    takeEditButton.disabled = !locked || assetsHydrating;
     for (const selector of ["#title", "#author", "#language", "#ctitle", "#clevel", "#css", "#body", "#image", "#coverInput", "#sigilFileName", "#add", "#del", ".draft-save", ".asset-add", ".asset-remove", ".asset-rename", ".rich-toolbar button", ".rich-toolbar select", ".rich-toolbar input", ".editor-action-labeled"]) {
       document.querySelectorAll(selector).forEach((element2) => {
         if (element2 === takeEditButton) return;
@@ -60056,6 +60064,7 @@ ${locations.join("\n")}
     if (locked && message) setStatus(message, "error");
   };
   const ensureEditLease = async ({ takeover = false, quiet = false } = {}) => {
+    if (assetsHydrating) return false;
     if (!supabaseUser || !isAccessVerified() || !bookProject.projectId) return false;
     if (!navigator.onLine) {
       setProjectEditingAccess(false, "\uC624\uD504\uB77C\uC778\uC5D0\uC11C\uB294 \uD3B8\uC9D1 \uAD8C\uD55C\uC744 \uD655\uC778\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uD604\uC7AC \uD0ED\uC758 \uC6D0\uACE0\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.");
@@ -60480,6 +60489,7 @@ ${locations.join("\n")}
       if (!await confirmDiscardCurrent()) return;
     }
     void releaseEditLease();
+    assetsHydrating = false;
     setProjectEditingAccess(true);
     if (!initializingWorkspace) restoreEpoch++;
     importedEpub = null;
@@ -60892,23 +60902,14 @@ ${locations.join("\n")}
     if (!draft.projectId) throw new Error("\uC11C\uBC84 \uC6D0\uACE0 ID\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.");
     const isCurrent = () => request === projectOpenGeneration && epoch === restoreEpoch && revision === bookProject.revision && ownerId === persistenceOwnerId();
     if (!isCurrent()) return false;
-    const stagedAssets = await loadDraftAssets(draft, isCurrent);
-    if (!stagedAssets) return false;
-    let stagedSource;
-    try {
-      stagedSource = await loadImportedSourceFiles(draft, isCurrent, stagedAssets.loaded);
-    } catch (error) {
-      stagedAssets.loaded.forEach(revokePreviewAssetUrl);
-      throw error;
-    }
-    if (!isCurrent()) {
-      stagedAssets.loaded.forEach(revokePreviewAssetUrl);
-      return false;
-    }
+    assetsHydrating = true;
     clearPreviewAssets();
-    stagedAssets.loaded.forEach((asset, name) => previewAssets.set(name, asset));
-    stagedAssets.missing.forEach((asset, name) => unresolvedAssets.set(name, asset));
-    importedEpub = stagedSource;
+    (draft.assets || []).forEach((asset) => unresolvedAssets.set(asset.name, { ...asset }));
+    importedEpub = draft.importedSource ? {
+      ...draft.importedSource,
+      files: new Map(Array.isArray(draft.importedSource.files) ? draft.importedSource.files.map(([path, bytes]) => [path, new Uint8Array(bytes)]) : []),
+      sourceMissing: Array.isArray(draft.importedSource.files) ? [] : (draft.importedSource.resources || []).map((resource) => resource.path)
+    } : null;
     renderAssetShelf();
     renderAssetRecovery();
     footnotes.clear();
@@ -60934,22 +60935,67 @@ ${locations.join("\n")}
     const selected = selectedChapter ? Number(selectedChapter.dataset.i) : Math.max(0, Math.min(draft.activeIndex || 0, draft.chapters.length - 1));
     selectManagedChapter(selected);
     refreshChapterControls();
-    const restoredCover = savedCoverAsset();
-    const coverSource = restoredCover?.url || (!String(draft.coverSource || "").startsWith("blob:") ? draft.coverSource : "");
-    if (coverSource) {
-      coverPreview.src = coverSource;
-      coverPreview.hidden = false;
-    } else {
-      coverPreview.removeAttribute("src");
-      coverPreview.hidden = true;
-    }
+    const restoreCover = () => {
+      const restoredCover = savedCoverAsset();
+      const coverSource = restoredCover?.url || (!String(draft.coverSource || "").startsWith("blob:") ? draft.coverSource : "");
+      if (coverSource) {
+        coverPreview.src = coverSource;
+        coverPreview.hidden = false;
+      } else {
+        coverPreview.removeAttribute("src");
+        coverPreview.hidden = true;
+      }
+    };
+    restoreCover();
     if (!visualEditor.hidden) setVisualHtml(htmlEditor.value);
     refreshPreview();
     hydratePreviewAssets();
-    const hydratedRevision = bookProject.revision;
-    if (epoch === restoreEpoch && hydratedRevision === bookProject.revision) bookProject.dirty = false;
-    void ensureEditLease({ quiet: true });
-    setStatus(unresolvedAssets.size || importedEpub?.sourceMissing?.length ? `\u201C${draft.title}\u201D\uC744(\uB97C) \uC5F4\uC5C8\uC9C0\uB9CC ${unresolvedAssets.size ? `\uC774\uBBF8\uC9C0 ${unresolvedAssets.size}\uAC1C` : `\uC6D0\uBCF8 \uB9AC\uC18C\uC2A4 ${importedEpub.sourceMissing.length}\uAC1C`}\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uC11C\uBC84 \uC6D0\uBCF8\uC740 \uBCC0\uACBD\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.` : `\u201C${draft.title}\u201D \uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uBD88\uB7EC\uC654\uC2B5\uB2C8\uB2E4.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? "error" : "ok");
+    bookProject.dirty = false;
+    const instanceId = bookProject.instanceId;
+    const stillOpen = () => request === projectOpenGeneration && epoch === restoreEpoch && ownerId === persistenceOwnerId() && bookProject.projectId === draft.projectId && bookProject.instanceId === instanceId;
+    setStatus(`\u201C${draft.title}\u201D \uC6D0\uACE0\uB97C \uD45C\uC2DC\uD588\uC2B5\uB2C8\uB2E4. \uC774\uBBF8\uC9C0\uC640 \uC6D0\uBCF8 \uB9AC\uC18C\uC2A4\uB97C \uBD88\uB7EC\uC624\uB294 \uC911\uC785\uB2C8\uB2E4.`);
+    void (async () => {
+      const [assetsResult, sourceResult] = await Promise.allSettled([
+        loadDraftAssets(draft, stillOpen),
+        loadImportedSourceFiles(draft, stillOpen, /* @__PURE__ */ new Map())
+      ]);
+      const stagedAssets = assetsResult.status === "fulfilled" ? assetsResult.value : null;
+      if (sourceResult.status === "rejected" || assetsResult.status === "rejected") {
+        stagedAssets?.loaded.forEach(revokePreviewAssetUrl);
+        throw sourceResult.status === "rejected" ? sourceResult.reason : assetsResult.reason;
+      }
+      if (!stagedAssets || !stillOpen()) {
+        stagedAssets?.loaded.forEach(revokePreviewAssetUrl);
+        return;
+      }
+      const stagedSource = sourceResult.value;
+      if (stagedSource) for (const asset of stagedAssets.loaded.values()) {
+        if (asset.originalPath && asset.blob)
+          stagedSource.files.set(asset.originalPath, new Uint8Array(await asset.blob.arrayBuffer()));
+      }
+      if (!stillOpen()) {
+        stagedAssets.loaded.forEach(revokePreviewAssetUrl);
+        return;
+      }
+      unresolvedAssets.clear();
+      stagedAssets.loaded.forEach((asset, name) => previewAssets.set(name, asset));
+      stagedAssets.missing.forEach((asset, name) => unresolvedAssets.set(name, asset));
+      importedEpub = stagedSource;
+      assetsHydrating = false;
+      renderAssetShelf();
+      renderAssetRecovery();
+      restoreCover();
+      refreshPreview();
+      hydratePreviewAssets();
+      setStatus(unresolvedAssets.size || importedEpub?.sourceMissing?.length ? `\u201C${draft.title}\u201D\uC744(\uB97C) \uC5F4\uC5C8\uC9C0\uB9CC ${unresolvedAssets.size ? `\uC774\uBBF8\uC9C0 ${unresolvedAssets.size}\uAC1C` : `\uC6D0\uBCF8 \uB9AC\uC18C\uC2A4 ${importedEpub.sourceMissing.length}\uAC1C`}\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uC11C\uBC84 \uC6D0\uBCF8\uC740 \uBCC0\uACBD\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.` : `\u201C${draft.title}\u201D \uC11C\uBC84 \uC800\uC7A5\uBCF8\uC744 \uBD88\uB7EC\uC654\uC2B5\uB2C8\uB2E4.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? "error" : "ok");
+      void ensureEditLease({ quiet: true });
+    })().catch((error) => {
+      if (!stillOpen()) return;
+      assetsHydrating = false;
+      renderAssetRecovery();
+      setStatus(`\uC6D0\uACE0\uB294 \uD45C\uC2DC\uD588\uC9C0\uB9CC \uC790\uC0B0\uC744 \uBCF5\uC6D0\uD558\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4: ${error.message || "\uC11C\uBC84 \uC5F0\uACB0 \uC2E4\uD328"}. \uC11C\uBC84 \uC6D0\uBCF8\uC740 \uBCC0\uACBD\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.`, "error");
+      void ensureEditLease({ quiet: true });
+    });
     return true;
   };
   const importEpub = async (file) => {
@@ -60988,6 +61034,7 @@ ${locations.join("\n")}
     if (bookProject.instanceId !== instanceId || bookProject.revision !== revision) throw new Error("\uBD88\uB7EC\uC624\uB294 \uB3D9\uC548 \uD604\uC7AC \uC6D0\uACE0\uAC00 \uBCC0\uACBD\uB418\uC5C8\uC2B5\uB2C8\uB2E4. EPUB\uC744 \uB2E4\uC2DC \uC120\uD0DD\uD558\uC138\uC694.");
     restoreEpoch++;
     void releaseEditLease();
+    assetsHydrating = false;
     setProjectEditingAccess(true);
     importedEpub = null;
     footnotes.clear();
@@ -61243,6 +61290,10 @@ ${locations.join("\n")}
     return cloudRestoreInFlight;
   };
   const performSaveCurrentDraft = async () => {
+    if (assetsHydrating) {
+      setStatus("\uC774\uBBF8\uC9C0\uC640 \uC6D0\uBCF8 \uB9AC\uC18C\uC2A4\uB97C \uD655\uC778\uD558\uB294 \uC911\uC785\uB2C8\uB2E4. \uC644\uB8CC \uD6C4 \uC800\uC7A5\uD558\uC138\uC694.", "error");
+      return false;
+    }
     const epoch = restoreEpoch;
     const ownerId = persistenceOwnerId();
     const instanceId = bookProject.instanceId;
@@ -61252,6 +61303,7 @@ ${locations.join("\n")}
     try {
       if (!draft.title) throw new Error("\uCC45 \uC81C\uBAA9\uC744 \uC785\uB825\uD558\uC138\uC694.");
       if (unresolvedAssets.size) throw new Error(`\uC774\uBBF8\uC9C0 ${unresolvedAssets.size}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uC11C\uBC84 \uC6D0\uBCF8\uC744 \uD655\uC778\uD558\uC138\uC694.`);
+      if (importedEpub?.sourceMissing?.length) throw new Error(`\uC6D0\uBCF8 EPUB \uB9AC\uC18C\uC2A4 ${importedEpub.sourceMissing.length}\uAC1C\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4. \uD504\uB85C\uC81D\uD2B8\uB97C \uB2E4\uC2DC \uC5F4\uC5B4 \uC8FC\uC138\uC694.`);
       if (deletedProjectIds.has(deletionKey(ownerId, draft.projectId))) throw new Error("\uC11C\uBC84\uC5D0\uC11C \uC0AD\uC81C\uB41C \uC6D0\uACE0\uC785\uB2C8\uB2E4. \uD604\uC7AC \uB0B4\uC6A9\uC744 \uB0B4\uBCF4\uB0B4\uC138\uC694.");
       const footnoteResult = prepareFootnotes(draft);
       if (footnoteResult.errors.length) throw new Error(`\uAC01\uC8FC \uC624\uB958 ${footnoteResult.errors.length}\uAC74\uC774 \uC788\uC2B5\uB2C8\uB2E4.`);
@@ -62612,7 +62664,7 @@ ${locations.join("\n")}
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") void refreshServerAuthority();
   });
-  void refreshAccountUi();
+  void refreshAccountUi({ restoreProjects: false });
   void restoreCloudDrafts();
   chapterControls.classList.add("active");
   updateLineNumbers();

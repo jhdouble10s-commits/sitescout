@@ -26,6 +26,7 @@ async function save(page,cloud) {
 
 test('server-only list and explicit save reopen without local manuscript writes',async ({page}) => {
   const cloud=projectCloud();cloud.leaseEnabled=true;await start(page,cloud);
+  await expect.poll(() => cloud.listCount).toBe(1);
   await page.locator('#title').fill('수동 저장 원고');
   await page.locator('#add').click();
   await page.evaluate(() => window.epubMonacoEditor.setValue('<p>서버에만 저장</p>'));
@@ -50,8 +51,12 @@ test('server-only list and explicit save reopen without local manuscript writes'
   } finally {await other.close();}
 });
 
-test('project open validates four image downloads concurrently before changing the manuscript',async ({page}) => {
+test('project body appears before four image downloads finish, then restores assets',async ({page}) => {
   const cloud=projectCloud();cloud.leaseEnabled=true;cloud.downloadDelayMs=90;
+  let releaseDownloads, downloaded;
+  cloud.downloadGate=new Promise(resolve=>{releaseDownloads=resolve;});
+  const downloadsStarted=new Promise(resolve=>{downloaded=resolve;});
+  cloud.onDownload=()=>downloaded();
   const projectId='00000000-0000-4000-8000-000000000050';
   const assets=Array.from({length:4},(_,index) => {
     const bytes=Buffer.from(`synthetic-image-${index}`);
@@ -68,11 +73,90 @@ test('project open validates four image downloads concurrently before changing t
   await page.locator('.sb-projects .tab').click();
   const started=Date.now();
   await page.getByRole('button',{name:draft.title,exact:true}).click();
+  await downloadsStarted;
   await expect(page.locator('#title')).toHaveValue(draft.title);
   await expect(page.locator('#body')).toHaveValue('<p>원문 보존</p>');
+  expect(cloud.activeDownloads).toBeGreaterThan(0);
+  expect(await page.locator('.draft-save').isDisabled()).toBe(true);
+  cloud.downloadGate=null;releaseDownloads();
   await expect(page.locator('.asset-row')).toHaveCount(4);
+  await expect(page.locator('.draft-save')).toBeEnabled();
   console.log('SYNTHETIC_PROJECT_OPEN_MS',Date.now()-started,'MAX_DOWNLOADS',cloud.maxActiveDownloads);
   expect(cloud.maxActiveDownloads).toBeGreaterThan(1);
+});
+
+test('stale server revision rejects manual save and keeps the current tab manuscript',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;await start(page,cloud);
+  await page.locator('#title').fill('버전 충돌 원고');
+  await save(page,cloud);
+  const row=[...cloud.rows.values()][0];
+  row.revision++;
+  row.payload={...row.payload,serverRevision:row.revision,chapters:row.payload.chapters.map(chapter=>({...chapter,xhtml:'<p>다른 탭의 저장본</p>',body:'<p>다른 탭의 저장본</p>'}))};
+  await page.evaluate(() => window.epubMonacoEditor.setValue('<p>현재 탭의 미저장 원고</p>'));
+  const previousSaves=cloud.saveCount;
+  await page.locator('.draft-save').click();
+  await expect.poll(()=>cloud.saveCount).toBe(previousSaves+1);
+  await expect(page.locator('#status')).toContainText('충돌');
+  expect(row.payload.chapters[0].body).toBe('<p>다른 탭의 저장본</p>');
+  expect(await page.locator('#body').inputValue()).toBe('<p>현재 탭의 미저장 원고</p>');
+  expect(await warning(page)).toBe(true);
+});
+
+test('missing image keeps its server manifest while text changes and can be retried by reopening',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;
+  const projectId='00000000-0000-4000-8000-000000000053';
+  const bytes=Buffer.from('synthetic-recovered-image');
+  const hash=createHash('sha256').update(bytes).digest('hex');
+  const storagePath=immutableAssetPath(approvedUser.id,projectId,hash);
+  const asset={name:'missing.png',type:'image/png',hash,storagePath,originalPath:'OPS/Image/missing.png'};
+  const draft={projectId,title:'이미지 복구 원고',author:'',language:'ko',css:'',
+    selectedChapterId:'chapter-image',chapters:[{id:'chapter-image',title:'본문',xhtml:'<p>원문 <img src="../Image/missing.png" /></p>',body:'<p>원문 <img src="../Image/missing.png" /></p>',fileName:'chapter.xhtml'}],
+    assets:[asset],parentToc:[],tocExcluded:[],footnotes:[]};
+  const row={project_id:projectId,title:draft.title,revision:1,updated_at:new Date().toISOString(),payload:draft};
+  cloud.rows.set(projectId,row);
+  await start(page,cloud);
+  await page.locator('.sb-projects .tab').click();
+  await page.getByRole('button',{name:draft.title,exact:true}).click();
+  await expect(page.locator('#status')).toContainText('불러오지 못했습니다');
+  await expect(page.locator('#body')).toHaveValue(draft.chapters[0].body);
+  await expect(page.locator('#body')).toBeEnabled();
+  await page.evaluate(() => window.epubMonacoEditor.setValue('<p>수정 <img src="../Image/missing.png" /></p>'));
+  await page.locator('.draft-save').click();
+  await expect(page.locator('#status')).toContainText('서버 저장 실패: 이미지 1개');
+  expect(cloud.saveCount).toBe(0);
+  expect(row.payload.assets).toEqual([asset]);
+  expect(await warning(page)).toBe(true);
+  cloud.objects.set(`epub-assets/${storagePath}`,bytes);
+  await page.getByRole('button',{name:draft.title,exact:true}).click();
+  const dialog=page.getByRole('dialog',{name:'미저장 변경 이탈 확인'});
+  await dialog.getByRole('button',{name:'변경 버리고 이동'}).click();
+  await expect(page.locator('.asset-row')).toHaveCount(1);
+  await expect(page.locator('#status')).toContainText('서버 저장본을 불러왔습니다');
+  expect(cloud.rows.get(projectId).payload.assets).toEqual([asset]);
+});
+
+test('missing original EPUB resource blocks saving even when no image is missing',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;
+  const projectId='00000000-0000-4000-8000-000000000054';
+  const bytes=Buffer.from('body { color: #123456; }');
+  const hash=createHash('sha256').update(bytes).digest('hex');
+  const resource={path:'OPS/Styles/book.css',name:'__epub_resource__:OPS/Styles/book.css',type:'text/css',
+    hash,storagePath:immutableAssetPath(approvedUser.id,projectId,hash)};
+  const draft={projectId,title:'원본 리소스 복구 원고',author:'',language:'ko',css:'',
+    selectedChapterId:'chapter-resource',chapters:[{id:'chapter-resource',title:'본문',xhtml:'<p>원문</p>',body:'<p>원문</p>',fileName:'chapter.xhtml'}],
+    assets:[],importedSource:{resources:[resource]},parentToc:[],tocExcluded:[],footnotes:[]};
+  cloud.rows.set(projectId,{project_id:projectId,title:draft.title,revision:1,updated_at:new Date().toISOString(),payload:draft});
+  await start(page,cloud);
+  await page.locator('.sb-projects .tab').click();
+  await page.getByRole('button',{name:draft.title,exact:true}).click();
+  await expect(page.locator('#status')).toContainText('원본 리소스 1개');
+  await expect(page.locator('#body')).toBeEnabled();
+  await page.evaluate(() => window.epubMonacoEditor.setValue('<p>수정했지만 저장하지 않음</p>'));
+  await page.locator('.draft-save').click();
+  await expect(page.locator('#status')).toContainText('서버 저장 실패: 원본 EPUB 리소스 1개');
+  expect(cloud.saveCount).toBe(0);
+  expect(cloud.rows.get(projectId).payload.importedSource.resources).toEqual([resource]);
+  expect(await warning(page)).toBe(true);
 });
 
 test('rapid project switch and failed read never mix staged images or replace the open manuscript',async ({page}) => {

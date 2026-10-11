@@ -673,6 +673,7 @@ export async function initializeApp() {
   codeEditor.append(lineNumbers, htmlEditor);
   const previewAssets = new Map();
   const unresolvedAssets = new Map();
+  let assetsHydrating = false;
   const assetHash = async (blob) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', await blob.arrayBuffer())))
     .map(byte => byte.toString(16).padStart(2, '0')).join('');
   const revokePreviewAssetUrl = (asset) => {
@@ -793,7 +794,7 @@ export async function initializeApp() {
   assetRecovery.append(assetRecoveryText, assetRetryButton);
   $('#assetList').after(assetRecovery);
   const renderAssetRecovery = () => {
-    assetRecovery.hidden = unresolvedAssets.size === 0;
+    assetRecovery.hidden = assetsHydrating || unresolvedAssets.size === 0;
     assetRecoveryText.textContent = unresolvedAssets.size ? `이미지 ${unresolvedAssets.size}개를 불러오지 못했습니다. 자산 정보는 보존됩니다. ` : '';
   };
   const renderAssetShelf = () => {
@@ -1384,7 +1385,7 @@ export async function initializeApp() {
     accountMessage.textContent = message;
     accountMessage.classList.toggle('error', error);
   };
-  const refreshAccountUi = async () => {
+  const refreshAccountUi = async ({restoreProjects = true} = {}) => {
     const client = await cloudReady;
     if (!client || !supabaseUser) {
       loadAccountCssPresets(null);
@@ -1406,7 +1407,7 @@ export async function initializeApp() {
     adminPanel.hidden = !isApprovedAdmin;
     if (memberAdminSettingsTab) memberAdminSettingsTab.hidden = !isApprovedAdmin;
     if (memberAdminSettingsPanel) memberAdminSettingsPanel.hidden = !isApprovedAdmin;
-    await restoreCloudDrafts();
+    if (restoreProjects) await restoreCloudDrafts();
   };
   accountButton.addEventListener('click', async () => {
     if (supabaseUser) {
@@ -1517,8 +1518,8 @@ export async function initializeApp() {
   const setProjectEditingAccess = (allowed, message = '') => {
     const locked = editLeaseSupported === true && !allowed;
     document.documentElement.dataset.projectEditAccess = locked ? 'readonly' : 'editable';
-    takeEditButton.hidden = !locked;
-    takeEditButton.disabled = !locked;
+    takeEditButton.hidden = !locked || assetsHydrating;
+    takeEditButton.disabled = !locked || assetsHydrating;
     // Navigation remains available; content-changing controls are made truly
     // inert for keyboard users as well as pointer users.
     for (const selector of ['#title','#author','#language','#ctitle','#clevel','#css','#body','#image','#coverInput','#sigilFileName','#add','#del','.draft-save','.asset-add','.asset-remove','.asset-rename','.rich-toolbar button','.rich-toolbar select','.rich-toolbar input','.editor-action-labeled']) {
@@ -1537,6 +1538,7 @@ export async function initializeApp() {
     if (locked && message) setStatus(message, 'error');
   };
   const ensureEditLease = async ({ takeover = false, quiet = false } = {}) => {
+    if (assetsHydrating) return false;
     if (!supabaseUser || !isAccessVerified() || !bookProject.projectId) return false;
     if (!navigator.onLine) { setProjectEditingAccess(false,'오프라인에서는 편집 권한을 확인할 수 없습니다. 현재 탭의 원고는 유지됩니다.'); return false; }
     const projectId = bookProject.projectId;
@@ -1913,6 +1915,7 @@ export async function initializeApp() {
       if (!await confirmDiscardCurrent()) return;
     }
     void releaseEditLease();
+    assetsHydrating = false;
     setProjectEditingAccess(true);
     if (!initializingWorkspace) restoreEpoch++;
     importedEpub = null;
@@ -2261,16 +2264,17 @@ export async function initializeApp() {
     const isCurrent = () => request === projectOpenGeneration && epoch === restoreEpoch
       && revision === bookProject.revision && ownerId === persistenceOwnerId();
     if (!isCurrent()) return false;
-    const stagedAssets = await loadDraftAssets(draft,isCurrent);
-    if (!stagedAssets) return false;
-    let stagedSource;
-    try { stagedSource = await loadImportedSourceFiles(draft,isCurrent,stagedAssets.loaded); }
-    catch (error) { stagedAssets.loaded.forEach(revokePreviewAssetUrl); throw error; }
-    if (!isCurrent()) { stagedAssets.loaded.forEach(revokePreviewAssetUrl); return false; }
+    // The server payload is authoritative. Show its text now; resource bytes
+    // can arrive later without ever placing a manuscript in browser storage.
+    assetsHydrating = true;
     clearPreviewAssets();
-    stagedAssets.loaded.forEach((asset,name) => previewAssets.set(name,asset));
-    stagedAssets.missing.forEach((asset,name) => unresolvedAssets.set(name,asset));
-    importedEpub = stagedSource;
+    (draft.assets || []).forEach(asset => unresolvedAssets.set(asset.name,{...asset}));
+    importedEpub = draft.importedSource ? {
+      ...draft.importedSource,
+      files:new Map(Array.isArray(draft.importedSource.files)
+        ? draft.importedSource.files.map(([path,bytes]) => [path,new Uint8Array(bytes)]) : []),
+      sourceMissing:Array.isArray(draft.importedSource.files) ? [] : (draft.importedSource.resources || []).map(resource => resource.path),
+    } : null;
     renderAssetShelf(); renderAssetRecovery();
     footnotes.clear();
     setProjectEditingAccess(false);
@@ -2298,26 +2302,61 @@ export async function initializeApp() {
     refreshChapterControls();
     // blob: URL은 새로고침 뒤 무효가 된다. 가져온 표지는 저장한 이미지 자산에서
     // 새 object URL을 만들어 우선 복원하고, 직접 업로드한 data URL만 fallback으로 쓴다.
-    const restoredCover = savedCoverAsset();
-    const coverSource = restoredCover?.url || (!String(draft.coverSource || '').startsWith('blob:') ? draft.coverSource : '');
-    if (coverSource) {
-      coverPreview.src = coverSource;
-      coverPreview.hidden = false;
-    } else {
-      coverPreview.removeAttribute('src');
-      coverPreview.hidden = true;
-    }
+    const restoreCover = () => {
+      const restoredCover = savedCoverAsset();
+      const coverSource = restoredCover?.url || (!String(draft.coverSource || '').startsWith('blob:') ? draft.coverSource : '');
+      if (coverSource) { coverPreview.src = coverSource; coverPreview.hidden = false; }
+      else { coverPreview.removeAttribute('src'); coverPreview.hidden = true; }
+    };
+    restoreCover();
     if (!visualEditor.hidden) setVisualHtml(htmlEditor.value);
     refreshPreview();
     hydratePreviewAssets();
-    const hydratedRevision = bookProject.revision;
-    if (epoch === restoreEpoch && hydratedRevision === bookProject.revision) bookProject.dirty = false;
-    // A project can be read without a lease. Claiming without takeover makes
-    // this tab read-only when another device is actively editing it.
-    void ensureEditLease({quiet:true});
-    setStatus(unresolvedAssets.size || importedEpub?.sourceMissing?.length
-      ? `“${draft.title}”을(를) 열었지만 ${unresolvedAssets.size ? `이미지 ${unresolvedAssets.size}개` : `원본 리소스 ${importedEpub.sourceMissing.length}개`}를 불러오지 못했습니다. 서버 원본은 변경되지 않았습니다.`
-      : `“${draft.title}” 서버 저장본을 불러왔습니다.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? 'error' : 'ok');
+    bookProject.dirty = false;
+    const instanceId = bookProject.instanceId;
+    const stillOpen = () => request === projectOpenGeneration && epoch === restoreEpoch
+      && ownerId === persistenceOwnerId() && bookProject.projectId === draft.projectId
+      && bookProject.instanceId === instanceId;
+    setStatus(`“${draft.title}” 원고를 표시했습니다. 이미지와 원본 리소스를 불러오는 중입니다.`);
+    void (async () => {
+      const [assetsResult,sourceResult] = await Promise.allSettled([
+        loadDraftAssets(draft,stillOpen),
+        loadImportedSourceFiles(draft,stillOpen,new Map()),
+      ]);
+      const stagedAssets = assetsResult.status === 'fulfilled' ? assetsResult.value : null;
+      if (sourceResult.status === 'rejected' || assetsResult.status === 'rejected') {
+        stagedAssets?.loaded.forEach(revokePreviewAssetUrl);
+        throw sourceResult.status === 'rejected' ? sourceResult.reason : assetsResult.reason;
+      }
+      if (!stagedAssets || !stillOpen()) {
+        stagedAssets?.loaded.forEach(revokePreviewAssetUrl);
+        return;
+      }
+      const stagedSource = sourceResult.value;
+      if (stagedSource) for (const asset of stagedAssets.loaded.values()) {
+        if (asset.originalPath && asset.blob)
+          stagedSource.files.set(asset.originalPath,new Uint8Array(await asset.blob.arrayBuffer()));
+      }
+      if (!stillOpen()) { stagedAssets.loaded.forEach(revokePreviewAssetUrl); return; }
+      unresolvedAssets.clear();
+      stagedAssets.loaded.forEach((asset,name) => previewAssets.set(name,asset));
+      stagedAssets.missing.forEach((asset,name) => unresolvedAssets.set(name,asset));
+      importedEpub = stagedSource;
+      assetsHydrating = false;
+      renderAssetShelf(); renderAssetRecovery(); restoreCover();
+      refreshPreview(); hydratePreviewAssets();
+      setStatus(unresolvedAssets.size || importedEpub?.sourceMissing?.length
+        ? `“${draft.title}”을(를) 열었지만 ${unresolvedAssets.size ? `이미지 ${unresolvedAssets.size}개` : `원본 리소스 ${importedEpub.sourceMissing.length}개`}를 불러오지 못했습니다. 서버 원본은 변경되지 않았습니다.`
+        : `“${draft.title}” 서버 저장본을 불러왔습니다.`, unresolvedAssets.size || importedEpub?.sourceMissing?.length ? 'error' : 'ok');
+      // Reading does not grant editing. The current tab still needs a lease.
+      void ensureEditLease({quiet:true});
+    })().catch(error => {
+      if (!stillOpen()) return;
+      assetsHydrating = false;
+      renderAssetRecovery();
+      setStatus(`원고는 표시했지만 자산을 복원하지 못했습니다: ${error.message || '서버 연결 실패'}. 서버 원본은 변경되지 않았습니다.`, 'error');
+      void ensureEditLease({quiet:true});
+    });
     return true;
   };
   const importEpub = async (file) => {
@@ -2333,6 +2372,7 @@ export async function initializeApp() {
     if (bookProject.instanceId !== instanceId || bookProject.revision !== revision) throw new Error('불러오는 동안 현재 원고가 변경되었습니다. EPUB을 다시 선택하세요.');
     restoreEpoch++;
     void releaseEditLease();
+    assetsHydrating = false;
     setProjectEditingAccess(true);
     importedEpub = null;
     footnotes.clear();
@@ -2544,6 +2584,10 @@ export async function initializeApp() {
     return cloudRestoreInFlight;
   };
   const performSaveCurrentDraft = async () => {
+    if (assetsHydrating) {
+      setStatus('이미지와 원본 리소스를 확인하는 중입니다. 완료 후 저장하세요.', 'error');
+      return false;
+    }
     const epoch = restoreEpoch;
     const ownerId = persistenceOwnerId();
     const instanceId = bookProject.instanceId;
@@ -2553,6 +2597,7 @@ export async function initializeApp() {
     try {
       if (!draft.title) throw new Error('책 제목을 입력하세요.');
       if (unresolvedAssets.size) throw new Error(`이미지 ${unresolvedAssets.size}개를 불러오지 못했습니다. 서버 원본을 확인하세요.`);
+      if (importedEpub?.sourceMissing?.length) throw new Error(`원본 EPUB 리소스 ${importedEpub.sourceMissing.length}개를 불러오지 못했습니다. 프로젝트를 다시 열어 주세요.`);
       if (deletedProjectIds.has(deletionKey(ownerId,draft.projectId))) throw new Error('서버에서 삭제된 원고입니다. 현재 내용을 내보내세요.');
       const footnoteResult = prepareFootnotes(draft);
       if (footnoteResult.errors.length) throw new Error(`각주 오류 ${footnoteResult.errors.length}건이 있습니다.`);
@@ -3772,7 +3817,7 @@ export async function initializeApp() {
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') void refreshServerAuthority();
   });
-  void refreshAccountUi();
+  void refreshAccountUi({restoreProjects:false});
   void restoreCloudDrafts();
   chapterControls.classList.add('active');
   updateLineNumbers();

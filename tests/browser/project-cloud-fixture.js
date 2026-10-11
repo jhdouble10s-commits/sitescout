@@ -2,7 +2,7 @@
 export function projectCloud() {
   const rows = new Map(), objects = new Map(), deletions = new Map();
   const leases = new Map();
-  const state = {rows,objects,deletions,leases,leaseEnabled:false,failSave:false,failReadProjectId:null,missingMigration:false,failUpload:false,saveGate:null,uploadGate:null,onSave:null,onUpload:null,saveCount:0,uploadCount:0,uploadBytes:0,downloadDelayMs:0,activeDownloads:0,maxActiveDownloads:0};
+  const state = {rows,objects,deletions,leases,leaseEnabled:false,failSave:false,failReadProjectId:null,missingMigration:false,failUpload:false,saveGate:null,uploadGate:null,downloadGate:null,onSave:null,onUpload:null,onDownload:null,listCount:0,saveCount:0,uploadCount:0,uploadBytes:0,downloadDelayMs:0,activeDownloads:0,maxActiveDownloads:0};
   state.attach = async page => page.route('**/htzojicodwueivybovhy.supabase.co/**',async route => {
     const request = route.request(), url = new URL(request.url());
     if (url.pathname.endsWith('/claim_epub_project_edit_lock')) {
@@ -52,7 +52,7 @@ export function projectCloud() {
     }
     if (url.pathname.endsWith('/epub_project_deletions')) return route.fulfill({json:[...deletions.values()]});
     if (url.pathname.endsWith('/epub_drafts')) {
-      let data=[...rows.values()];const id=url.searchParams.get('project_id');if(id)data=data.filter(row=>`eq.${row.project_id}`===id);
+      let data=[...rows.values()];const id=url.searchParams.get('project_id');if(id)data=data.filter(row=>`eq.${row.project_id}`===id);else state.listCount++;
       if(id===`eq.${state.failReadProjectId}`)return route.fulfill({status:503,json:{message:'synthetic read outage'}});
       return route.fulfill({json:request.headers().accept?.includes('object') ? data[0] || null : data});
     }
@@ -71,6 +71,8 @@ export function projectCloud() {
         state.activeDownloads++;
         state.maxActiveDownloads=Math.max(state.maxActiveDownloads,state.activeDownloads);
         try {
+          state.onDownload?.(path);
+          if(state.downloadGate)await state.downloadGate;
           if(state.downloadDelayMs)await new Promise(resolve=>setTimeout(resolve,state.downloadDelayMs));
           return objects.has(path)?route.fulfill({body:objects.get(path),contentType:'image/png'}):route.fulfill({status:404,json:{message:'missing'}});
         } finally {state.activeDownloads--;}

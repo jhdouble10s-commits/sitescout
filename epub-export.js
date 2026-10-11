@@ -375,6 +375,10 @@ export function createEpubExporter(ctx) {
   };
   const exportAssetAwareEpub = async () => {
     const draft = collectDraft();
+    if (ctx.importedEpub?.sourceMissing?.length) {
+      setStatus(`원본 EPUB 리소스 ${ctx.importedEpub.sourceMissing.length}개를 불러오지 못해 내보낼 수 없습니다. 프로젝트를 다시 열어 주세요.`, 'error');
+      return false;
+    }
     const missing = draft.assets.filter(
       (asset) => !previewAssets.get(asset.name)?.blob,
     );
