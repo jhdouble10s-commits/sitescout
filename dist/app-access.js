@@ -3,8 +3,7 @@ import {
   isAccessVerified,
   markAppUiReady,
   verifyAccess
-} from "./chunks/chunk-5UXPHY7I.js";
-import "./chunks/chunk-2HDZU5YC.js";
+} from "./chunks/chunk-BVXJMWKM.js";
 import "./chunks/chunk-ITRHU4VH.js";
 import "./chunks/chunk-VXYETN7S.js";
 import "./chunks/chunk-XCBH6NLF.js";

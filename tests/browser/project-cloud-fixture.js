@@ -2,7 +2,7 @@
 export function projectCloud() {
   const rows = new Map(), objects = new Map(), deletions = new Map();
   const leases = new Map();
-  const state = {rows,objects,deletions,leases,leaseEnabled:false,failSave:false,failReadProjectId:null,missingMigration:false,failUpload:false,saveGate:null,uploadGate:null,downloadGate:null,onSave:null,onUpload:null,onDownload:null,listCount:0,saveCount:0,uploadCount:0,uploadBytes:0,downloadDelayMs:0,activeDownloads:0,maxActiveDownloads:0};
+  const state = {rows,objects,deletions,leases,leaseEnabled:false,failSave:false,failList:false,failReadProjectId:null,missingMigration:false,failUpload:false,saveGate:null,uploadGate:null,deletionGate:null,downloadGate:null,onSave:null,onUpload:null,onDownload:null,listCount:0,readCount:0,saveCount:0,uploadCount:0,uploadBytes:0,downloadDelayMs:0,activeDownloads:0,maxActiveDownloads:0};
   state.attach = async page => page.route('**/htzojicodwueivybovhy.supabase.co/**',async route => {
     const request = route.request(), url = new URL(request.url());
     if (url.pathname.endsWith('/claim_epub_project_edit_lock')) {
@@ -50,9 +50,10 @@ export function projectCloud() {
       deletions.set(args.p_project_id,{project_id:args.p_project_id,revision:row.revision+1,deleted_at:new Date().toISOString()});
       return route.fulfill({json:null});
     }
-    if (url.pathname.endsWith('/epub_project_deletions')) return route.fulfill({json:[...deletions.values()]});
+    if (url.pathname.endsWith('/epub_project_deletions')) {if(state.deletionGate)await state.deletionGate;return route.fulfill({json:[...deletions.values()]});}
     if (url.pathname.endsWith('/epub_drafts')) {
-      let data=[...rows.values()];const id=url.searchParams.get('project_id');if(id)data=data.filter(row=>`eq.${row.project_id}`===id);else state.listCount++;
+      let data=[...rows.values()];const id=url.searchParams.get('project_id');if(id){state.readCount++;data=data.filter(row=>`eq.${row.project_id}`===id);}else state.listCount++;
+      if(!id && state.failList)return route.fulfill({status:503,json:{message:'synthetic list outage'}});
       if(id===`eq.${state.failReadProjectId}`)return route.fulfill({status:503,json:{message:'synthetic read outage'}});
       return route.fulfill({json:request.headers().accept?.includes('object') ? data[0] || null : data});
     }

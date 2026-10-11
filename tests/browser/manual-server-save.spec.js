@@ -15,6 +15,8 @@ async function start(page,cloud) {
   await mockApprovedSession(page);
   await cloud.attach(page);
   await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => !document.querySelector('#projectLauncher')?.hidden || window.epubMonacoEditor);
+  if (await page.locator('#projectLauncher').isVisible()) await page.locator('[data-project-new]').click();
   await page.waitForFunction(() => window.epubMonacoEditor && document.querySelector('.ProseMirror'));
 }
 async function save(page,cloud) {
@@ -23,6 +25,67 @@ async function save(page,cloud) {
   await expect.poll(() => cloud.saveCount).toBeGreaterThan(count);
   await expect(page.locator('.draft-save')).toBeEnabled();
 }
+
+test('saved-project list appears before the editor bundle or manuscript is loaded',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;
+  let releaseDeletions;
+  cloud.deletionGate=new Promise(resolve=>{releaseDeletions=resolve;});
+  const projectId='00000000-0000-4000-8000-000000000060';
+  const draft={projectId,title:'먼저 보이는 목록',author:'',language:'ko',css:'',
+    selectedChapterId:'chapter-list-first',chapters:[{id:'chapter-list-first',title:'본문',xhtml:'<p>선택 후 다운로드</p>',body:'<p>선택 후 다운로드</p>',fileName:'chapter.xhtml'}],
+    assets:[],parentToc:[],tocExcluded:[],footnotes:[]};
+  cloud.rows.set(projectId,{project_id:projectId,title:draft.title,revision:1,updated_at:new Date().toISOString(),payload:draft});
+  await mockApprovedSession(page);
+  await cloud.attach(page);
+  let releaseEditor;
+  let editorRequests=0;
+  const editorGate=new Promise(resolve=>{releaseEditor=resolve;});
+  await page.route('**/dist/chunks/ui-*.js',async route=>{editorRequests++;await editorGate;await route.continue();});
+  try {
+    await page.goto('/',{waitUntil:'domcontentloaded'});
+    await expect(page.getByRole('region',{name:'프로젝트 선택'})).toBeVisible();
+    await expect(page.locator('.app')).toBeHidden();
+    await expect(page.getByRole('button',{name:draft.title,exact:true})).toBeVisible();
+    expect(cloud.listCount).toBe(1);
+    expect(cloud.readCount).toBe(0);
+    expect(editorRequests).toBe(0);
+    await page.screenshot({path:test.info().outputPath('project-list-first.png')});
+    await page.getByRole('button',{name:draft.title,exact:true}).click();
+    expect(cloud.readCount).toBe(0);
+    expect(editorRequests).toBe(0);
+    releaseDeletions();
+    await expect.poll(() => editorRequests).toBe(1);
+    releaseEditor();
+    await expect(page.locator('#title')).toHaveValue(draft.title);
+    await expect(page.locator('#body')).toHaveValue(draft.chapters[0].body);
+    await expect(page.getByRole('region',{name:'프로젝트 선택'})).toBeHidden();
+    expect(cloud.readCount).toBe(1);
+  } finally {releaseDeletions();releaseEditor();}
+});
+
+test('list failure offers retry without opening an editor or downloading a manuscript',async ({page}) => {
+  const cloud=projectCloud();cloud.leaseEnabled=true;cloud.failList=true;
+  const projectId='00000000-0000-4000-8000-000000000061';
+  const draft={projectId,title:'재시도할 프로젝트',author:'',language:'ko',css:'',
+    selectedChapterId:'chapter-retry',chapters:[{id:'chapter-retry',title:'본문',xhtml:'<p>원고</p>',body:'<p>원고</p>',fileName:'chapter.xhtml'}],
+    assets:[],parentToc:[],tocExcluded:[],footnotes:[]};
+  cloud.rows.set(projectId,{project_id:projectId,title:draft.title,revision:1,updated_at:new Date().toISOString(),payload:draft});
+  await mockApprovedSession(page);await cloud.attach(page);
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  const launcher=page.getByRole('region',{name:'프로젝트 선택'});
+  await expect(launcher).toBeVisible();
+  await expect(launcher).toContainText('목록을 불러오지 못했습니다');
+  expect(cloud.readCount).toBe(0);
+  expect(await page.evaluate(() => Boolean(window.epubMonacoEditor))).toBe(false);
+  cloud.failList=false;
+  await launcher.getByRole('button',{name:'목록 다시 불러오기'}).click();
+  await expect(launcher.getByRole('button',{name:draft.title})).toBeVisible();
+  expect(cloud.readCount).toBe(0);
+  await launcher.getByRole('button',{name:'새 EPUB 만들기'}).click();
+  await expect(launcher).toBeHidden();
+  await expect(page.locator('#title')).toHaveValue('');
+  expect(cloud.readCount).toBe(0);
+});
 
 test('server-only list and explicit save reopen without local manuscript writes',async ({page}) => {
   const cloud=projectCloud();cloud.leaseEnabled=true;await start(page,cloud);

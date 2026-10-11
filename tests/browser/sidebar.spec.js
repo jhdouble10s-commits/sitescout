@@ -73,6 +73,8 @@ test('sidebar 240/56px, icon labels, persisted layout, themes, and editor resize
   await expect(page.locator('#status')).toContainText('서버 저장 완료');
   await page.waitForTimeout(500);
   await page.reload({waitUntil:'domcontentloaded'});
+  await page.getByRole('region',{name:'프로젝트 선택'})
+    .getByRole('button',{name:'사이드바 저장 회귀 테스트'}).click();
   await expect(page.locator('#app-sidebar')).toHaveAttribute('data-state', 'collapsed');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.waitForFunction(() => Boolean(window.epubMonacoEditor));
@@ -86,6 +88,8 @@ test('sidebar 240/56px, icon labels, persisted layout, themes, and editor resize
   await expect(page.locator('#title')).toHaveValue('');
   await side.locator('.tab[data-view="editorView"]').click();
   await side.locator('.draft-item').filter({hasText:'사이드바 저장 회귀 테스트'}).click();
+  const leaveDialog=page.getByRole('dialog',{name:'미저장 변경 이탈 확인'});
+  if (await leaveDialog.isVisible()) await leaveDialog.getByRole('button',{name:'변경 버리고 이동'}).click();
   await expect(page.locator('#title')).toHaveValue('사이드바 저장 회귀 테스트');
   await expect(page.frameLocator('.preview-isolated-frame').locator('body')).toContainText('사이드바 전환에도 원문 유지');
   expect(errors).toEqual([]);

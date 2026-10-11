@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="asset-shelf.css">
     <link rel="stylesheet" href="screen-base.css">
     <link rel="stylesheet" href="startup-screen.css">
+    <link rel="stylesheet" href="project-launcher.css">
     <link rel="stylesheet" href="workspace.css">
     <link rel="stylesheet" href="editor-host.css">
     <link rel="stylesheet" href="text-style-dialog.css">
@@ -36,6 +37,18 @@
                 <a class="startup-retry" href="./" hidden>다시 시도</a>
             </div>
             <p class="startup-note">아이디어를 작업으로, 작업을 가능성으로</p>
+        </div>
+    </section>
+    <section id="projectLauncher" aria-label="프로젝트 선택" hidden>
+        <div class="project-launcher-content">
+            <p class="project-launcher-brand">JH Studio</p>
+            <h1>프로젝트</h1>
+            <p class="project-launcher-message" role="status" aria-live="polite"></p>
+            <div class="project-launcher-list"></div>
+            <div class="project-launcher-actions">
+                <button type="button" data-project-new>새 EPUB 만들기</button>
+                <button type="button" data-project-retry hidden>목록 다시 불러오기</button>
+            </div>
         </div>
     </section>
     <div class="app" inert style="visibility:hidden">

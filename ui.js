@@ -31,7 +31,7 @@ import { createEpubFileIo } from './epub-file-io.js';
 import { createEpubExporter } from './epub-export.js';
 import { parseEpubFile } from './epub-import.js';
 
-export async function initializeApp() {
+export async function initializeApp({initialProjectIndex = null, initialProjectId = null} = {}) {
   const initialAccess = await appAccess;
   if (!initialAccess) return;
   // Existing markup is ID-heavy.  Accept both CSS selectors (`#body`) and
@@ -1648,7 +1648,8 @@ export async function initializeApp() {
   top.append(fileActions);
   let draftsExpanded = false;
   let openedDraftTitle = null;
-  const deletedProjectIds = new Set();
+  const deletedProjectIds = new Set((initialProjectIndex?.deletions || [])
+    .map(row => deletionKey(supabaseUser.id,row.project_id)));
   editorTab?.setAttribute('aria-expanded', 'false');
   editorTab?.addEventListener('click', (event) => {
     event.preventDefault();
@@ -1656,7 +1657,9 @@ export async function initializeApp() {
     editorTab.setAttribute('aria-expanded', String(draftsExpanded));
     renderDrafts();
   });
-  let draftIndex = [];
+  let draftIndex = (initialProjectIndex?.rows || []).filter(row => row.project_id && row.title).map(row => ({
+    projectId:row.project_id,title:row.title,serverRevision:row.revision,lastServerSavedAt:row.updated_at,
+  }));
   const getDrafts = () => draftIndex.map(draft => ({ ...draft }));
   const leaveDialog = document.createElement('dialog');
   leaveDialog.className = 'gemini-settings-dialog draft-delete-dialog';
@@ -2471,16 +2474,16 @@ export async function initializeApp() {
   let projectOpenGeneration = 0;
   const openSavedProject = async (projectId) => {
     await saveInFlight;
-    if (!await confirmDiscardCurrent()) return;
+    if (!await confirmDiscardCurrent()) return false;
     const request = ++projectOpenGeneration;
     const epoch = restoreEpoch;
     const ownerId = persistenceOwnerId();
     try {
-      if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
+      if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return false;
       const draft = await readCloudProject(ownerId,projectId);
-      if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return;
-      await loadDraft(draft,request);
-    } catch (error) { setStatus(`프로젝트 열기 실패: ${error.message}`, 'error'); }
+      if (request !== projectOpenGeneration || epoch !== restoreEpoch || ownerId !== persistenceOwnerId()) return false;
+      return loadDraft(draft,request);
+    } catch (error) { setStatus(`프로젝트 열기 실패: ${error.message}`, 'error'); return false; }
   };
   const deleteDialog = document.createElement('dialog');
   deleteDialog.className = 'gemini-settings-dialog draft-delete-dialog';
@@ -3806,6 +3809,7 @@ export async function initializeApp() {
     event.returnValue = '';
   });
   const refreshServerAuthority = async () => {
+    if (document.documentElement.dataset.appUiReady !== 'true') return;
     await verifyAccess();
     if (!isAccessVerified()) return;
     await restoreCloudDrafts();
@@ -3818,7 +3822,7 @@ export async function initializeApp() {
     if (document.visibilityState === 'visible') void refreshServerAuthority();
   });
   void refreshAccountUi({restoreProjects:false});
-  void restoreCloudDrafts();
+  if (!initialProjectIndex) void restoreCloudDrafts();
   chapterControls.classList.add('active');
   updateLineNumbers();
   validateHtml();
@@ -3826,6 +3830,8 @@ export async function initializeApp() {
     app, side, main:app.querySelector('main'),
     nodes:{ projects:editorTab, drafts:draftsPanel, account:accountArea },
   });
+  if (initialProjectId && !await openSavedProject(initialProjectId))
+    throw new Error('선택한 프로젝트를 열지 못했습니다. 다시 접속해 주세요.');
   markAppUiReady();
   // Tooltips are optional presentation: a CDN failure must not block editing.
   void import('./theme-tooltip.js?v=20261007-75').then(({installThemeTooltips}) => installThemeTooltips())

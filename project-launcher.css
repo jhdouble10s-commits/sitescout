@@ -1,0 +1,54 @@
+/* First project screen; uses existing theme tokens and never styles the editor. */
+#projectLauncher {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  overflow: auto;
+  padding: clamp(24px, 6vw, 72px) 20px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Noto Sans KR", system-ui, sans-serif;
+}
+#projectLauncher[hidden] { display: none; }
+.project-launcher-content { width: min(100%, 720px); margin: 0 auto; }
+.project-launcher-brand { margin: 0 0 30px; color: var(--primary); font-size: 14px; font-weight: 700; }
+.project-launcher-content h1 { margin: 0; font-size: 28px; font-weight: 600; }
+.project-launcher-message { min-height: 22px; margin: 10px 0 28px; color: var(--muted-foreground); font-size: 14px; }
+.project-launcher-list { display: grid; gap: 10px; }
+.project-launcher-item {
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+.project-launcher-item:hover { border-color: var(--primary); }
+.project-launcher-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.project-launcher-actions button {
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.project-launcher-actions button[data-project-retry] { background: var(--card); color: var(--foreground); }
+#projectLauncher button:disabled { opacity: .55; cursor: wait; }
+#projectLauncher button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .project-launcher-content h1 { font-size: 24px; }
+  .project-launcher-item { min-height: 52px; }
+}

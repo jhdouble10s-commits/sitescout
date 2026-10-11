@@ -4,6 +4,24 @@ import { client as authClient } from "./auth-client.js";
 import { isAccessVerified } from "./app-access.js";
 import { immutableAssetPath, savedAssetPaths } from "./cloud-asset-path.js";
 
+// Read only sidebar metadata before the editor bundle or manuscript is loaded.
+export async function fetchProjectIndex(client, ownerId, onRows = () => {}) {
+  const readPages = async (table, columns, order) => {
+    const rows = [];
+    for (let offset = 0; ; offset += 500) {
+      const {data,error} = await client.from(table).select(columns).eq('owner_id',ownerId)
+        .order(order.column,{ascending:order.ascending !== false}).range(offset,offset + 499);
+      if (error) throw error;
+      rows.push(...data);
+      if (data.length < 500) return rows;
+    }
+  };
+  const rows = await readPages('epub_drafts','project_id,title,revision,updated_at',{column:'updated_at',ascending:false});
+  await onRows(rows);
+  const deletions = await readPages('epub_project_deletions','project_id,revision',{column:'project_id'});
+  return {rows,deletions};
+}
+
 export function createCloudDraftIo(ctx) {
   const {
     cloudReady,
@@ -49,31 +67,7 @@ export function createCloudDraftIo(ctx) {
   };
   const listCloudProjects = async (ownerId) => {
     const client = await cloudReady;
-    const rows = [];
-    for (let offset = 0; ; offset += 500) {
-      const { data, error } = await client
-        .from("epub_drafts")
-        .select("project_id,title,revision,updated_at")
-        .eq("owner_id", ownerId)
-        .order("updated_at", { ascending: false })
-        .range(offset, offset + 499);
-      if (error) throw error;
-      rows.push(...data);
-      if (data.length < 500) break;
-    }
-    const deletions = [];
-    for (let offset = 0; ; offset += 500) {
-      const { data, error } = await client
-        .from("epub_project_deletions")
-        .select("project_id,revision")
-        .eq("owner_id", ownerId)
-        .order("project_id")
-        .range(offset, offset + 499);
-      if (error) throw error;
-      deletions.push(...data);
-      if (data.length < 500) break;
-    }
-    return { rows, deletions };
+    return fetchProjectIndex(client, ownerId);
   };
   const loadDraftAssets = async (draft, isCurrent = () => true) => {
     const loaded = new Map();
