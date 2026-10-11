@@ -5,7 +5,7 @@ import "./chunks/chunk-XCBH6NLF.js";
 
 // app-startup.js
 try {
-  const { initializeApp } = await import("./chunks/ui-GNOIKGK3.js");
+  const { initializeApp } = await import("./chunks/ui-TYAUYOSB.js");
   if (document.readyState === "loading") {
     await new Promise((resolve) => document.addEventListener("DOMContentLoaded", resolve, { once: true }));
   }

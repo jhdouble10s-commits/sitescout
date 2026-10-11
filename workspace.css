@@ -864,13 +864,6 @@ main {
 .preview-card .preview {
   flex: none;
 }
-.preview .preview-focus {
-  background: #ff510018;
-  outline: 1px solid #ff5100aa;
-  outline-offset: 4px;
-  border-radius: 4px;
-  transition: background 0.15s;
-}
 .preview mark.preview-context {
   background: #ff510052;
   color: inherit;

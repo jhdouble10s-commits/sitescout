@@ -183,6 +183,11 @@ export function mountPreviewSync({
         const style = doc.createElement("style");
         style.textContent = cssEditor.value;
         doc.head.append(style);
+        // Keep the focus indicator outside the book content, so moving it never
+        // changes the canonical XHTML or the editor's caret mapping.
+        const focusStyle = doc.createElement("style");
+        focusStyle.textContent = `.preview-focus-indicator{position:absolute!important;left:0;top:0;z-index:1;box-sizing:border-box;pointer-events:none!important;border:0!important;outline:0!important;border-radius:6px;background:rgba(240,142,49,.16);opacity:0;transform:translate3d(0,0,0);transition:transform 190ms ease,width 190ms ease,height 190ms ease,opacity 150ms ease}.preview-focus-indicator.is-visible{opacity:1}@media(prefers-reduced-motion:reduce){.preview-focus-indicator{transition-duration:0ms!important}}`;
+        doc.head.append(focusStyle);
         doc.body.style.setProperty("font-size", "20px", "important");
         const scrollbarStyle = doc.createElement("style");
         scrollbarStyle.textContent =
@@ -194,7 +199,7 @@ export function mountPreviewSync({
       },
       { once: true },
     );
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}.preview-focus{background:rgba(240,142,49,.16);outline:2px solid #e88a31}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
     previewUi.setPreviewIframe(frame);
     preview.replaceChildren(frame);
   };
@@ -210,6 +215,34 @@ export function mountPreviewSync({
   const previewBlockSelector =
     "p,h1,h2,h3,h4,h5,h6,li,blockquote,td,th,img,hr,br";
   let focusSyncing = false;
+  const movePreviewFocusIndicator = (target, root) => {
+    if (root === preview) return;
+    const doc = root.ownerDocument;
+    let indicator = doc.querySelector(".preview-focus-indicator");
+    const firstFocus = !indicator;
+    if (!indicator) {
+      indicator = doc.createElement("div");
+      indicator.className = "preview-focus-indicator";
+      indicator.setAttribute("aria-hidden", "true");
+      root.append(indicator);
+    }
+    const bounds = target.getBoundingClientRect();
+    const parent = indicator.offsetParent || doc.documentElement;
+    const parentBounds = parent.getBoundingClientRect();
+    const left = bounds.left - parentBounds.left - parent.clientLeft +
+      (parent === doc.documentElement ? 0 : parent.scrollLeft);
+    const top = bounds.top - parentBounds.top - parent.clientTop +
+      (parent === doc.documentElement ? 0 : parent.scrollTop);
+    indicator.style.width = `${Math.max(1, bounds.width)}px`;
+    indicator.style.height = `${Math.max(1, bounds.height)}px`;
+    indicator.style.transform = `translate3d(${left}px,${top}px,0)`;
+    if (firstFocus) {
+      indicator.getBoundingClientRect(); // Commit the transparent first frame.
+      doc.defaultView.requestAnimationFrame(() => {
+        if (indicator.isConnected) indicator.classList.add("is-visible");
+      });
+    }
+  };
   const sourceNodeForElement = (element, rootNode) => {
     if (!element || !rootNode.contains(element)) return null;
     const nodes = sourceElements(htmlEditor.value);
@@ -242,7 +275,8 @@ export function mountPreviewSync({
     const ordinal = peers.findIndex((item) => item.start === node.start);
     return Array.from(rootNode.querySelectorAll(node.tag))[ordinal] || null;
   };
-  const scrollWithin = (panel, target) => {
+  const useSmoothScroll = (pointer) => pointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scrollWithin = (panel, target, smooth = false) => {
     if (!target || panel.hidden) return;
     const bounds = target.getBoundingClientRect();
     // The iframe scrollingElement's bounding box spans its whole document,
@@ -250,8 +284,11 @@ export function mountPreviewSync({
     const frame = panel === panel.ownerDocument.scrollingElement
       ? {top:0,bottom:panel.ownerDocument.defaultView.innerHeight,height:panel.ownerDocument.defaultView.innerHeight}
       : panel.getBoundingClientRect();
-    if (bounds.top < frame.top || bounds.bottom > frame.bottom)
-      panel.scrollTop += bounds.top - frame.top - frame.height / 3;
+    if (bounds.top < frame.top || bounds.bottom > frame.bottom) {
+      const top = panel.scrollTop + bounds.top - frame.top - frame.height / 3;
+      if (smooth) panel.scrollTo({top,behavior:'smooth'});
+      else panel.scrollTop = top;
+    }
   };
   const previewTextOffset = (element, container, offset) => {
     if (!element || !container || !element.contains(container)) return 0;
@@ -365,9 +402,10 @@ export function mountPreviewSync({
       }
     }
   };
-  const synchronizeFocus = (node, origin, caretOffset = 0) => {
+  const synchronizeFocus = (node, origin, caretOffset = 0, pointer = false) => {
     if (!node || focusSyncing || isCoverSelected()) return;
     const chapterId = bookProject.selectedChapterId;
+    const smooth = useSmoothScroll(pointer);
     focusSyncing = true;
     try {
       const previewRoot = previewContentRoot();
@@ -378,8 +416,9 @@ export function mountPreviewSync({
           .forEach((element) => element.classList.remove("preview-focus"));
         previewElement.classList.add("preview-focus");
         highlightPreviewContext(previewElement, caretOffset);
+        movePreviewFocusIndicator(previewElement, previewRoot);
         if (origin !== "preview")
-          scrollWithin(previewScrollRoot(), previewElement);
+          scrollWithin(previewScrollRoot(), previewElement, smooth);
       }
       const visualRoot =
         visualEditor.querySelector(".ProseMirror") || visualEditor;
@@ -400,7 +439,7 @@ export function mountPreviewSync({
             /* unsupported node: keep current caret */
           }
         }
-        scrollWithin(visualEditor, visualElement);
+        scrollWithin(visualEditor, visualElement, smooth);
       }
       const editor = window.epubMonacoEditor;
       if (
@@ -410,7 +449,8 @@ export function mountPreviewSync({
       ) {
         const position = editor.getModel().getPositionAt(sourcePositionAtText(node,caretOffset));
         editor.setPosition(position);
-        editor.revealPositionInCenterIfOutsideViewport(position);
+        editor.revealPositionInCenterIfOutsideViewport(position,
+          smooth ? window.monaco.editor.ScrollType.Smooth : window.monaco.editor.ScrollType.Immediate);
       }
     } finally {
       focusSyncing = false;
@@ -433,6 +473,7 @@ export function mountPreviewSync({
       sourceNodeForElement(target, rootNode),
       "preview",
       previewTextOffset(target,textNode,textOffset),
+      true,
     );
   };
   preview.addEventListener("click", handlePreviewClick);
@@ -454,6 +495,7 @@ export function mountPreviewSync({
         selection?.anchorNode,
         selection?.anchorOffset || 0,
       ),
+      true,
     );
   });
   visualEditor.addEventListener("keyup", () => {

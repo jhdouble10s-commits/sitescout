@@ -135,7 +135,6 @@ html:root[data-theme="dark"], html:root.dark:not([data-theme]) {
 .app .chapter.is-toc-hidden::after { background:var(--muted-foreground)!important; }
 .app .num { color:var(--muted-foreground); }
 .app .rich-editor:focus { border-color:var(--ring); box-shadow:0 0 0 3px var(--focus-fill); }
-.app .preview .preview-focus { background:var(--focus-fill); outline-color:var(--ring); }
 .app .preview mark.preview-context { background:var(--focus-fill); }
 .app .preview[data-device-preview="true"] { border-color:var(--border)!important; box-shadow:var(--shadow-lg); }
 .app .preview .preview-isolated-frame { display:block; width:100%; height:100%; min-height:100%; border:0; background:var(--editor-background); color:var(--editor-foreground); }

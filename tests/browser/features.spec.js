@@ -196,6 +196,109 @@ test('editor caret scrolls the iframe viewport and preview click returns to the 
   expect(await page.locator('#body').inputValue()).toBe(paragraphs);
 });
 
+test('pointer focus scrolls smoothly while reduced motion and keyboard caret moves stay immediate', async ({page}) => {
+  await start(page);
+  const paragraphs = Array.from({length:36},(_,index) => `<p id="motion-${index}">Paragraph ${index}</p>`).join('\n');
+  await add(page,'애니메이션',paragraphs);
+  await page.locator('[data-mode-toggle]').click();
+  const frame = page.frameLocator('.preview-isolated-frame');
+  const captureScroll = async () => frame.locator('html').evaluate(node => {
+    const view = node.ownerDocument.defaultView;
+    view.__focusScrollBehaviors = [];
+    const original = node.scrollTo.bind(node);
+    node.scrollTo = options => { view.__focusScrollBehaviors.push(options.behavior); original(options); };
+    node.scrollTop = 0;
+  });
+  const behaviors = () => frame.locator('html').evaluate(node => node.ownerDocument.defaultView.__focusScrollBehaviors);
+  await captureScroll();
+  await page.locator('.ProseMirror #motion-35').click();
+  await expect.poll(behaviors).toContain('smooth');
+  await expect.poll(() => frame.locator('html').evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+
+  await page.locator('.rich-editor').evaluate(node => {
+    node.__focusScrollBehaviors = [];
+    const original = node.scrollTo.bind(node);
+    node.scrollTo = options => { node.__focusScrollBehaviors.push(options.behavior); original(options); };
+    node.scrollTop = 0;
+  });
+  await frame.locator('#motion-35').click();
+  await expect.poll(() => page.locator('.rich-editor').evaluate(node => node.__focusScrollBehaviors)).toContain('smooth');
+
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await frame.locator('html').evaluate(node => { node.scrollTop = 0; node.ownerDocument.defaultView.__focusScrollBehaviors.length = 0; });
+  await page.locator('.ProseMirror #motion-35').click();
+  await expect.poll(() => frame.locator('html').evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+  expect(await behaviors()).toEqual([]);
+
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await frame.locator('html').evaluate(node => { node.scrollTop = 0; node.ownerDocument.defaultView.__focusScrollBehaviors.length = 0; });
+  await page.keyboard.press('ArrowLeft');
+  await expect.poll(() => frame.locator('html').evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+  expect(await behaviors()).toEqual([]);
+
+  await page.locator('[data-mode-toggle]').click();
+  await captureScroll();
+  await page.evaluate(() => window.epubMonacoEditor.revealLine(36,window.monaco.editor.ScrollType.Immediate));
+  await page.locator('#xhtml-monaco-editor .view-line').last().click();
+  await expect.poll(behaviors).toContain('smooth');
+  await page.evaluate(() => {
+    const editor = window.epubMonacoEditor;
+    const original = editor.revealPositionInCenterIfOutsideViewport.bind(editor);
+    editor.revealPositionInCenterIfOutsideViewport = (position,scrollType) => {
+      window.__focusMonacoScrollType = scrollType;
+      return original(position,scrollType);
+    };
+  });
+  await frame.locator('#motion-35').click();
+  await expect.poll(() => page.evaluate(() => window.__focusMonacoScrollType)).toBe(0);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await frame.locator('#motion-0').click();
+  await expect.poll(() => page.evaluate(() => window.__focusMonacoScrollType)).toBe(1);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.locator('[data-mode-toggle]').click();
+  await captureScroll();
+  await page.locator('.ProseMirror #motion-30').click();
+  await page.locator('.ProseMirror #motion-35').click();
+  await expect.poll(() => frame.locator('#motion-35').evaluate(node => {
+    const rect = node.getBoundingClientRect();
+    return rect.top >= 0 && rect.bottom <= node.ownerDocument.defaultView.innerHeight;
+  })).toBe(true);
+  expect(await page.locator('#body').inputValue()).toBe(paragraphs);
+});
+
+test('preview focus indicator fades in and moves between blocks without a border', async ({page}) => {
+  await start(page);
+  const xhtml = '<p id="focus-one">First paragraph</p><p id="focus-two">Second paragraph</p><p id="focus-three">Third paragraph</p>';
+  await add(page,'강조 이동',xhtml);
+  const frame = page.frameLocator('.preview-isolated-frame');
+  await frame.locator('#focus-one').click();
+  const indicator = frame.locator('.preview-focus-indicator');
+  await expect(indicator).toBeVisible();
+  const first = await indicator.evaluate(node => {
+    node.dataset.testIdentity = 'same-indicator';
+    const style = getComputedStyle(node);
+    return {top:node.getBoundingClientRect().top, border:style.borderWidth, outline:style.outlineWidth,
+      pointerEvents:style.pointerEvents, transition:style.transitionProperty};
+  });
+  expect(first.border).toBe('0px');
+  expect(first.outline).toBe('0px');
+  expect(first.pointerEvents).toBe('none');
+  expect(first.transition).toContain('transform');
+  await expect.poll(() => indicator.evaluate(node => getComputedStyle(node).opacity)).toBe('1');
+  await frame.locator('#focus-three').click();
+  await expect(indicator).toHaveAttribute('data-test-identity','same-indicator');
+  await expect.poll(() => indicator.evaluate(node => {
+    const target = node.ownerDocument.querySelector('#focus-three');
+    return Math.abs(node.getBoundingClientRect().top - target.getBoundingClientRect().top);
+  })).toBeLessThan(2);
+  expect(await indicator.evaluate(node => node.getBoundingClientRect().top)).toBeGreaterThan(first.top);
+  expect(await frame.locator('#focus-three').evaluate(node => getComputedStyle(node).outlineStyle)).toBe('none');
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await frame.locator('#focus-two').click();
+  expect(await indicator.evaluate(node => getComputedStyle(node).transitionDuration)).toBe('0s');
+  expect(await page.locator('#body').inputValue()).toBe(xhtml);
+});
+
 test('실제 EPUB 찬사 본문은 해당 장에만 표시 / 전환·reload·새 책에 잔존 없음 / export 보존', async ({page}) => {
   test.setTimeout(180000);
   await start(page);

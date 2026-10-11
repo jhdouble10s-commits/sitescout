@@ -56485,6 +56485,9 @@ function mountPreviewSync({
         const style = doc.createElement("style");
         style.textContent = cssEditor.value;
         doc.head.append(style);
+        const focusStyle = doc.createElement("style");
+        focusStyle.textContent = `.preview-focus-indicator{position:absolute!important;left:0;top:0;z-index:1;box-sizing:border-box;pointer-events:none!important;border:0!important;outline:0!important;border-radius:6px;background:rgba(240,142,49,.16);opacity:0;transform:translate3d(0,0,0);transition:transform 190ms ease,width 190ms ease,height 190ms ease,opacity 150ms ease}.preview-focus-indicator.is-visible{opacity:1}@media(prefers-reduced-motion:reduce){.preview-focus-indicator{transition-duration:0ms!important}}`;
+        doc.head.append(focusStyle);
         doc.body.style.setProperty("font-size", "20px", "important");
         const scrollbarStyle = doc.createElement("style");
         scrollbarStyle.textContent = "html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}";
@@ -56495,7 +56498,7 @@ function mountPreviewSync({
       },
       { once: true }
     );
-    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}.preview-focus{background:rgba(240,142,49,.16);outline:2px solid #e88a31}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
+    frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;min-height:100%;font:20px/1.6 sans-serif;color:inherit}body{padding:18px;box-sizing:border-box;overflow:auto}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:5px}mark.preview-context{background:rgba(240,142,49,.32);color:inherit;border-radius:2px;padding:0 1px}</style></head><body>${content.innerHTML}</body></html>`;
     previewUi.setPreviewIframe(frame);
     preview.replaceChildren(frame);
   };
@@ -56510,6 +56513,32 @@ function mountPreviewSync({
   cssEditor.addEventListener("input", schedulePreview);
   const previewBlockSelector = "p,h1,h2,h3,h4,h5,h6,li,blockquote,td,th,img,hr,br";
   let focusSyncing = false;
+  const movePreviewFocusIndicator = (target, root) => {
+    if (root === preview) return;
+    const doc = root.ownerDocument;
+    let indicator = doc.querySelector(".preview-focus-indicator");
+    const firstFocus = !indicator;
+    if (!indicator) {
+      indicator = doc.createElement("div");
+      indicator.className = "preview-focus-indicator";
+      indicator.setAttribute("aria-hidden", "true");
+      root.append(indicator);
+    }
+    const bounds = target.getBoundingClientRect();
+    const parent = indicator.offsetParent || doc.documentElement;
+    const parentBounds = parent.getBoundingClientRect();
+    const left = bounds.left - parentBounds.left - parent.clientLeft + (parent === doc.documentElement ? 0 : parent.scrollLeft);
+    const top = bounds.top - parentBounds.top - parent.clientTop + (parent === doc.documentElement ? 0 : parent.scrollTop);
+    indicator.style.width = `${Math.max(1, bounds.width)}px`;
+    indicator.style.height = `${Math.max(1, bounds.height)}px`;
+    indicator.style.transform = `translate3d(${left}px,${top}px,0)`;
+    if (firstFocus) {
+      indicator.getBoundingClientRect();
+      doc.defaultView.requestAnimationFrame(() => {
+        if (indicator.isConnected) indicator.classList.add("is-visible");
+      });
+    }
+  };
   const sourceNodeForElement = (element2, rootNode) => {
     if (!element2 || !rootNode.contains(element2)) return null;
     const nodes = sourceElements2(htmlEditor.value);
@@ -56542,12 +56571,16 @@ function mountPreviewSync({
     const ordinal = peers.findIndex((item) => item.start === node.start);
     return Array.from(rootNode.querySelectorAll(node.tag))[ordinal] || null;
   };
-  const scrollWithin = (panel, target) => {
+  const useSmoothScroll = (pointer) => pointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const scrollWithin = (panel, target, smooth = false) => {
     if (!target || panel.hidden) return;
     const bounds = target.getBoundingClientRect();
     const frame = panel === panel.ownerDocument.scrollingElement ? { top: 0, bottom: panel.ownerDocument.defaultView.innerHeight, height: panel.ownerDocument.defaultView.innerHeight } : panel.getBoundingClientRect();
-    if (bounds.top < frame.top || bounds.bottom > frame.bottom)
-      panel.scrollTop += bounds.top - frame.top - frame.height / 3;
+    if (bounds.top < frame.top || bounds.bottom > frame.bottom) {
+      const top = panel.scrollTop + bounds.top - frame.top - frame.height / 3;
+      if (smooth) panel.scrollTo({ top, behavior: "smooth" });
+      else panel.scrollTop = top;
+    }
   };
   const previewTextOffset = (element2, container, offset2) => {
     if (!element2 || !container || !element2.contains(container)) return 0;
@@ -56654,9 +56687,10 @@ function mountPreviewSync({
       }
     }
   };
-  const synchronizeFocus = (node, origin, caretOffset = 0) => {
+  const synchronizeFocus = (node, origin, caretOffset = 0, pointer = false) => {
     if (!node || focusSyncing || isCoverSelected()) return;
     const chapterId = bookProject.selectedChapterId;
+    const smooth = useSmoothScroll(pointer);
     focusSyncing = true;
     try {
       const previewRoot = previewContentRoot();
@@ -56665,8 +56699,9 @@ function mountPreviewSync({
         previewRoot.querySelectorAll(".preview-focus").forEach((element2) => element2.classList.remove("preview-focus"));
         previewElement.classList.add("preview-focus");
         highlightPreviewContext(previewElement, caretOffset);
+        movePreviewFocusIndicator(previewElement, previewRoot);
         if (origin !== "preview")
-          scrollWithin(previewScrollRoot(), previewElement);
+          scrollWithin(previewScrollRoot(), previewElement, smooth);
       }
       const visualRoot = visualEditor.querySelector(".ProseMirror") || visualEditor;
       const visualElement = renderedElementForSource(node, visualRoot);
@@ -56680,13 +56715,16 @@ function mountPreviewSync({
           } catch {
           }
         }
-        scrollWithin(visualEditor, visualElement);
+        scrollWithin(visualEditor, visualElement, smooth);
       }
       const editor = window.epubMonacoEditor;
       if (editor && origin !== "monaco" && editor.getValue() === htmlEditor.value) {
         const position = editor.getModel().getPositionAt(sourcePositionAtText(node, caretOffset));
         editor.setPosition(position);
-        editor.revealPositionInCenterIfOutsideViewport(position);
+        editor.revealPositionInCenterIfOutsideViewport(
+          position,
+          smooth ? window.monaco.editor.ScrollType.Smooth : window.monaco.editor.ScrollType.Immediate
+        );
       }
     } finally {
       focusSyncing = false;
@@ -56708,7 +56746,8 @@ function mountPreviewSync({
     synchronizeFocus(
       sourceNodeForElement(target, rootNode),
       "preview",
-      previewTextOffset(target, textNode, textOffset)
+      previewTextOffset(target, textNode, textOffset),
+      true
     );
   };
   preview.addEventListener("click", handlePreviewClick);
@@ -56729,7 +56768,8 @@ function mountPreviewSync({
         target,
         selection?.anchorNode,
         selection?.anchorOffset || 0
-      )
+      ),
+      true
     );
   });
   visualEditor.addEventListener("keyup", () => {
@@ -62108,12 +62148,25 @@ ${locations.join("\n")}
       });
       window.epubMonacoEditor = editor2;
       editor2.addAction({ id: "epub.history.redo", label: "\uB2E4\uC2DC \uC2E4\uD589", keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyY, monaco.KeyMod.WinCtrl | monaco.KeyCode.KeyY], precondition: "editorTextFocus", run: () => runHistory(true) });
+      let monacoPointerFocus = false;
+      host.addEventListener("pointerdown", () => {
+        monacoPointerFocus = true;
+      }, true);
+      host.addEventListener("pointerup", () => {
+        monacoPointerFocus = false;
+      }, true);
+      host.addEventListener("pointercancel", () => {
+        monacoPointerFocus = false;
+      }, true);
+      host.addEventListener("pointerleave", () => {
+        monacoPointerFocus = false;
+      }, true);
       editor2.onDidChangeCursorPosition((event) => {
         if (isFocusSyncing() || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
         if (editor2.getValue() !== htmlEditor.value) return;
         const offset2 = editor2.getModel().getOffsetAt(event.position);
         const node = elementAtOffset(htmlEditor.value, offset2);
-        synchronizeFocus(node, "monaco", sourceTextOffset(node, offset2));
+        synchronizeFocus(node, "monaco", sourceTextOffset(node, offset2), monacoPointerFocus);
       });
       let synchronising = false;
       const history = createChapterHistory(monaco, bookProject);
@@ -62483,14 +62536,14 @@ ${locations.join("\n")}
         onUpdate: ({ editor: instance }) => {
           syncFromVisual({ normalise: false });
         },
-        onSelectionUpdate: ({ editor: instance }) => {
+        onSelectionUpdate: ({ editor: instance, transaction }) => {
           if (isFocusSyncing() || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
           const { from } = instance.state.selection;
           const dom = instance.view.domAtPos(from).node;
           const element2 = dom.nodeType === Node3.ELEMENT_NODE ? dom : dom.parentElement;
           const block = element2?.closest(previewBlockSelector + ",a,span,strong,em");
           const node = sourceNodeForElement(block, visualEditor);
-          synchronizeFocus(node, "visual", previewTextOffset(block, dom, instance.view.domAtPos(from).offset));
+          synchronizeFocus(node, "visual", previewTextOffset(block, dom, instance.view.domAtPos(from).offset), transaction.getMeta("pointer") === true);
           updateToolbarState();
         }
       });

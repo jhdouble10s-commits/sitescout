@@ -3376,12 +3376,20 @@ export async function initializeApp() {
       });
       window.epubMonacoEditor = editor;
       editor.addAction({id:'epub.history.redo',label:'다시 실행',keybindings:[monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyY, monaco.KeyMod.WinCtrl | monaco.KeyCode.KeyY],precondition:'editorTextFocus',run:() => runHistory(true)});
+      let monacoPointerFocus = false;
+      // Monaco moves the cursor before its onMouseDown notification. Capture
+      // the native pointer event first so click sync can animate without
+      // animating keyboard navigation.
+      host.addEventListener('pointerdown', () => { monacoPointerFocus = true; }, true);
+      host.addEventListener('pointerup', () => { monacoPointerFocus = false; }, true);
+      host.addEventListener('pointercancel', () => { monacoPointerFocus = false; }, true);
+      host.addEventListener('pointerleave', () => { monacoPointerFocus = false; }, true);
       editor.onDidChangeCursorPosition(event => {
         if (isFocusSyncing() || event.reason !== monaco.editor.CursorChangeReason.Explicit) return;
         if (editor.getValue() !== htmlEditor.value) return;
         const offset = editor.getModel().getOffsetAt(event.position);
         const node = elementAtOffset(htmlEditor.value, offset);
-        synchronizeFocus(node, 'monaco', sourceTextOffset(node, offset));
+        synchronizeFocus(node, 'monaco', sourceTextOffset(node, offset), monacoPointerFocus);
       });
       let synchronising = false;
       const history = createChapterHistory(monaco, bookProject);
@@ -3697,14 +3705,14 @@ export async function initializeApp() {
         onUpdate:({ editor:instance }) => {
           syncFromVisual({ normalise:false });
         },
-        onSelectionUpdate:({ editor:instance }) => {
+        onSelectionUpdate:({ editor:instance, transaction }) => {
           if (isFocusSyncing() || visualEditor.hidden || visualLoadedChapterId !== bookProject.selectedChapterId) return;
           const { from } = instance.state.selection;
           const dom = instance.view.domAtPos(from).node;
           const element = dom.nodeType === Node.ELEMENT_NODE ? dom : dom.parentElement;
           const block = element?.closest(previewBlockSelector + ',a,span,strong,em');
           const node = sourceNodeForElement(block, visualEditor);
-          synchronizeFocus(node, 'visual', previewTextOffset(block, dom, instance.view.domAtPos(from).offset));
+          synchronizeFocus(node, 'visual', previewTextOffset(block, dom, instance.view.domAtPos(from).offset), transaction.getMeta('pointer') === true);
           updateToolbarState();
         },
       });
